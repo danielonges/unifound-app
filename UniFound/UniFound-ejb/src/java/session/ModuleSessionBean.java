@@ -6,7 +6,10 @@
 package session;
 
 import entity.ModuleEntity;
+import entity.UserEntity;
+import exception.UserNotFoundException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,11 +23,19 @@ import javax.persistence.Query;
 @Stateless
 public class ModuleSessionBean implements ModuleSessionBeanLocal {
 
+    @EJB(name = "UserSessionLocal")
+    private UserSessionLocal userSessionLocal;
+
     @PersistenceContext
     private EntityManager em;
+    
+    
 
     @Override
-    public void createModule(ModuleEntity m) {
+    public void createModule(ModuleEntity m,Long userId) throws UserNotFoundException {
+        UserEntity userEntity = userSessionLocal.getUser(userId);
+        userEntity.getModules().add(m);
+
         em.persist(m);
     }
 
@@ -57,5 +68,9 @@ public class ModuleSessionBean implements ModuleSessionBeanLocal {
         ModuleEntity oldM = getModule(m.getId());
 
        em.merge(m);
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 }

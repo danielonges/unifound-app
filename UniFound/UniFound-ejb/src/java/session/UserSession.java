@@ -5,11 +5,10 @@
  */
 package session;
 
-import entity.LostFoundListing;
 import entity.UserEntity;
 
 import exception.InvalidLoginException;
-import exception.ItemNotFoundException;
+import exception.UserAlreadyExistException;
 
 import exception.UserNotFoundException;
 import javax.ejb.Stateless;
@@ -29,9 +28,18 @@ public class UserSession implements UserSessionLocal {
     private EntityManager em;
 
     @Override
-    public LostFoundListing searchItem(Long iId) throws ItemNotFoundException {
-        LostFoundListing item = em.find(LostFoundListing.class, iId);
-        return item;
+    public void createUser(UserEntity userEntity) throws UserAlreadyExistException {
+
+        try {
+            Query query = em.createQuery("SELECT u from UserEntity u WHERE u.email=:inEmail");
+            query.setParameter("inEmail", userEntity.getEmail());
+            query.getSingleResult();
+            throw new UserAlreadyExistException("Email is in use!");
+        } catch (NoResultException ex) {
+            em.persist(userEntity);
+
+        }
+      
     }
 
     @Override
@@ -51,7 +59,6 @@ public class UserSession implements UserSessionLocal {
         em.merge(user);
 
     }
-
 
     @Override
     public UserEntity retrieveUserByName(String name) throws UserNotFoundException {
@@ -73,12 +80,10 @@ public class UserSession implements UserSessionLocal {
     @Override
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException {
         UserEntity user = getUser(uId);
-        
-     //   Query query = em.createQuery("SELECT u FROM Forum u WHERE :thread MEMBER OF u.threads"))
+
+        //   Query query = em.createQuery("SELECT u FROM Forum u WHERE :thread MEMBER OF u.threads"))
         em.remove(user);
     }
-    
-    
 
     //add to list of friends
     //delete from list of friends

@@ -5,13 +5,11 @@
  */
 package session;
 
-import entity.LostFoundListing;
 import entity.UserEntity;
 import exception.InvalidLoginException;
-import exception.ItemNotFoundException;
+import exception.UserAlreadyExistException;
 
 import exception.UserNotFoundException;
-import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 
@@ -22,8 +20,7 @@ import javax.persistence.NoResultException;
 @Local
 public interface UserSessionLocal {
 
-    public LostFoundListing searchItem(Long Iid) throws ItemNotFoundException;
-
+   
     public UserEntity getUser(Long uId) throws UserNotFoundException;
 
     public void updateUser(UserEntity user) throws UserNotFoundException;
@@ -33,5 +30,7 @@ public interface UserSessionLocal {
     public UserEntity retrieveUserByName(String name) throws UserNotFoundException;
 
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException;
+
+    public void createUser(UserEntity userEntity) throws UserAlreadyExistException;
 
 }

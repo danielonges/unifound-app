@@ -17,12 +17,14 @@ import javax.persistence.NoResultException;
 @Local
 public interface MessageSessionBeanLocal {
 
-    public void createMessage(MessageEntity m);
+    public void createMessage(MessageEntity m, Long chatId);
 
     public MessageEntity getMessage(Long mId) throws NoResultException;
 
     public List<MessageEntity> getAllMessages();
 
     public void deleteMessage(Long mId) throws NoResultException;
+
+    public void updateMessage(MessageEntity message);
     
 }
