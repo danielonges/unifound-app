@@ -28,7 +28,7 @@ public interface UserSessionLocal {
 
     public UserEntity loginUser(String name, String password) throws InvalidLoginException, UserNotFoundException;
 
-    public UserEntity retrieveUserByName(String name) throws UserNotFoundException;
+    public UserEntity retrieveUserByEmail(String email) throws UserNotFoundException;
 
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException;
 

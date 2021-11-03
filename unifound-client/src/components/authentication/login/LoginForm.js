@@ -1,10 +1,12 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import { LoadingButton } from '@mui/lab';
+
 // material
 import {
   Link,
@@ -15,28 +17,42 @@ import {
   InputAdornment,
   FormControlLabel
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-
+import UserContext from '../../../context/user/userContext';
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const userContext = useContext(UserContext);
+  const { error, login, isAuthenticated } = userContext;
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
   });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+
+    // if (error === 'Invalid Credentials') {
+    //   setAlert(error, 'danger');
+    //   clearErrors();
+    // }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
-      remember: true
+      password: ''
+      // remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (user) => {
+      // console.log(user);
+      login(user);
+      // navigate('/dashboard', { replace: true });
     }
   });
 
@@ -54,6 +70,7 @@ export default function LoginForm() {
             fullWidth
             autoComplete="username"
             type="email"
+            name="email"
             label="Email address"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
@@ -65,6 +82,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
+            name="password"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
@@ -81,10 +99,10 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
-          />
+          /> */}
 
           <Link component={RouterLink} variant="subtitle2" to="#">
             Forgot password?
