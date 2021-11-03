@@ -39,20 +39,20 @@ export default function Chart() {
           <XAxis
             dataKey="time"
             stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
+            //style={theme.typography.body2}
           />
           <YAxis
             stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
+            //style={theme.typography.body2}
           >
             <Label
               angle={270}
               position="left"
-              style={{
-                textAnchor: 'middle',
-                fill: theme.palette.text.primary,
-                ...theme.typography.body1,
-              }}
+              // style={{
+              //   textAnchor: 'middle',
+              //   fill: theme.palette.text.primary,
+              //   ...theme.typography.body1,
+              // }}
             >
               Sales ($)
             </Label>

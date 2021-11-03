@@ -104,7 +104,7 @@ public class OldTextbookResource {
     private OldTextbookSessionBeanLocal lookupOldTexbookSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (OldTextbookSessionBeanLocal) c.lookup("java:global/UniFound/UniFound-ejb/OldTexbookSessionBean!session.OldTexbookSessionBeanLocal");
+            return (OldTextbookSessionBeanLocal) c.lookup("java:global/UniFound/UniFound-ejb/OldTextbookSessionBean!session.OldTextbookSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
