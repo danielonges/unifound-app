@@ -13,10 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author jiajun
- */
+
 @Entity
 public class LostFoundListing implements Serializable {
 
@@ -31,17 +28,23 @@ public class LostFoundListing implements Serializable {
     private String description;
     private String location;
     private String comments;
-    
+    private String type;
     
     @OneToOne(fetch = FetchType.EAGER)
     private UserEntity user;
-    
-    
 
     public LostFoundListing() {
     }
 
-
+    public LostFoundListing(String name, String image, String category, String description, String location, String comments, String type) {
+        this.name = name;
+        this.image = image;
+        this.category = category;
+        this.description = description;
+        this.location = location;
+        this.comments = comments;
+        this.type = type;
+    }
 
     public String getName() {
         return name;

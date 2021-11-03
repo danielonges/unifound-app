@@ -6,18 +6,13 @@
 package session;
 
 import entity.LostFoundListing;
+import exception.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 
-/**
- *
- * @author jiajun
- */
 @Local
 public interface LostFoundSessionBeanLocal {
-
-    public void createLostFound(LostFoundListing l);
 
     public List<LostFoundListing> getAllLostFoundListings();
 
@@ -26,4 +21,6 @@ public interface LostFoundSessionBeanLocal {
     public void deleteLostFoundListing(Long lId) throws NoResultException;
 
     public void updateLostFoundListing(LostFoundListing l) throws NoResultException;
+
+    public void createLostFound(LostFoundListing lostFoundListing, Long userId) throws UserNotFoundException;
 }

@@ -6,25 +6,30 @@
 package session;
 
 import entity.StudyBuddyListing;
+import entity.UserEntity;
+import exception.UserNotFoundException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author jiajun
- */
+
 @Stateless
 public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private UserSessionLocal userSessionLocal;
 
     @Override
-    public void createStudyBuddyListing(StudyBuddyListing s) {
+    public void createStudyBuddyListing(StudyBuddyListing s, Long userId) throws UserNotFoundException {
+        UserEntity u = userSessionLocal.retrieveUserById(userId);
+        s.setUserEntity(u);
         em.persist(s);
     }
     

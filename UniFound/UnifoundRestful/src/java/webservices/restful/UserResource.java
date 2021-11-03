@@ -75,10 +75,10 @@ public class UserResource {
     }
 
     @POST
+    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(UserEntity userEntity) {
-
         try {
             userSessionLocal.createUser(userEntity);
             return Response.status(200).entity(userEntity).type(MediaType.APPLICATION_JSON).build();
@@ -90,7 +90,6 @@ public class UserResource {
             return Response.status(404).entity(exception)
                     .type(MediaType.APPLICATION_JSON).build();
         }
-
     }
 
     @GET
@@ -111,7 +110,7 @@ public class UserResource {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editUserProfile(@PathParam("id") Long userId, UserEntity userEntity) {

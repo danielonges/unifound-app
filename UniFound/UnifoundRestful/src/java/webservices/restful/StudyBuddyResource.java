@@ -31,20 +31,13 @@ import javax.ws.rs.core.Response;
 import session.StudyBuddySessionBeanLocal;
 import session.UserSessionLocal;
 
-/**
- * REST Web Service
- *
- * @author leeleonard
- */
+
 @Path("studybuddy")
 public class StudyBuddyResource {
 
     UserSessionLocal userSessionLocal = lookupUserSessionLocal();
 
     StudyBuddySessionBeanLocal studyBuddySessionBeanLocal = lookupStudyBuddySessionBeanLocal();
-    
-    @Context
-    private UriInfo context;
 
     /**
      * Creates a new instance of StudyBuddyResource
@@ -53,30 +46,28 @@ public class StudyBuddyResource {
     }
     
     @POST
-    @Path("/{id}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createStudyBuddyListing(StudyBuddyListing studyBuddyListing, @PathParam("id") Long userId) {
+    public Response createStudyBuddyListing(StudyBuddyListing studyBuddyListing, @PathParam("userId") Long userId) {
         try {
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            studyBuddyListing.setUserEntity(userEntity);
-            
-            studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing);
+            studyBuddyListing.setUserEntity(userEntity); 
+            studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing, userId);
             return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
-                    .build();
-            
+                    .build();            
             return Response.status(404).entity(exception).build();
         }
-
     }
 
     @GET
+    @Path("/allstudybuddies")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StudyBuddyListing> getAllStudyBuddyListings() {
-        return studyBuddySessionBeanLocal.getAllStudyBuddyListing();
+    public Response getAllStudyBuddyListings() {
+        return Response.ok().entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
     }
 
     @GET
@@ -89,7 +80,7 @@ public class StudyBuddyResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteStudyBuddyListing(@PathParam("id") Long studyBuddyListingId) {
 
@@ -99,7 +90,7 @@ public class StudyBuddyResource {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editStudyBuddyListing(@PathParam("id") Long studyBuddyListingId, StudyBuddyListing studyBuddyListing) {

@@ -34,7 +34,9 @@ public class ModuleEntity implements Serializable {
     public ModuleEntity() {
     }
 
-
+    public ModuleEntity(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
     public String getModuleName() {
         return moduleName;

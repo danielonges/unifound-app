@@ -29,7 +29,7 @@ public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -50,8 +50,7 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     @NotNull
     private String academicYear;
-
-
+    
     @OneToMany
     private List<UserEntity> friends;
 
@@ -71,6 +70,16 @@ public class UserEntity implements Serializable {
     public UserEntity() {
     }
 
+    public UserEntity(String name, String password, String email, Character gender, String academicYear, UserStatusEnum status, CourseEnum course) {
+        this();
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.gender = gender;
+        this.academicYear = academicYear;
+        this.status = status;
+        this.course = course;
+    }
 
     public UserStatusEnum getStatus() {
         return status;

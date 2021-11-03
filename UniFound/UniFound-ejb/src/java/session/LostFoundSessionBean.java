@@ -6,27 +6,35 @@
 package session;
 
 import entity.LostFoundListing;
+import entity.UserEntity;
+import exception.UserNotFoundException;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author jiajun
- */
+
 @Stateless
 public class LostFoundSessionBean implements LostFoundSessionBeanLocal {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private UserSessionLocal userSessionLocal;
 
     @Override
-    public void createLostFound(LostFoundListing lostFoundListing) {
-        em.persist(lostFoundListing);
+    public void createLostFound(LostFoundListing lostFoundListing, Long userId) throws UserNotFoundException {
+        if (lostFoundListing != null) {
+            UserEntity u = userSessionLocal.retrieveUserById(userId);
+            lostFoundListing.setUser(u);
+            em.persist(lostFoundListing);
+            em.flush();
+        }
     }
 
     @Override

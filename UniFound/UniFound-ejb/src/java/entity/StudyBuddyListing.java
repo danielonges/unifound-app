@@ -5,6 +5,7 @@
  */
 package entity;
 
+import enumeration.CourseEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author jiajun
- */
+
 @Entity
 public class StudyBuddyListing implements Serializable {
 
@@ -37,7 +35,7 @@ public class StudyBuddyListing implements Serializable {
 
     @Column(nullable = false)
     @NotNull
-    private String course;
+    private CourseEnum course;
 
     @Column(nullable = false)
     @NotNull
@@ -49,7 +47,7 @@ public class StudyBuddyListing implements Serializable {
 
     @Column(nullable = false)
     @NotNull
-    private String groupsize;
+    private Integer groupsize;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
@@ -58,16 +56,14 @@ public class StudyBuddyListing implements Serializable {
     public StudyBuddyListing() {
     }
 
-    public StudyBuddyListing(Character gender, String module, String course, String year, String location, String groupsize, UserEntity userEntity) {
+    public StudyBuddyListing(Character gender, String module, CourseEnum course, String year, String location, Integer groupsize) {
         this.gender = gender;
         this.module = module;
         this.course = course;
         this.yearOfStudy = year;
         this.location = location;
         this.groupsize = groupsize;
-        this.userEntity = userEntity;
     }
-    
     
     public Character getGender() {
         return gender;
@@ -118,11 +114,11 @@ public class StudyBuddyListing implements Serializable {
         this.module = module;
     }
 
-    public String getCourse() {
+    public CourseEnum getCourse() {
         return course;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(CourseEnum course) {
         this.course = course;
     }
 
@@ -142,11 +138,11 @@ public class StudyBuddyListing implements Serializable {
         this.location = location;
     }
 
-    public String getGroupsize() {
+    public Integer getGroupsize() {
         return groupsize;
     }
 
-    public void setGroupsize(String groupsize) {
+    public void setGroupsize(Integer groupsize) {
         this.groupsize = groupsize;
     }
 
