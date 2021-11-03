@@ -30,18 +30,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import session.ModuleSessionBeanLocal;
 
-/**
- * REST Web Service
- *
- * @author leeleonard
- */
+
 @Path("module")
 public class ModuleResource {
 
     ModuleSessionBeanLocal moduleSessionBeanLocal = lookupModuleSessionBeanLocal();
-
-    @Context
-    private UriInfo context;
 
     /**
      * Creates a new instance of ModuleResource
@@ -50,29 +43,27 @@ public class ModuleResource {
     }
 
     @POST
-    @Path("/{id}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createModule(ModuleEntity moduleEntity, @PathParam("id") Long userId) {
-
         try {
-            moduleSessionBeanLocal.createModule(moduleEntity,userId);
+            moduleSessionBeanLocal.createModule(moduleEntity, userId);
             return Response.status(200).entity(moduleEntity).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", ex.getMessage())
                     .build();
-
             return Response.status(404).entity(exception)
                     .type(MediaType.APPLICATION_JSON).build();
         }
-
     }
 
     @GET
+    @Path("/allmodules")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ModuleEntity> getAllModules() {
-        return moduleSessionBeanLocal.getAllModules();
+    public Response getAllModules() {
+        return Response.ok().entity(moduleSessionBeanLocal.getAllModules()).build();
     }
 
     @GET
@@ -85,7 +76,7 @@ public class ModuleResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteModule(@PathParam("id") Long moduleId) {
 
@@ -95,7 +86,7 @@ public class ModuleResource {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editModule(@PathParam("id") Long moduleId, ModuleEntity moduleEntity) {

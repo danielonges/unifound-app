@@ -6,6 +6,7 @@
 package session;
 
 import entity.StudyBuddyListing;
+import exception.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
@@ -17,8 +18,6 @@ import javax.persistence.NoResultException;
 @Local
 public interface StudyBuddySessionBeanLocal {
 
-    public void createStudyBuddyListing(StudyBuddyListing s);
-
     public StudyBuddyListing getStudyBuddyListing(Long sId) throws NoResultException;
 
     public List<StudyBuddyListing> getAllStudyBuddyListing();
@@ -26,5 +25,7 @@ public interface StudyBuddySessionBeanLocal {
     public void deleteStudyBuddyListing(Long sId) throws NoResultException;
 
     public void updateStudyBuddyListing(StudyBuddyListing studyBuddyListing);
+
+    public void createStudyBuddyListing(StudyBuddyListing s, Long userId) throws UserNotFoundException;
     
 }

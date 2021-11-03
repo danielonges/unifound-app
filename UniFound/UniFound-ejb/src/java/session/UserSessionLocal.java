@@ -10,6 +10,7 @@ import exception.InvalidLoginException;
 import exception.UserAlreadyExistException;
 
 import exception.UserNotFoundException;
+import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
 
@@ -32,5 +33,9 @@ public interface UserSessionLocal {
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException;
 
     public void createUser(UserEntity userEntity) throws UserAlreadyExistException;
+
+    public List<UserEntity> retrieveAllUsers();
+
+    public UserEntity retrieveUserById(Long userId) throws UserNotFoundException;
 
 }

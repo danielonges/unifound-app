@@ -5,7 +5,6 @@
  */
 package webservices.restful;
 
-import entity.Announcement;
 import entity.LostFoundListing;
 import entity.UserEntity;
 import exception.UserNotFoundException;
@@ -42,9 +41,6 @@ public class LostnFoundResource {
     UserSessionLocal userSessionLocal = lookupUserSessionLocal();
     
     LostFoundSessionBeanLocal lostFoundSessionBeanLocal = lookupLostFoundSessionBeanLocal();
-    
-    @Context
-    private UriInfo context;
 
     /**
      * Creates a new instance of LostnFoundResource
@@ -53,15 +49,14 @@ public class LostnFoundResource {
     }
     
     @POST
-    @Path("/{id}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createLostFoundListing(LostFoundListing lostFoundListing, @PathParam("id") Long userId) {
+    public Response createLostFoundListing(LostFoundListing lostFoundListing, @PathParam("userId") Long userId) {
         try {
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            lostFoundListing.setUser(userEntity);
-            
-            lostFoundSessionBeanLocal.createLostFound(lostFoundListing);
+            lostFoundListing.setUser(userEntity);         
+            lostFoundSessionBeanLocal.createLostFound(lostFoundListing, userId);
             return Response.status(200).entity(lostFoundListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
@@ -73,9 +68,10 @@ public class LostnFoundResource {
     }
     
     @GET
+    @Path("/allLFlistings")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<LostFoundListing> getAllLostFoundListings() {
-        return lostFoundSessionBeanLocal.getAllLostFoundListings();
+    public Response getAllLostFoundListings() {
+        return Response.ok().entity(lostFoundSessionBeanLocal.getAllLostFoundListings()).build();
     }
     
     @GET
@@ -88,17 +84,15 @@ public class LostnFoundResource {
     }
     
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteLostFoundListing(@PathParam("id") Long lostFoundListingId) {
-        
+    public Response deleteLostFoundListing(@PathParam("id") Long lostFoundListingId) {     
         lostFoundSessionBeanLocal.deleteLostFoundListing(lostFoundListingId);
-        return Response.status(204).build();
-        
+        return Response.status(204).build();  
     }    
     
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editLostFoundListing(@PathParam("id") Long lostFoundListingId, LostFoundListing lostFoundListing) {

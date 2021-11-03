@@ -32,7 +32,7 @@ public class ModuleSessionBean implements ModuleSessionBeanLocal {
     
 
     @Override
-    public void createModule(ModuleEntity m,Long userId) throws UserNotFoundException {
+    public void createModule(ModuleEntity m, Long userId) throws UserNotFoundException {
         UserEntity userEntity = userSessionLocal.getUser(userId);
         userEntity.getModules().add(m);
 

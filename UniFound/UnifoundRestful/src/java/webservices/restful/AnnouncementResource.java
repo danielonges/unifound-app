@@ -8,15 +8,12 @@ package webservices.restful;
 import entity.Announcement;
 import entity.UserEntity;
 import exception.UserNotFoundException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
@@ -30,11 +27,7 @@ import javax.ws.rs.core.Response;
 import session.AnnouncementSessionBeanLocal;
 import session.UserSessionLocal;
 
-/**
- * REST Web Service
- *
- * @author leeleonard
- */
+
 @Path("announcement")
 public class AnnouncementResource {
 
@@ -42,10 +35,6 @@ public class AnnouncementResource {
 
     AnnouncementSessionBeanLocal announcementSessionBeanLocal = lookupAnnouncementSessionBeanLocal();
     
-    
-    @Context
-    private UriInfo context;
-
     /**
      * Creates a new instance of AnnouncementResource
      */
@@ -53,29 +42,28 @@ public class AnnouncementResource {
     }
     
     @POST
-    @Path("/{id}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createAnnouncement(Announcement announcement,@PathParam("id") Long userId) {
+    public Response createAnnouncement(Announcement announcement,@PathParam("userId") Long userId) {
         try {
-          UserEntity userEntity = userSessionLocal.getUser(userId);
+            UserEntity userEntity = userSessionLocal.getUser(userId);
             announcement.setUserEntity(userEntity);
-        
-        announcementSessionBeanLocal.createAnnouncement(announcement);
-        return Response.status(200).entity(announcement).type(MediaType.APPLICATION_JSON).build();
+            announcementSessionBeanLocal.createAnnouncement(announcement);
+            return Response.ok().entity(announcement).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
                     .build();
-
             return Response.status(404).entity(exception).build();
         }
     }
 
     @GET
+    @Path("/announcements")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Announcement> getAllAnnouncements() {
-        return announcementSessionBeanLocal.getAllAnnouncements();
+    public Response getAllAnnouncements() {
+        return Response.ok().entity(announcementSessionBeanLocal.getAllAnnouncements()).build();
     }
     
     @GET
@@ -83,32 +71,26 @@ public class AnnouncementResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAnnouncement(@PathParam("id") Long announcementId) {
        Announcement announcement = announcementSessionBeanLocal.getAnnouncement(announcementId);
-        
-        return Response.status(200).entity(announcement).build();
+       return Response.ok().entity(announcement).build();
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAnnouncement(@PathParam("id") Long announcementId) {
-       
-           announcementSessionBeanLocal.deleteAnnouncement(announcementId);
-            return Response.status(204).build();
-        
+        announcementSessionBeanLocal.deleteAnnouncement(announcementId);
+        return Response.status(204).build();
     } 
 
   
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editAnnouncement(@PathParam("id") Long announcementId, Announcement announcement) {
         announcement.setId(announcementId);
-       
-            announcementSessionBeanLocal.updateAnnouncement(announcement);
-            
-            return Response.status(200).entity(announcement).type(MediaType.APPLICATION_JSON).build();
-        
+        announcementSessionBeanLocal.updateAnnouncement(announcement);
+        return Response.status(200).entity(announcement).type(MediaType.APPLICATION_JSON).build();      
     }
 
     private AnnouncementSessionBeanLocal lookupAnnouncementSessionBeanLocal() {
@@ -129,7 +111,5 @@ public class AnnouncementResource {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
-    }
-
-   
+    }  
 }
