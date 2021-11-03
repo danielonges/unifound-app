@@ -6,6 +6,7 @@
 package session;
 
 import entity.ModuleEntity;
+import exception.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
@@ -17,7 +18,6 @@ import javax.persistence.NoResultException;
 @Local
 public interface ModuleSessionBeanLocal {
 
-    public void createModule(ModuleEntity m);
 
     public List<ModuleEntity> getAllModules();
 
@@ -27,5 +27,7 @@ public interface ModuleSessionBeanLocal {
 
 
     public void updateModule(ModuleEntity m) throws NoResultException;
+
+    public void createModule(ModuleEntity m, Long userId) throws UserNotFoundException;
 
 }

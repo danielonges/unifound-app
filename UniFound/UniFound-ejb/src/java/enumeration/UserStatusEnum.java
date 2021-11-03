@@ -10,7 +10,6 @@ package enumeration;
  * @author jiajun
  */
 public enum UserStatusEnum {
-   ONLINE,
-    BUSY,
-    AWAY
+   BLOCKED,
+   APPROVED
 }

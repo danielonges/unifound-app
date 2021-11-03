@@ -7,8 +7,11 @@ package session;
 
 import entity.Chat;
 import entity.MessageEntity;
+import entity.UserEntity;
+import exception.UserNotFoundException;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,11 +25,18 @@ import javax.persistence.Query;
 @Stateless
 public class ChatSessionBean implements ChatSessionBeanLocal {
 
+    @EJB(name = "UserSessionLocal")
+    private UserSessionLocal userSessionLocal;
+
     @PersistenceContext
     private EntityManager em;
+    
+    
 
     @Override
-    public void createChat(Chat c) {
+    public void createChat(Chat c,Long userId) throws UserNotFoundException {
+        UserEntity userEntity = userSessionLocal.getUser(userId);
+        userEntity.getChats().add(c);
         em.persist(c);
     }
 
@@ -57,6 +67,14 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     @Override
     public void deleteChat(Long cId) throws NoResultException {
         Chat c = getChat(cId);
+        for(int i =0;i<c.getMessages().size();i++) {
+            c.getMessages().get(i).setUserEntity(null);
+        }
+        Query query = em.createQuery("SELECT u FROM UserEntity u WHERE :chat MEMBER OF u.chats");
+        query.setParameter("chat", c);
+        
+        UserEntity userEntity = (UserEntity) query.getSingleResult();
+        userEntity.getChats().remove(c);
         em.remove(c);
     }
 
