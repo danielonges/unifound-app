@@ -11,6 +11,7 @@ import exception.InvalidLoginException;
 import exception.UserAlreadyExistException;
 
 import exception.UserNotFoundException;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,8 +39,24 @@ public class UserSession implements UserSessionLocal {
         } catch (NoResultException ex) {
             em.persist(userEntity);
 
+        }  
+    }
+    
+    @Override
+    public UserEntity retrieveUserById(Long userId) throws UserNotFoundException {
+        UserEntity u = em.find(UserEntity.class, userId);
+
+        if (u != null) {
+            return u;
+        } else {
+            throw new UserNotFoundException("User ID" + userId + " does not exist!");
         }
-      
+    }
+    
+    @Override
+    public List<UserEntity> retrieveAllUsers() {
+        Query query = em.createQuery("SELECT u FROM UserEntity u");
+        return query.getResultList();
     }
 
     @Override

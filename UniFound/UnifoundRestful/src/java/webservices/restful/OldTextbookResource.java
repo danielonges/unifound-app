@@ -28,28 +28,17 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import session.OldTexbookSessionBeanLocal;
 import session.UserSessionLocal;
+import session.OldTextbookSessionBeanLocal;
 
-/**
- * REST Web Service
- *
- * @author leeleonard
- */
+
 @Path("oldtextbook")
 public class OldTextbookResource {
 
     UserSessionLocal userSessionLocal = lookupUserSessionLocal();
 
-    OldTexbookSessionBeanLocal oldTexbookSessionBeanLocal = lookupOldTexbookSessionBeanLocal();
+    OldTextbookSessionBeanLocal oldTexbookSessionBeanLocal = lookupOldTexbookSessionBeanLocal();
     
-    
-
-    @Context
-    private UriInfo context;
-    
-    
-
     /**
      * Creates a new instance of OldTextbookResource
      */
@@ -57,30 +46,28 @@ public class OldTextbookResource {
     }
     
     @POST
-    @Path("/{id}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createTextBookListing(OldTextbookListing oldTextbookListing, @PathParam("id") Long userId) {
+    public Response createTextBookListing(OldTextbookListing oldTextbookListing, @PathParam("userId") Long userId) {
         try {
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            oldTextbookListing.setUserEntity(userEntity);
-            
-            oldTexbookSessionBeanLocal.createOldTextbook(oldTextbookListing);
+            oldTextbookListing.setUserEntity(userEntity);          
+            oldTexbookSessionBeanLocal.createOldTextbook(oldTextbookListing, userId);
             return Response.status(200).entity(oldTextbookListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
-                    .build();
-            
+                    .build();          
             return Response.status(404).entity(exception).build();
         }
-
     }
 
     @GET
+    @Path("/alltextbooks")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OldTextbookListing> getAllTextbookListings() {
-        return oldTexbookSessionBeanLocal.getAllOldTextbookListings();
+    public Response getAllTextbookListings() {
+        return Response.ok().entity(oldTexbookSessionBeanLocal.getAllOldTextbookListings()).build();
     }
 
     @GET
@@ -93,7 +80,7 @@ public class OldTextbookResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTextbookListing(@PathParam("id") Long textbookListingId) {
 
@@ -103,7 +90,7 @@ public class OldTextbookResource {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editTextbookListing(@PathParam("id") Long textbookListingId, OldTextbookListing oldTextbookListing) {
@@ -114,10 +101,10 @@ public class OldTextbookResource {
 
     }
 
-    private OldTexbookSessionBeanLocal lookupOldTexbookSessionBeanLocal() {
+    private OldTextbookSessionBeanLocal lookupOldTexbookSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (OldTexbookSessionBeanLocal) c.lookup("java:global/UniFound/UniFound-ejb/OldTexbookSessionBean!session.OldTexbookSessionBeanLocal");
+            return (OldTextbookSessionBeanLocal) c.lookup("java:global/UniFound/UniFound-ejb/OldTexbookSessionBean!session.OldTexbookSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

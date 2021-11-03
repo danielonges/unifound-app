@@ -5,19 +5,15 @@
  */
 package webservices.restful;
 
-import entity.Announcement;
 import entity.MessageEntity;
 import entity.UserEntity;
 import exception.UserNotFoundException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
@@ -31,11 +27,7 @@ import javax.ws.rs.core.Response;
 import session.MessageSessionBeanLocal;
 import session.UserSessionLocal;
 
-/**
- * REST Web Service
- *
- * @author leeleonard
- */
+
 @Path("message")
 public class MessageResource {
 
@@ -43,31 +35,29 @@ public class MessageResource {
 
     MessageSessionBeanLocal messageSessionBean = lookupMessageSessionBeanLocal();
     
-    
-
-    @Context
-    private UriInfo context;
+    /**
+     * Creates a new instance of MessageResource
+     */
+    public MessageResource() {
+    }
     
     @POST
-    @Path("{id}/chat/{chatId}")
+    @Path("chat/{id}/{chatId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createMessageEntity(MessageEntity messageEntity,@PathParam("id") Long userId, @PathParam("chatId") Long chatId) {
         try {
-          UserEntity userEntity = userSessionLocal.getUser(userId);
+            UserEntity userEntity = userSessionLocal.getUser(userId);
             messageEntity.setUserEntity(userEntity);
-        
-        messageSessionBean.createMessage(messageEntity,chatId);
-        return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();
+            messageSessionBean.createMessage(messageEntity,chatId);
+            return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
                     .build();
-
             return Response.status(404).entity(exception).build();
         }
     }
-
     
     @GET
     @Path("/{id}")
@@ -79,34 +69,21 @@ public class MessageResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteMessage(@PathParam("id") Long messageId) {
-       
-           messageSessionBean.deleteMessage(messageId);
-            return Response.status(204).build();
-        
-    } 
-
-  
+        messageSessionBean.deleteMessage(messageId);
+        return Response.status(204).build();     
+    }
+    
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editMessage(@PathParam("id") Long messageId, MessageEntity messageEntity) {
         messageEntity.setId(messageId);
-       
-            messageSessionBean.updateMessage(messageEntity);
-            
-            return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();
-        
-    }
-    
-
-    /**
-     * Creates a new instance of MessageResource
-     */
-    public MessageResource() {
+        messageSessionBean.updateMessage(messageEntity);
+        return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();     
     }
 
     private MessageSessionBeanLocal lookupMessageSessionBeanLocal() {

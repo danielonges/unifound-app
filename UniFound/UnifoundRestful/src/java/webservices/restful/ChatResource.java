@@ -52,10 +52,10 @@ public class ChatResource {
     }
     
     @POST
-    @Path("/{userId}")
+    @Path("/create/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createChats(@PathParam("userId") Long userId,Chat chat) {
+    public Response createChats(@PathParam("userId") Long userId, Chat chat) {
         try {
             chatSessionBeanLocal.createChat(chat,userId);
             return Response.status(200).entity(chat).type(MediaType.APPLICATION_JSON).build();
@@ -63,7 +63,6 @@ public class ChatResource {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", ex.getMessage())
                     .build();
-
             return Response.status(404).entity(exception).build();
         }
 
@@ -82,7 +81,7 @@ public class ChatResource {
 
     
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteChat(@PathParam("id") Long chatId) {
         try {
@@ -100,7 +99,7 @@ public class ChatResource {
    
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editChat(@PathParam("id") Long chatId, Chat chat) {

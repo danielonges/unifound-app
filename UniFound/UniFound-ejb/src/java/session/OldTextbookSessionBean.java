@@ -6,25 +6,30 @@
 package session;
 
 import entity.OldTextbookListing;
+import entity.UserEntity;
+import exception.UserNotFoundException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author jiajun
- */
+
 @Stateless
-public class OldTexbookSessionBean implements OldTexbookSessionBeanLocal {
+public class OldTextbookSessionBean implements OldTextbookSessionBeanLocal {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private UserSessionLocal userSessionLocal;
 
     @Override
-    public void createOldTextbook(OldTextbookListing o) {
+    public void createOldTextbook(OldTextbookListing o, Long userId) throws UserNotFoundException {
+        UserEntity u = userSessionLocal.retrieveUserById(userId);
+        o.setUserEntity(u);
         em.persist(o);
     }
 

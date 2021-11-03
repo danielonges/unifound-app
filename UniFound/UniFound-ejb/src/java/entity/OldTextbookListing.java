@@ -30,11 +30,19 @@ public class OldTextbookListing implements Serializable {
     @Column(nullable = false)
     @NotNull
     private String moduleEntity;//the word "module" is a reserved SQL keyword
+    private String name;
+    private String description;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
 
     public OldTextbookListing() {
+    }
+
+    public OldTextbookListing(String moduleEntity, String name, String description) {
+        this.moduleEntity = moduleEntity;
+        this.name = name;
+        this.description = description;
     }
     
 
@@ -68,6 +76,22 @@ public class OldTextbookListing implements Serializable {
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
