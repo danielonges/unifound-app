@@ -60,9 +60,9 @@ public class DataInitSessionBean {
     
     private void initialiseUsers() {
         try {
-            userSessionLocal.createUser(new UserEntity("Hsiang Hui", "password", "lek@gmail.com", 'M', "Year 5", UserStatusEnum.APPROVED, CourseEnum.INFORMATION_SYSTEMS));
-            userSessionLocal.createUser(new UserEntity("Bob", "password", "bob@gmail.com", 'M', "Year 1", UserStatusEnum.APPROVED, CourseEnum.COMPUTER_SCIENCE));
-            userSessionLocal.createUser(new UserEntity("May", "password", "may@gmail.com", 'F', "Year 3", UserStatusEnum.APPROVED, CourseEnum.INFORMATION_SECURITY));
+            userSessionLocal.createUser(new UserEntity("Hsiang Hui", "password", "lek@gmail.com", "Male", "Year 5", UserStatusEnum.APPROVED, "Information Systems"));
+            userSessionLocal.createUser(new UserEntity("Bob", "password", "bob@gmail.com", "Male", "Year 1", UserStatusEnum.APPROVED, "Computer Science"));
+            userSessionLocal.createUser(new UserEntity("May", "password", "may@gmail.com", "Female", "Year 3", UserStatusEnum.APPROVED, "Information Security"));
         } catch (UserAlreadyExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,9 +90,9 @@ public class DataInitSessionBean {
 
     public void initialiseStudyBuddy() {
         try {
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing('M', "IS3106", CourseEnum.INFORMATION_SYSTEMS, "Year 5", "CLB", 2), new Long(1));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing('M', "CS2105", CourseEnum.COMPUTER_SCIENCE, "Year 1", "COM1", 4), new Long(2));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing('F', "CS2102", CourseEnum.INFORMATION_SECURITY, "Year 3", "HSSML", 5), new Long(3));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2), new Long(1));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4), new Long(2));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "HSSML", 5), new Long(3));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }

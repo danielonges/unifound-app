@@ -64,7 +64,6 @@ public class StudyBuddyResource {
     }
 
     @GET
-    @Path("/allstudybuddies")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStudyBuddyListings() {
         return Response.ok().entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
@@ -80,7 +79,7 @@ public class StudyBuddyResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteStudyBuddyListing(@PathParam("id") Long studyBuddyListingId) {
 
@@ -90,7 +89,7 @@ public class StudyBuddyResource {
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editStudyBuddyListing(@PathParam("id") Long studyBuddyListingId, StudyBuddyListing studyBuddyListing) {
