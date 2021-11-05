@@ -3,11 +3,11 @@ import axios from 'axios';
 import UserContext from './userContext';
 import userReducer from './userReducer';
 
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER } from '../types';
 
 const UserState = (props) => {
   const initialState = {
-    user: {},
+    user: JSON.parse(localStorage.getItem('user')) || {},
     isAuthenticated: false
   };
 

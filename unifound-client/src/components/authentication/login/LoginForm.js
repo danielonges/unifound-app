@@ -42,6 +42,7 @@ export default function LoginForm(props) {
     // }
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
+
   const formik = useFormik({
     initialValues: {
       email: '',

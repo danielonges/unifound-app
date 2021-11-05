@@ -27,7 +27,7 @@ public class StudyBuddyListing implements Serializable {
 
     @Column(nullable = false)
     @NotNull
-    private Character gender;
+    private String gender;
 
     @Column(nullable = false)
     @NotNull
@@ -56,7 +56,7 @@ public class StudyBuddyListing implements Serializable {
     public StudyBuddyListing() {
     }
 
-    public StudyBuddyListing(Character gender, String module, CourseEnum course, String year, String location, Integer groupsize) {
+    public StudyBuddyListing(String gender, String module, CourseEnum course, String year, String location, Integer groupsize) {
         this.gender = gender;
         this.module = module;
         this.course = course;
@@ -65,11 +65,11 @@ public class StudyBuddyListing implements Serializable {
         this.groupsize = groupsize;
     }
     
-    public Character getGender() {
+    public StringgetGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

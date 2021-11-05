@@ -1,13 +1,29 @@
+import React, { createRef } from 'react';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  DialogActions
+} from '@mui/material';
+
 // components
 import Page from '../components/Page';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/blog';
 //
 import POSTS from '../_mocks_/blog';
+import { RegisterForm } from '../components/authentication/register';
+import { LoginForm } from '../components/authentication/login';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +35,17 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function StudyBuddy() {
+export default function StudyBuddy(props) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Page title="Dashboard: Blog | Minimal-UI">
       <Container>
@@ -27,14 +53,31 @@ export default function StudyBuddy() {
           <Typography variant="h4" gutterBottom>
             Find your study buddy
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New Listing
-          </Button>
+
+          <div>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Icon icon={plusFill} />}
+              onClick={handleClickOpen}
+            >
+              New Listing
+            </Button>
+
+            <Dialog open={open} onClose={handleClose} fullWidth>
+              <DialogTitle>Create a Study Buddy Listing</DialogTitle>
+
+              <DialogContent>
+                <DialogContentText> Preferred Study Buddy Details </DialogContentText>
+                <RegisterForm handleClose={handleClose} />
+              </DialogContent>
+
+              <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">

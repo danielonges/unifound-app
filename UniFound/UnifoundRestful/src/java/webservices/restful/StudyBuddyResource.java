@@ -46,7 +46,7 @@ public class StudyBuddyResource {
     }
     
     @POST
-    @Path("/create/{userId}")
+    @Path("/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createStudyBuddyListing(StudyBuddyListing studyBuddyListing, @PathParam("userId") Long userId) {
