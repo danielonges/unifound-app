@@ -13,3 +13,6 @@ export const REMOVE_ALERT = 'SET_ALERT';
 // textbook types
 
 // user types
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';

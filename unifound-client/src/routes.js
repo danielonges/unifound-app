@@ -7,9 +7,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Products from './pages/Products';
-import Blog from './pages/Blog';
+import Blog from './pages/StudyBuddy';
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import Profile from './pages/Profile';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'studybuddy', element: <Blog /> }
       ]
     },
     {
@@ -32,6 +33,7 @@ export default function Router() {
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
+        { path: 'profile', element: <Profile /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }

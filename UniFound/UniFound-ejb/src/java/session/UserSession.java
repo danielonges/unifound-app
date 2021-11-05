@@ -78,15 +78,15 @@ public class UserSession implements UserSessionLocal {
     }
 
     @Override
-    public UserEntity retrieveUserByName(String name) throws UserNotFoundException {
-        Query query = em.createQuery("SELECT s FROM UserEntity s WHERE s.name = :inName");
-        query.setParameter("inName", name);
+    public UserEntity retrieveUserByEmail(String email) throws UserNotFoundException {
+        Query query = em.createQuery("SELECT s FROM UserEntity s WHERE s.email = :inEmail");
+        query.setParameter("inEmail", email);
         return (UserEntity) query.getSingleResult();
     }
 
     @Override
-    public UserEntity loginUser(String name, String password) throws InvalidLoginException, UserNotFoundException {
-        UserEntity user = retrieveUserByName(name);
+    public UserEntity loginUser(String email, String password) throws InvalidLoginException, UserNotFoundException {
+        UserEntity user = retrieveUserByEmail(email);
         if (user.getPassword().equals(password)) {
             return user;
         } else {
@@ -98,7 +98,7 @@ public class UserSession implements UserSessionLocal {
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException {
         UserEntity user = getUser(uId);
 
-        //   Query query = em.createQuery("SELECT u FROM Forum u WHERE :thread MEMBER OF u.threads"))
+      
         em.remove(user);
     }
 

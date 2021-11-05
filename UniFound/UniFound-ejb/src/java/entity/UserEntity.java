@@ -51,8 +51,6 @@ public class UserEntity implements Serializable {
     @NotNull
     private String academicYear;
     
-    @OneToMany
-    private List<UserEntity> friends;
 
     @Enumerated(EnumType.STRING)
     UserStatusEnum status;
@@ -97,13 +95,7 @@ public class UserEntity implements Serializable {
         this.course = course;
     }
 
-    public List<UserEntity> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<UserEntity> friends) {
-        this.friends = friends;
-    }
+   
 
     public List<ModuleEntity> getModules() {
         return modules;

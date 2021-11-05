@@ -19,13 +19,13 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function Blog() {
+export default function StudyBuddy() {
   return (
     <Page title="Dashboard: Blog | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Blog
+            Find your study buddy
           </Typography>
           <Button
             variant="contained"
@@ -33,7 +33,7 @@ export default function Blog() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            New Post
+            New Listing
           </Button>
         </Stack>
 
