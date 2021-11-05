@@ -32,4 +32,4 @@ UniFound/UnifoundRestful-war/nbproject/private/
 UniFound/UnifoundRestful-war/build/
 UniFound/UnifoundRestful-war/dist/
 
-.DS_Store
+*.DS_Store
