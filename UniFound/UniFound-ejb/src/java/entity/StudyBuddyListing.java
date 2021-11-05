@@ -35,7 +35,7 @@ public class StudyBuddyListing implements Serializable {
 
     @Column(nullable = false)
     @NotNull
-    private CourseEnum course;
+    private String course;
 
     @Column(nullable = false)
     @NotNull
@@ -56,7 +56,10 @@ public class StudyBuddyListing implements Serializable {
     public StudyBuddyListing() {
     }
 
-    public StudyBuddyListing(String gender, String module, CourseEnum course, String year, String location, Integer groupsize) {
+    
+    
+
+    public StudyBuddyListing(String gender, String module, String course, String year, String location, Integer groupsize) {
         this.gender = gender;
         this.module = module;
         this.course = course;
@@ -65,7 +68,7 @@ public class StudyBuddyListing implements Serializable {
         this.groupsize = groupsize;
     }
     
-    public StringgetGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -80,26 +83,17 @@ public class StudyBuddyListing implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    
+    public String getCourse() {
+        return course;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StudyBuddyListing)) {
-            return false;
-        }
-        StudyBuddyListing other = (StudyBuddyListing) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setCourse(String course) {
+        this.course = course;
     }
+    
+
+   
 
     @Override
     public String toString() {
@@ -114,13 +108,7 @@ public class StudyBuddyListing implements Serializable {
         this.module = module;
     }
 
-    public CourseEnum getCourse() {
-        return course;
-    }
-
-    public void setCourse(CourseEnum course) {
-        this.course = course;
-    }
+  
 
     public String getYearOfStudy() {
         return yearOfStudy;

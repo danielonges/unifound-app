@@ -45,7 +45,7 @@ public class UserEntity implements Serializable {
     private String email;
 
     @NotNull
-    private Character gender;
+    private String gender;
 
     @Column(nullable = false)
     @NotNull
@@ -53,10 +53,10 @@ public class UserEntity implements Serializable {
     
 
     @Enumerated(EnumType.STRING)
-    UserStatusEnum status;
+    private UserStatusEnum status;
 
     @Enumerated(EnumType.STRING)
-    CourseEnum course;
+    private String course;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<ModuleEntity> modules;
@@ -68,7 +68,7 @@ public class UserEntity implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(String name, String password, String email, Character gender, String academicYear, UserStatusEnum status, CourseEnum course) {
+    public UserEntity(String name, String password, String email, String gender, String academicYear, UserStatusEnum status, String course) {
         this();
         this.name = name;
         this.password = password;
@@ -87,11 +87,11 @@ public class UserEntity implements Serializable {
         this.status = status;
     }
 
-    public CourseEnum getCourse() {
+    public String getCourse() {
         return course;
     }
 
-    public void setCourse(CourseEnum course) {
+    public void setCourse(String course) {
         this.course = course;
     }
 
@@ -138,13 +138,6 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public Character getGender() {
-        return gender;
-    }
-
-    public void setGender(Character gender) {
-        this.gender = gender;
-    }
 
     public String getAcademicYear() {
         return academicYear;
@@ -164,25 +157,6 @@ public class UserEntity implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserEntity)) {
-            return false;
-        }
-        UserEntity other = (UserEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String toString() {

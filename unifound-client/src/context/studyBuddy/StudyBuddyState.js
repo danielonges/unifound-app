@@ -15,7 +15,7 @@ const StudyBuddyState = (props) => {
   // Get All Study Listings
   const getStudyListings = async () => {
     try {
-      const res = await axios.get('/studybuddy');
+      const res = await axios.get('/');
 
       dispatch({
         type: GET_STUDY_LISTINGS,

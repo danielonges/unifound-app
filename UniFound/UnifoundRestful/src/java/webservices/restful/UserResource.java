@@ -110,7 +110,7 @@ public class UserResource {
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response editUserProfile(@PathParam("id") Long userId, UserEntity userEntity) {
