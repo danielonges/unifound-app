@@ -23,7 +23,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
+        { path: 'lostfound', element: <Products /> },
         { path: 'studybuddy', element: <Blog /> }
       ]
     },
