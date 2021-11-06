@@ -53,6 +53,7 @@ export default function RegisterForm({ handleClose }) {
     },
     validationSchema: RegisterSchema,
     onSubmit: (value) => {
+      console.log(value);
       createStudyListing(value, user);
       handleClose();
     }
@@ -83,6 +84,7 @@ export default function RegisterForm({ handleClose }) {
             onChange={(e, value) => setFieldValue('module', value)}
             renderInput={(params) => <TextField {...params} required label="Module" />}
           />
+
           <Autocomplete
             disablePortal
             id="yearOfStudy"

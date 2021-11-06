@@ -15,7 +15,7 @@ const StudyBuddyState = (props) => {
   // Get All Study Listings
   const getStudyListings = async () => {
     try {
-      const res = await axios.get('/');
+      const res = await axios.get('/studybuddy');
 
       dispatch({
         type: GET_STUDY_LISTINGS,
@@ -30,21 +30,20 @@ const StudyBuddyState = (props) => {
   };
 
   // Create Study Listing
-  const createStudyListing = async (studyBuddyListing, user) => {
+  const createStudyListing = async (value, user) => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
-
+    console.log(value);
     try {
-      const res = await axios.post(`/studybuddy/${user.id}`, studyBuddyListing, config);
+      const res = await axios.post(`/studybuddy/${user.id}`, value, config);
 
       dispatch({
         type: CREATE_SUCCESS,
         payload: res.data
       });
-      console.log(res.data);
     } catch (err) {
       dispatch({
         type: CREATE_FAIL,

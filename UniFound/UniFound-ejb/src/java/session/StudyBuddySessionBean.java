@@ -23,13 +23,10 @@ public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
     @PersistenceContext
     private EntityManager em;
     
-    @EJB
-    private UserSessionLocal userSessionLocal;
+   
 
     @Override
-    public void createStudyBuddyListing(StudyBuddyListing s, Long userId) throws UserNotFoundException {
-        UserEntity u = userSessionLocal.retrieveUserById(userId);
-        s.setUserEntity(u);
+    public void createStudyBuddyListing(StudyBuddyListing s)  {
         em.persist(s);
     }
     

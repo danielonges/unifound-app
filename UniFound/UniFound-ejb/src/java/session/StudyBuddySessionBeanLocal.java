@@ -26,6 +26,6 @@ public interface StudyBuddySessionBeanLocal {
 
     public void updateStudyBuddyListing(StudyBuddyListing studyBuddyListing);
 
-    public void createStudyBuddyListing(StudyBuddyListing s, Long userId) throws UserNotFoundException;
+    public void createStudyBuddyListing(StudyBuddyListing s);
     
 }

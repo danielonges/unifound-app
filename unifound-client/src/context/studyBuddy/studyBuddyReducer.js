@@ -5,7 +5,7 @@ const studyBuddyReducer = (state, action) => {
     case CREATE_SUCCESS:
       return {
         ...state,
-        studyBuddyListings: [action.payload, ...state.forums]
+        studyBuddyListings: [action.payload, ...state.studyBuddyListings]
       };
     default:
       return {

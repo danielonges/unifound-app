@@ -55,7 +55,7 @@ public class UserEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
 
-    @Enumerated(EnumType.STRING)
+   
     private String course;
 
     @OneToMany(fetch = FetchType.EAGER)
