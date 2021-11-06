@@ -47,7 +47,7 @@ public class StudyBuddyListing implements Serializable {
 
     @Column(nullable = false)
     @NotNull
-    private Integer groupsize;
+    private int groupsize;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
@@ -59,13 +59,14 @@ public class StudyBuddyListing implements Serializable {
     
     
 
-    public StudyBuddyListing(String gender, String module, String course, String year, String location, Integer groupsize) {
+    public StudyBuddyListing(String gender, String module, String course, String yearOfStudy, String location, int groupsize,UserEntity userEntity) {
         this.gender = gender;
         this.module = module;
         this.course = course;
-        this.yearOfStudy = year;
+        this.yearOfStudy = yearOfStudy;
         this.location = location;
         this.groupsize = groupsize;
+        this.userEntity = userEntity;
     }
     
     public String getGender() {
@@ -115,7 +116,7 @@ public class StudyBuddyListing implements Serializable {
     }
 
     public void setYearOfStudy(String yearofStudy) {
-        this.yearOfStudy = yearOfStudy;
+        this.yearOfStudy = yearofStudy;
     }
 
     public String getLocation() {

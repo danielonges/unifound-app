@@ -51,9 +51,13 @@ public class StudyBuddyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createStudyBuddyListing(StudyBuddyListing studyBuddyListing, @PathParam("userId") Long userId) {
         try {
+             
             UserEntity userEntity = userSessionLocal.getUser(userId);
+            System.out.println(studyBuddyListing.getLocation() + "*************************" + studyBuddyListing.getCourse());
+            System.out.println(studyBuddyListing.getGroupsize() + "*************************" + studyBuddyListing.getGender());
+            System.out.println(studyBuddyListing.getYearOfStudy()+ "*************************" + studyBuddyListing.getModule());
             studyBuddyListing.setUserEntity(userEntity); 
-            studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing, userId);
+            studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing);
             return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()

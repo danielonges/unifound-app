@@ -90,9 +90,9 @@ public class DataInitSessionBean {
 
     public void initialiseStudyBuddy() {
         try {
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2), new Long(1));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4), new Long(2));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "HSSML", 5), new Long(3));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2,userSessionLocal.getUser(1L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4,userSessionLocal.getUser(2L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "HSSML", 5,userSessionLocal.getUser(3L)) );
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
