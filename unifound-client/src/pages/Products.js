@@ -2,18 +2,32 @@
 // import { useFormik } from 'formik';
 // import { useState } from 'react';
 // material
-import { Container, Stack, Typography } from '@mui/material';
+import React from 'react'
+import { Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Icon } from '@iconify/react';
+import plusFill from '@iconify/icons-eva/plus-fill';
+import { Link as RouterLink } from 'react-router-dom';
+
 // components
+import CreateLostFoundForm from '../components/_dashboard/lostandfound/CreateLFListing';
 import Page from '../components/Page';
 import {
   LostFoundListings
 } from '../components/_dashboard/lostandfound';
 
 import PRODUCTS from '../_mocks_/products';
-
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const [openFilter, setOpenFilter] = useState(false);
 
   // const formik = useFormik({
@@ -50,6 +64,31 @@ export default function EcommerceShop() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Lost And Found Listings
         </Typography>
+
+        <div>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Icon icon={plusFill} />}
+              onClick={handleClickOpen}
+            >
+              New Listing
+            </Button>
+
+            <Dialog open={open} onClose={handleClose} fullWidth>
+              <DialogTitle>Create a Lost And Found Listing</DialogTitle>
+
+              <DialogContent>
+                <DialogContentText> Please provide more details on the item that you have lost or found. </DialogContentText>
+                <CreateLostFoundForm handleClose={handleClose} />
+              </DialogContent>
+
+              <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
 
         {/* <Stack
           direction="row"

@@ -15,8 +15,6 @@ export const LostFoundListings = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
-      <Button as={Link} to='create'>Create</Button>
       <Grid container spacing={3}>
         {lostFoundListings.map((listing) => (
           <Grid key={listing.id} item xs={12} sm={5} md={3}>
@@ -24,7 +22,6 @@ export const LostFoundListings = (props) => {
           </Grid>
         ))}
       </Grid>
-    </React.Fragment>
   );
 }
 

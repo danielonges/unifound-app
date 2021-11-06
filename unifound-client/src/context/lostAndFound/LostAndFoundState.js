@@ -4,7 +4,9 @@ import axios from 'axios';
 import LostAndFoundContext from './lostAndFoundContext';
 import lostAndFoundReducer from './lostAndFoundReducer';
 import {
-    GET_ALL_LOSTFOUNDS
+    GET_ALL_LOSTFOUNDS,
+    CREATE_SUCCESS,
+    CREATE_FAIL
 } from '../types';
 
 const LostAndFoundState = (props) => {
@@ -24,27 +26,28 @@ const LostAndFoundState = (props) => {
         });
     };
 
-    // const createLostFoundListing = async (formData) => {
-    //     const config = {
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     };
+    // Create Lost And Found Listing
+  const createLostFoundListing = async (value, user) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    console.log(value);
+    try {
+      const res = await axios.post(`/lostnfound/create/${user.id}`, value, config);
 
-    //     try {
-    //         const res = await axios.post('/lostnfound', formData);
-    //         dispatch({
-    //             type: CREATE_LOSTFOUND,
-    //             payload: res.data
-    //         });
-    //         getAllLostFoundListings();
-    //     } catch (error) {
-    //         dispatch({
-    //             type: LOSTFOUND_ERROR,
-    //             payload: error.response.data.error
-    //         });
-    //     }
-    // };
+      dispatch({
+        type: CREATE_SUCCESS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: CREATE_FAIL,
+        payload: err.response.data.error
+      });
+    }
+  };
 
     // const setLostFoundListing = (lostFoundListing) => {
     //     dispatch({
@@ -65,8 +68,8 @@ const LostAndFoundState = (props) => {
         <LostAndFoundContext.Provider value={{
             lostFoundListing: state.lostFoundListing,
             lostFoundListings: state.lostFoundListings,
-            getAllLostFoundListings
-            // createLostFoundListing,
+            getAllLostFoundListings,
+            createLostFoundListing
             // updateLostFoundListing,
             // setLostFoundListing
         }}>
