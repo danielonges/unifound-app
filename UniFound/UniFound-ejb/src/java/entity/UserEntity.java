@@ -163,4 +163,12 @@ public class UserEntity implements Serializable {
         return "entity.User[ id=" + id + " ]";
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 }

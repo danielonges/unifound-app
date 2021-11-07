@@ -1,7 +1,8 @@
-import React, { createRef } from 'react';
+import React, { createRef, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import {
   Grid,
@@ -13,17 +14,16 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  TextField,
   DialogActions
 } from '@mui/material';
 
 // components
+import StudyBuddyContext from '../context/studyBuddy/studyBuddyContext';
 import Page from '../components/Page';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/blog';
 //
 import POSTS from '../_mocks_/blog';
-import { RegisterForm } from '../components/authentication/register';
-import { LoginForm } from '../components/authentication/login';
+import { StudyBuddyForm } from '../components/authentication/register';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +38,9 @@ const SORT_OPTIONS = [
 export default function StudyBuddy(props) {
   const [open, setOpen] = React.useState(false);
 
+  const studyBuddyContext = useContext(StudyBuddyContext);
+  const { studyBuddyListings, getStudyListings } = studyBuddyContext;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -45,6 +48,10 @@ export default function StudyBuddy(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    getStudyListings();
+  }, []);
 
   return (
     <Page title="Dashboard: Blog | Minimal-UI">
@@ -70,7 +77,7 @@ export default function StudyBuddy(props) {
 
               <DialogContent>
                 <DialogContentText> Preferred Study Buddy Details </DialogContentText>
-                <RegisterForm handleClose={handleClose} />
+                <StudyBuddyForm handleClose={handleClose} />
               </DialogContent>
 
               <DialogActions>
@@ -86,8 +93,8 @@ export default function StudyBuddy(props) {
         </Stack>
 
         <Grid container spacing={3}>
-          {POSTS.map((post, index) => (
-            <BlogPostCard key={post.id} post={post} index={index} />
+          {studyBuddyListings.map((listing, index) => (
+            <BlogPostCard key={listing.id} listing={listing} index={index} />
           ))}
         </Grid>
       </Container>

@@ -28,7 +28,7 @@ import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 // ----------------------------------------------------------------------
 
-export default function RegisterForm({ handleClose }) {
+export default function StudyBuddyForm({ handleClose }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const userContext = useContext(UserContext);
@@ -117,8 +117,8 @@ export default function RegisterForm({ handleClose }) {
           <FormControl component="fieldset">
             <FormLabel component="legend">Gender</FormLabel>
             <RadioGroup row aria-label="gender" name="gender" required {...getFieldProps('gender')}>
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel value="female" control={<Radio />} label="Female" />
+              <FormControlLabel value="Male" control={<Radio />} label="Male" />
+              <FormControlLabel value="Female" control={<Radio />} label="Female" />
             </RadioGroup>
           </FormControl>
 
