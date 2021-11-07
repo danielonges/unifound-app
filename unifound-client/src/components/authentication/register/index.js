@@ -1,1 +1,1 @@
-export { default as RegisterForm } from './createStudyBuddyForm';
+export { default as StudyBuddyForm } from './createStudyBuddyForm';

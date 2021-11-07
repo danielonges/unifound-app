@@ -7,6 +7,11 @@ const studyBuddyReducer = (state, action) => {
         ...state,
         studyBuddyListings: [action.payload, ...state.studyBuddyListings]
       };
+    case GET_STUDY_LISTINGS:
+      return {
+        ...state,
+        studyBuddyListings: action.payload
+      };
     default:
       return {
         ...state

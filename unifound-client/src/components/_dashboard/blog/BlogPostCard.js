@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import { Link as RouterLink } from 'react-router-dom';
@@ -6,7 +7,8 @@ import shareFill from '@iconify/icons-eva/share-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Button } from '@mui/material';
+import Flippy, { FrontSide, BackSide } from 'react-flippy';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -60,124 +62,197 @@ BlogPostCard.propTypes = {
   index: PropTypes.number
 };
 
-export default function BlogPostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
-  const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
+export default function BlogPostCard({ listing, index }) {
+  const { course, gender, module, yearOfStudy, location, groupsize, userEntity } = listing;
+  const latestPostLarge = index === 1000000;
+  const latestPost = index === 100000 || index === 20000;
 
-  const POST_INFO = [
-    { number: comment, icon: messageCircleFill },
-    { number: view, icon: eyeFill },
-    { number: share, icon: shareFill }
-  ];
+  const [isFlipped, flipCard] = useState(false);
+
+  // const POST_INFO = [
+  //   { number: comment, icon: messageCircleFill },
+  //   { number: view, icon: eyeFill },
+  //   { number: share, icon: shareFill }
+  // ];
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
-      <Card sx={{ position: 'relative' }}>
-        <CardMediaStyle
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
-              }
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)'
-              }
-            })
-          }}
-        >
-          <SvgIconStyle
-            color="paper"
-            src="/static/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              ...((latestPostLarge || latestPost) && { display: 'none' })
-            }}
-          />
-          <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
-            sx={{
-              ...((latestPostLarge || latestPost) && {
-                zIndex: 9,
-                top: 24,
-                left: 24,
-                width: 40,
-                height: 40
-              })
-            }}
-          />
-
-          <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle>
-
-        <CardContent
-          sx={{
-            pt: 4,
-            ...((latestPostLarge || latestPost) && {
-              bottom: 0,
-              width: '100%',
-              position: 'absolute'
-            })
-          }}
-        >
-          <Typography
-            gutterBottom
-            variant="caption"
-            sx={{ color: 'text.disabled', display: 'block' }}
-          >
-            {fDate(createdAt)}
-          </Typography>
-
-          <TitleStyle
-            to="#"
-            color="inherit"
-            variant="subtitle2"
-            underline="hover"
-            component={RouterLink}
-            sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
-                color: 'common.white'
-              })
-            }}
-          >
-            {title}
-          </TitleStyle>
-
-          <InfoStyle>
-            {POST_INFO.map((info, index) => (
-              <Box
-                key={index}
+      <Flippy flipOnHover>
+        <FrontSide>
+          <Card sx={{ position: 'relative' }}>
+            <CardMediaStyle
+              sx={{
+                ...((latestPostLarge || latestPost) && {
+                  pt: 'calc(100% * 4 / 3)',
+                  '&:after': {
+                    top: 0,
+                    content: "''",
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute'
+                    // bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
+                  }
+                }),
+                ...(latestPostLarge && {
+                  pt: {
+                    xs: 'calc(100% * 4 / 3)',
+                    sm: 'calc(100% * 3 / 4.66)'
+                  }
+                })
+              }}
+            >
+              <SvgIconStyle
+                color="paper"
+                src="/static/icons/shape-avatar.svg"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ml: index === 0 ? 0 : 1.5,
+                  width: 80,
+                  height: 36,
+                  zIndex: 9,
+                  bottom: -15,
+                  position: 'absolute',
+                  ...((latestPostLarge || latestPost) && { display: 'none' })
+                }}
+              />
+              <AvatarStyle
+                alt={userEntity.name}
+                // src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/COM1_new.jpg"
+                sx={{
                   ...((latestPostLarge || latestPost) && {
-                    color: 'grey.500'
+                    zIndex: 9,
+                    top: 24,
+                    left: 24,
+                    width: 40,
+                    height: 40
+                  })
+                }}
+              />
+              {location === 'CLB' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://blog.nus.edu.sg/linus/files/2021/02/photomania-630f01939d1f02bbefa829f2847238c1-1.jpg"
+                />
+              )}
+              {location === 'COM1' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/COM1_new.jpg"
+                />
+              )}
+              {location === 'UTOWN' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://uci.nus.edu.sg/suu/wp-content/uploads/sites/5/2019/11/ERC-Panorama-01-credit-to-Mun-Wai-Custom-Large.jpg"
+                />
+              )}
+              {location === 'ICUBE' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/ICUBE.jpg"
+                />
+              )}
+              {location === 'SCIENCE LIBRARY' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://www.streetdirectory.com/stock_images/travel/simg_show/12849533630807/259871_1024/faculty_of_science_s6_national_university_of_singapore_nus/"
+                />
+              )}
+            </CardMediaStyle>
+
+            <CardContent
+              sx={{
+                pt: 4,
+                ...((latestPostLarge || latestPost) && {
+                  bottom: 0,
+                  width: '100%',
+                  position: 'absolute'
+                })
+              }}
+            >
+              <Typography
+                gutterBottom
+                variant="caption"
+                sx={{ color: 'text.disabled', display: 'block' }}
+              >
+                Listed By: {userEntity.name}
+              </Typography>
+
+              <TitleStyle
+                to="#"
+                color="inherit"
+                variant="subtitle2"
+                underline="hover"
+                component={RouterLink}
+                sx={{
+                  ...(latestPostLarge && { typography: 'h5', height: 60 }),
+                  ...((latestPostLarge || latestPost) && {
+                    color: 'common.white'
                   })
                 }}
               >
-                <Box component={Icon} icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
-                <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
-              </Box>
-            ))}
-          </InfoStyle>
-        </CardContent>
-      </Card>
+                {module} Study Group
+              </TitleStyle>
+
+              <InfoStyle>{location}</InfoStyle>
+            </CardContent>
+          </Card>
+        </FrontSide>
+        <BackSide>
+          <Card sx={{ position: 'relative' }}>
+            {/* <CardMediaStyle
+              sx={{
+                ...((latestPostLarge || latestPost) && {
+                  pt: 'calc(100% * 4 / 3)',
+                  '&:after': {
+                    top: 0,
+                    content: "''",
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute'
+                    // bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
+                  }
+                }),
+                ...(latestPostLarge && {
+                  pt: {
+                    xs: 'calc(100% * 4 / 3)',
+                    sm: 'calc(100% * 3 / 4.66)'
+                  }
+                })
+              }}
+            /> */}
+
+            <CardContent sx={{ color: 'text.primary', fontSize: 12 }}>
+              <Typography sx={{ fontWeight: 'bold' }}> Preferences </Typography>
+              Module: {module} <br />
+              Academic Year: {yearOfStudy} <br />
+              Course: {course} <br />
+              Group Size: {groupsize} <br />
+              Location: {location} <br />
+              Gender: {gender} <br />
+              <TitleStyle
+                to="#"
+                color="forestgreen"
+                variant="subtitle2"
+                underline="hover"
+                component={RouterLink}
+              >
+                <br />
+                Sign Up Now!
+              </TitleStyle>
+              <Typography
+                gutterBottom
+                variant="caption"
+                sx={{ color: 'text.disabled', display: 'block' }}
+              >
+                <br />
+                Listed by: {userEntity.name} <br />
+                Course: {userEntity.course} <br />
+                Academic Year: {userEntity.academicYear} <br />
+                Gender: {userEntity.gender}
+              </Typography>
+            </CardContent>
+          </Card>
+        </BackSide>
+      </Flippy>
     </Grid>
   );
 }
