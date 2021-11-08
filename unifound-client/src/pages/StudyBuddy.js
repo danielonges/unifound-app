@@ -88,7 +88,7 @@ export default function StudyBuddy(props) {
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <BlogPostsSearch posts={POSTS} />
+          <BlogPostsSearch listing={studyBuddyListings} />
           <BlogPostsSort options={SORT_OPTIONS} />
         </Stack>
 

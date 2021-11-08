@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,6 +9,8 @@ import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Button } from '@mui/material';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
+// context
+import UserContext from '../../../context/user/userContext';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -64,10 +66,21 @@ BlogPostCard.propTypes = {
 
 export default function BlogPostCard({ listing, index }) {
   const { course, gender, module, yearOfStudy, location, groupsize, userEntity } = listing;
+
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
   const latestPostLarge = index === 1000000;
   const latestPost = index === 100000 || index === 20000;
 
-  const [isFlipped, flipCard] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // const POST_INFO = [
   //   { number: comment, icon: messageCircleFill },
@@ -156,6 +169,30 @@ export default function BlogPostCard({ listing, index }) {
                   src="https://www.streetdirectory.com/stock_images/travel/simg_show/12849533630807/259871_1024/faculty_of_science_s6_national_university_of_singapore_nus/"
                 />
               )}
+              {location === 'COM2' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/COM2_new.jpg"
+                />
+              )}
+              {location === 'TECHNO EDGE' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://nus.edu.sg/alumnet/images/librariesprovider2/mcalumnihappeningsubmissionimages/seat-11-27-2021-3-46-22-pm.png?sfvrsn=3e3ee824_2"
+                />
+              )}
+              {location === 'MOCHTAR RIADY BUILDING' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="http://bschool.nus.edu.sg/wp-content/uploads/2018/09/mrb-1-900x450.jpg"
+                />
+              )}
+              {location === 'HSSML' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://libportal.nus.edu.sg/media/ms_teli/HSSML.png"
+                />
+              )}
             </CardMediaStyle>
 
             <CardContent
@@ -228,16 +265,29 @@ export default function BlogPostCard({ listing, index }) {
               Group Size: {groupsize} <br />
               Location: {location} <br />
               Gender: {gender} <br />
-              <TitleStyle
-                to="#"
-                color="forestgreen"
-                variant="subtitle2"
-                underline="hover"
-                component={RouterLink}
-              >
-                <br />
-                Sign Up Now!
-              </TitleStyle>
+              {user.id !== userEntity.id ? (
+                <TitleStyle
+                  to="#"
+                  color="forestgreen"
+                  variant="subtitle2"
+                  underline="hover"
+                  component={RouterLink}
+                >
+                  <br />
+                  Sign Up Now!
+                </TitleStyle>
+              ) : (
+                <TitleStyle
+                  to="#"
+                  color="red"
+                  variant="subtitle2"
+                  underline="hover"
+                  component={RouterLink}
+                >
+                  <br />
+                  Delete Listing
+                </TitleStyle>
+              )}
               <Typography
                 gutterBottom
                 variant="caption"

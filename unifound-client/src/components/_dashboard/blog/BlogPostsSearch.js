@@ -1,9 +1,14 @@
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
+import { Form, useFormik, FormikProvider } from 'formik';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, TextField, Autocomplete, InputAdornment } from '@mui/material';
+import { handleBreakpoints } from '@mui/system';
+// context
+import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 
 // ----------------------------------------------------------------------
 
@@ -40,42 +45,67 @@ BlogPostsSearch.propTypes = {
   posts: PropTypes.array.isRequired
 };
 
-export default function BlogPostsSearch({ posts }) {
+export default function BlogPostsSearch({ listing }) {
+  function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+  }
+  const studyBuddyContext = useContext(StudyBuddyContext);
+  const { getStudyListingByModule } = studyBuddyContext;
+
+  const formik = useFormik({
+    initialValues: {
+      module: ''
+    },
+
+    onSubmit: (value) => {
+      getStudyListingByModule(value.module);
+    }
+  });
+
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+
+  const optionsUnique = getUniqueListBy(listing, 'module');
+
   return (
-    <RootStyle>
-      <Autocomplete
-        size="small"
-        disablePortal
-        popupIcon={null}
-        options={posts}
-        getOptionLabel={(post) => post.title}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder="Search post..."
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <>
-                  <InputAdornment position="start">
-                    <Box
-                      component={Icon}
-                      icon={searchFill}
-                      sx={{
-                        ml: 1,
-                        width: 20,
-                        height: 20,
-                        color: 'text.disabled'
-                      }}
-                    />
-                  </InputAdornment>
-                  {params.InputProps.startAdornment}
-                </>
-              )
-            }}
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <RootStyle>
+          <Autocomplete
+            size="small"
+            disablePortal
+            popupIcon={null}
+            options={optionsUnique}
+            getOptionLabel={(option) => option.module}
+            onChange={(e, value) => setFieldValue('module', value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Search modules..."
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <>
+                      <InputAdornment position="start">
+                        <Box
+                          component={Icon}
+                          icon={searchFill}
+                          sx={{
+                            ml: 1,
+                            width: 20,
+                            height: 20,
+                            color: 'text.disabled'
+                          }}
+                        />
+                      </InputAdornment>
+                      {params.InputProps.startAdornment}
+                    </>
+                  )
+                }}
+              />
+            )}
           />
-        )}
-      />
-    </RootStyle>
+        </RootStyle>
+      </Form>
+    </FormikProvider>
   );
 }
