@@ -11,6 +11,7 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import Profile from './pages/Profile';
 import LFListing from './pages/LostFoundListing';
+import Chats from './pages/Chats';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,8 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'lostfound', element: <LostFounds /> },
         { path: 'viewlostfound/:id', element: <LFListing /> },
-        { path: 'studybuddy', element: <Blog /> }
+        { path: 'studybuddy', element: <Blog /> },
+        { path: 'chats', element: <Chats /> }
       ]
     },
     {
