@@ -55,7 +55,7 @@ const LostAndFoundState = (props) => {
       type: GET_LOSTFOUND,
       payload: res.data
     });
-  }
+  };
 
   // const setLostFoundListing = (lostFoundListing) => {
   //     dispatch({
@@ -95,7 +95,7 @@ const LostAndFoundState = (props) => {
       const res = await axios.delete(`/lostnfound/delete/${listingId}`);
       dispatch({
         type: DELETE_LOSTFOUND,
-        payload: res.data
+        payload: listingId
       });
     } catch (err) {
       dispatch({
@@ -106,16 +106,18 @@ const LostAndFoundState = (props) => {
   };
 
   return (
-    <LostAndFoundContext.Provider value={{
-      lostFoundListing: state.lostFoundListing,
-      lostFoundListings: state.lostFoundListings,
-      getAllLostFoundListings,
-      createLostFoundListing,
-      getLostFoundListing,
-      updateLostFoundListing,
-      deleteLostFoundListing
-      // setLostFoundListing
-    }}>
+    <LostAndFoundContext.Provider
+      value={{
+        lostFoundListing: state.lostFoundListing,
+        lostFoundListings: state.lostFoundListings,
+        getAllLostFoundListings,
+        createLostFoundListing,
+        getLostFoundListing,
+        updateLostFoundListing,
+        deleteLostFoundListing
+        // setLostFoundListing
+      }}
+    >
       {props.children}
     </LostAndFoundContext.Provider>
   );

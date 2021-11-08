@@ -71,7 +71,13 @@ public class StudyBuddyResource {
     @Path("/search/{module}")
      @Produces(MediaType.APPLICATION_JSON)
     public Response getStudyListingsByModule(@PathParam ("module") String module) {
+        if(module.length()>0) {
+            System.out.println("*************");
         return Response.status(200).entity(studyBuddySessionBeanLocal.getStudyListingsByModule(module)).build();
+        } else {
+            System.out.println("hellooooo");
+            return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
+        }
     }
 
     @GET

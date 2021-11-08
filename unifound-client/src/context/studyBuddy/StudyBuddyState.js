@@ -38,7 +38,7 @@ const StudyBuddyState = (props) => {
         type: GET_STUDY_LISTINGS,
         payload: res.data
       });
-      console.log(res.data);
+      console.log(obj);
     } catch (err) {
       dispatch({
         type: CREATE_ERROR,

@@ -58,8 +58,7 @@ export default function BlogPostsSearch({ listing }) {
     },
 
     onSubmit: (value) => {
-      console.log(value);
-      getStudyListingByModule(value);
+      getStudyListingByModule(value.module);
     }
   });
 
@@ -77,7 +76,7 @@ export default function BlogPostsSearch({ listing }) {
             popupIcon={null}
             options={optionsUnique}
             getOptionLabel={(option) => option.module}
-            onChange={(e, value) => setFieldValue('module', value.module)}
+            onChange={(e, value) => setFieldValue('module', value)}
             renderInput={(params) => (
               <TextField
                 {...params}

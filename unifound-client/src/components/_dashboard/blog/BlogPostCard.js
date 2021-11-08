@@ -169,6 +169,30 @@ export default function BlogPostCard({ listing, index }) {
                   src="https://www.streetdirectory.com/stock_images/travel/simg_show/12849533630807/259871_1024/faculty_of_science_s6_national_university_of_singapore_nus/"
                 />
               )}
+              {location === 'COM2' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/COM2_new.jpg"
+                />
+              )}
+              {location === 'TECHNO EDGE' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://nus.edu.sg/alumnet/images/librariesprovider2/mcalumnihappeningsubmissionimages/seat-11-27-2021-3-46-22-pm.png?sfvrsn=3e3ee824_2"
+                />
+              )}
+              {location === 'MOCHTAR RIADY BUILDING' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="http://bschool.nus.edu.sg/wp-content/uploads/2018/09/mrb-1-900x450.jpg"
+                />
+              )}
+              {location === 'HSSML' && (
+                <CoverImgStyle
+                  alt={location}
+                  src="https://libportal.nus.edu.sg/media/ms_teli/HSSML.png"
+                />
+              )}
             </CardMediaStyle>
 
             <CardContent
