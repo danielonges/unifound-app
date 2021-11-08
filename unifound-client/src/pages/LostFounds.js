@@ -1,24 +1,17 @@
 /* eslint-disable prettier/prettier */
-// import { useFormik } from 'formik';
-// import { useState } from 'react';
-// material
 import React from 'react'
 import { Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 
-// components
 import CreateLostFoundForm from '../components/_dashboard/lostandfound/CreateLFListing';
 import Page from '../components/Page';
 import {
   LostFoundListings
 } from '../components/_dashboard/lostandfound';
 
-import PRODUCTS from '../_mocks_/products';
-// ----------------------------------------------------------------------
-
-export default function EcommerceShop() {
+export default function LostFoundDashboard() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -81,7 +74,7 @@ export default function EcommerceShop() {
 
               <DialogContent>
                 <DialogContentText> Please provide more details on the item that you have lost or found. </DialogContentText>
-                <CreateLostFoundForm handleClose={handleClose} />
+                <CreateLostFoundForm listingId={null} handleClose={handleClose} />
               </DialogContent>
 
               <DialogActions>
@@ -109,7 +102,7 @@ export default function EcommerceShop() {
           </Stack>
         </Stack> */}
 
-        <LostFoundListings products={PRODUCTS} />
+        <LostFoundListings />
         {/* <ProductCartWidget /> */}
       </Container>
     </Page>

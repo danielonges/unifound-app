@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package session;
+package singleton;
 
 import entity.LostFoundListing;
 import entity.OldTextbookListing;
 import entity.StudyBuddyListing;
 import entity.UserEntity;
-import enumeration.CourseEnum;
 import enumeration.UserStatusEnum;
 import exception.UserAlreadyExistException;
 import exception.UserNotFoundException;
@@ -23,6 +22,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.LostFoundSessionBeanLocal;
+import session.ModuleSessionBeanLocal;
+import session.OldTextbookSessionBeanLocal;
+import session.StudyBuddySessionBeanLocal;
+import session.UserSessionLocal;
 
 
 @Singleton

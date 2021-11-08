@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
-// material
 import {
     Stack,
     TextField,
@@ -17,15 +16,14 @@ import {
 import nuslocation from '../../../_mocks_/nuslocation';
 import UserContext from '../../../context/user/userContext';
 import LostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
-// ----------------------------------------------------------------------
 
-export default function CreateLostFoundForm({ handleClose }) {
+export default function CreateLostFoundForm({ listingId, handleClose }) {
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
     const { user } = userContext;
     const lostAndFoundContext = useContext(LostAndFoundContext);
 
-    const { createLostFoundListing } = lostAndFoundContext;
+    const { createLostFoundListing, updateLostFoundListing } = lostAndFoundContext;
 
     //   const RegisterSchema = Yup.object().shape({
     //     gender: Yup.string().required('Gender is required'),
@@ -42,13 +40,23 @@ export default function CreateLostFoundForm({ handleClose }) {
         },
         // validationSchema: RegisterSchema,
         onSubmit: (value) => {
-            console.log(value);
-            createLostFoundListing(value, user);
+            if (!listingId) createLostFoundListing(value, user);
+            else updateLostFoundListing(value, listingId);
             handleClose();
         }
     });
 
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+
+    useEffect(() => {
+        if (!listingId) return;
+        setFieldValue('name', lostAndFoundContext.lostFoundListing.name);
+        setFieldValue('description', lostAndFoundContext.lostFoundListing.description);
+        console.log(lostAndFoundContext.lostFoundListing.location);
+        setFieldValue('location', lostAndFoundContext.lostFoundListing.location);
+        setFieldValue('comments', lostAndFoundContext.lostFoundListing.comments);
+        setFieldValue('type', lostAndFoundContext.lostFoundListing.type);
+    }, [])
 
     return (
         <FormikProvider value={formik}>
@@ -77,7 +85,7 @@ export default function CreateLostFoundForm({ handleClose }) {
                         options={nuslocation}
                         sx={{ width: 300 }}
                         required
-                        onChange={(e, value) => setFieldValue('location', value)}
+                        onChange={(e, value) => {setFieldValue('location', value); console.log(value); }}
                         renderInput={(params) => <TextField {...params} required label="Location" />}
                     />
 
@@ -98,7 +106,7 @@ export default function CreateLostFoundForm({ handleClose }) {
                     </FormControl>
 
                     <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                        Create Lost And Found Listing
+                        {listingId ? 'Edit' : 'Create'} Lost And Found Listing
                     </Button>
                 </Stack>
             </Form>

@@ -1,12 +1,11 @@
+/* eslint-disable prefer-template */
 /* eslint-disable prettier/prettier */
-import PropTypes from 'prop-types';
+import { useContext } from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-// material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-//
-import Label from '../../Label';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
+import { Icon } from '@iconify/react';
+import trashFill from '@iconify/icons-eva/trash-2-fill';
+import lostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
 // import ColorPreview from '../../ColorPreview';
 
 // ----------------------------------------------------------------------
@@ -25,13 +24,16 @@ import Label from '../../Label';
 //   product: PropTypes.object
 // };
 
-export default function ProductCard({ params }) {
-  const { name, description } = params;
+export default function LostFoundCard({ lostFoundItem }) {
+  const lostFoundContext = useContext(lostAndFoundContext);
+  const { deleteLostFoundListing } = lostFoundContext;
 
+
+  const { id, name, description } = lostFoundItem;
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <Label
+        {/* <Label
           variant="filled"
           color="info"
           sx={{
@@ -41,14 +43,16 @@ export default function ProductCard({ params }) {
             position: 'absolute',
             textTransform: 'uppercase'
           }}
-        />
-        ){/* <ProductImgStyle alt={name} src={cover} /> */}
+        /> */}
+        IMAGE
+        {/* <ProductImgStyle alt={name} src={cover} /> */}
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+        <Link to={{ pathname: "/dashboard/viewlostfound/" + id }} color="inherit" underline="hover" component={RouterLink}>
           <Typography variant="subtitle2" noWrap>
-            <Link>{name}</Link>
+            {name}
+            {/* </Link> */}
           </Typography>
         </Link>
 
@@ -69,6 +73,14 @@ export default function ProductCard({ params }) {
             &nbsp;
             {/* {fCurrency(price)} */}
           </Typography>
+        </Stack>
+        <Stack>
+          <Button
+            variant="contained"
+            startIcon={<Icon icon={trashFill} />}
+            onClick={() => deleteLostFoundListing(lostFoundItem.id)}>
+            Delete
+          </Button>
         </Stack>
       </Stack>
     </Card>

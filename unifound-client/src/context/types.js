@@ -13,6 +13,7 @@ export const DELETE_LOSTFOUND = 'DELETE_LOSTFOUND';
 export const SET_LOSTFOUND = 'SET_LOSTFOUND';
 export const GET_ALL_LOSTFOUNDS = 'GET_ALL_LOSTFOUNDS';
 export const LOSTFOUND_ERROR = 'LOSTFOUND_ERROR';
+export const GET_LOSTFOUND = 'GET_LOSTFOUND';
 
 // study buddy types
 export const CREATE_ERROR = 'CREATE_ERROR';

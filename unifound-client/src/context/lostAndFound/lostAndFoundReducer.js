@@ -4,23 +4,18 @@ import {
     SET_LOSTFOUND,
     UPDATE_LOSTFOUND,
     DELETE_LOSTFOUND,
-    GET_ALL_LOSTFOUNDS
+    GET_ALL_LOSTFOUNDS,
+    GET_LOSTFOUND
 } from "../types";
 
 const lostAndFoundReducer = (state, action) => {
     switch (action.type) {
         case CREATE_LOSTFOUND:
+        case UPDATE_LOSTFOUND:
         case SET_LOSTFOUND:
             return {
                 ...state,
                 lostFoundListing: action.payload
-            };
-        case UPDATE_LOSTFOUND:
-            return {
-                ...state,
-                lostFoundListing: state.lostFoundListings.find(
-                    (currListing) => currListing.id === state.lostFoundListing.id
-                )
             };
         case DELETE_LOSTFOUND:
             return {
@@ -32,6 +27,11 @@ const lostAndFoundReducer = (state, action) => {
                 ...state,
                 lostFoundListings: action.payload
             };
+        case GET_LOSTFOUND:
+            return {
+                ...state,
+                lostFoundListing: action.payload
+            }
         default:
             return state;
     }
