@@ -29,6 +29,24 @@ const StudyBuddyState = (props) => {
     }
   };
 
+  // Get Study Listing by searching module
+  const getStudyListingByModule = async (obj) => {
+    try {
+      const res = await axios.get(`/studybuddy/search/${obj.module}`);
+
+      dispatch({
+        type: GET_STUDY_LISTINGS,
+        payload: res.data
+      });
+      console.log(res.data);
+    } catch (err) {
+      dispatch({
+        type: CREATE_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
   // Create Study Listing
   const createStudyListing = async (value, user) => {
     const config = {
@@ -57,7 +75,8 @@ const StudyBuddyState = (props) => {
       value={{
         studyBuddyListings: state.studyBuddyListings,
         createStudyListing,
-        getStudyListings
+        getStudyListings,
+        getStudyListingByModule
       }}
     >
       {props.children}

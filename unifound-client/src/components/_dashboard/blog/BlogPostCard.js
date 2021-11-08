@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,6 +9,8 @@ import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Button } from '@mui/material';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
+// context
+import UserContext from '../../../context/user/userContext';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -64,10 +66,21 @@ BlogPostCard.propTypes = {
 
 export default function BlogPostCard({ listing, index }) {
   const { course, gender, module, yearOfStudy, location, groupsize, userEntity } = listing;
+
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
   const latestPostLarge = index === 1000000;
   const latestPost = index === 100000 || index === 20000;
 
-  const [isFlipped, flipCard] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // const POST_INFO = [
   //   { number: comment, icon: messageCircleFill },
@@ -228,16 +241,29 @@ export default function BlogPostCard({ listing, index }) {
               Group Size: {groupsize} <br />
               Location: {location} <br />
               Gender: {gender} <br />
-              <TitleStyle
-                to="#"
-                color="forestgreen"
-                variant="subtitle2"
-                underline="hover"
-                component={RouterLink}
-              >
-                <br />
-                Sign Up Now!
-              </TitleStyle>
+              {user.id !== userEntity.id ? (
+                <TitleStyle
+                  to="#"
+                  color="forestgreen"
+                  variant="subtitle2"
+                  underline="hover"
+                  component={RouterLink}
+                >
+                  <br />
+                  Sign Up Now!
+                </TitleStyle>
+              ) : (
+                <TitleStyle
+                  to="#"
+                  color="red"
+                  variant="subtitle2"
+                  underline="hover"
+                  component={RouterLink}
+                >
+                  <br />
+                  Delete Listing
+                </TitleStyle>
+              )}
               <Typography
                 gutterBottom
                 variant="caption"
