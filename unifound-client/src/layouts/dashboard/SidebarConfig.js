@@ -23,8 +23,8 @@ const sidebarConfig = [
     icon: getIcon(peopleFill)
   },
   {
-    title: 'product',
-    path: '/dashboard/products',
+    title: 'lost and found',
+    path: '/dashboard/lostfound',
     icon: getIcon(shoppingBagFill)
   },
   {

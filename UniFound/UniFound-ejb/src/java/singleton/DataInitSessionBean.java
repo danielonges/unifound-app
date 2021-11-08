@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package session;
+package singleton;
 
 import entity.LostFoundListing;
 import entity.OldTextbookListing;
 import entity.StudyBuddyListing;
 import entity.UserEntity;
-import enumeration.CourseEnum;
 import enumeration.UserStatusEnum;
 import exception.UserAlreadyExistException;
 import exception.UserNotFoundException;
@@ -23,6 +22,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.LostFoundSessionBeanLocal;
+import session.ModuleSessionBeanLocal;
+import session.OldTextbookSessionBeanLocal;
+import session.StudyBuddySessionBeanLocal;
+import session.UserSessionLocal;
 
 
 @Singleton
@@ -70,9 +74,9 @@ public class DataInitSessionBean {
 
     public void initialiseLostFound() {
         try {
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "abc", "Electronics", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "LOST"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "def", "Electronics", "Last seen at YIH", "YIH", "Please help!", "LOST"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "ghi", "Education", "Found an econs textbook", "COM1", "Chat me if it's yours", "FOUND"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "Last seen at YIH", "YIH", "Please help!", "lost"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "Found an econs textbook", "COM1", "Chat me if it's yours", "found"), new Long(1));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }

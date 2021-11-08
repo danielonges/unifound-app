@@ -8,19 +8,21 @@ import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
 import UserState from './context/user/UserState';
 import StudyBuddyState from './context/studyBuddy/StudyBuddyState';
-
+import LostAndFoundState from './context/lostAndFound/LostAndFoundState';
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
     <ThemeConfig>
       <UserState>
-        <StudyBuddyState>
-          <ScrollToTop />
-          <GlobalStyles />
-          <BaseOptionChartStyle />
-          <Router />
-        </StudyBuddyState>
+        <LostAndFoundState>
+          <StudyBuddyState>
+            <ScrollToTop />
+            <GlobalStyles />
+            <BaseOptionChartStyle />
+            <Router />
+          </StudyBuddyState>
+        </LostAndFoundState>
       </UserState>
     </ThemeConfig>
   );
