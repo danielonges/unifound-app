@@ -18,7 +18,7 @@ import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
-import { RegisterForm } from '../components/authentication/register';
+// import { RegisterForm } from '../components/authentication/register';
 import AuthSocial from '../components/authentication/AuthSocial';
 import UserContext from '../context/user/userContext';
 
@@ -86,7 +86,7 @@ export default function Profile() {
 
           {/* <AuthSocial /> */}
 
-          <RegisterForm />
+          {/* <RegisterForm /> */}
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             By registering, I agree to Minimal&nbsp;
