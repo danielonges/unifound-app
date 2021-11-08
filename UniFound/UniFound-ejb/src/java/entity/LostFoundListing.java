@@ -23,8 +23,8 @@ public class LostFoundListing implements Serializable {
     private Long id;
     
     private String name;
-    private String image;
-    private String category;
+    // private String image;
+    // private String category;
     private String description;
     private String location;
     private String comments;
@@ -36,10 +36,10 @@ public class LostFoundListing implements Serializable {
     public LostFoundListing() {
     }
 
-    public LostFoundListing(String name, String image, String category, String description, String location, String comments, String type) {
+    public LostFoundListing(String name, String description, String location, String comments, String type) {
         this.name = name;
-        this.image = image;
-        this.category = category;
+        // this.image = image;
+        // this.category = category;
         this.description = description;
         this.location = location;
         this.comments = comments;
@@ -54,21 +54,21 @@ public class LostFoundListing implements Serializable {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+//
+//    public String getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(String category) {
+//        this.category = category;
+//    }
 
     public String getDescription() {
         return description;
@@ -133,6 +133,14 @@ public class LostFoundListing implements Serializable {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
 }
