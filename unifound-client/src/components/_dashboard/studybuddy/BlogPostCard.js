@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import { Link as RouterLink } from 'react-router-dom';
+
 import shareFill from '@iconify/icons-eva/share-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
@@ -27,7 +28,9 @@ import Flippy, { FrontSide, BackSide } from 'react-flippy';
 import trashFill from '@iconify/icons-eva/trash-2-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import logoutFill from '@iconify/icons-eva/log-out-fill';
+import edit2Fill from '@iconify/icons-eva/edit-2-fill';
 // context
+import { EditStudyBuddy } from '../../authentication/register';
 import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 // utils
@@ -102,17 +105,13 @@ export default function BlogPostCard({ listing, index }) {
   const latestPost = index === 100000 || index === 20000;
 
   const [open, setOpen] = useState(false);
+  const [openSecond, setOpenSecond] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleConfirm = () => {
-    setOpen(false);
-  };
-
   const handleCancel = () => {
-    // console.log(users.find((value) => value.id === user.id) !== undefined);
     setOpen(false);
   };
 
@@ -244,7 +243,7 @@ export default function BlogPostCard({ listing, index }) {
                 variant="caption"
                 sx={{ color: 'text.disabled', display: 'block' }}
               >
-                Listed By: {users[0].name}
+                Listed By: {users !== undefined && users[0].name}
               </Typography>
 
               <TitleStyle
@@ -293,9 +292,28 @@ export default function BlogPostCard({ listing, index }) {
                 <Stack>
                   <Button
                     variant="contained"
+                    color="info"
+                    startIcon={<Icon icon={edit2Fill} />}
+                    onClick={() => setOpenSecond(true)}
+                  >
+                    Edit
+                  </Button>
+                  <Dialog open={openSecond} onClose={() => setOpenSecond(false)} fullWidth>
+                    <DialogTitle>Edit Study Buddy Listing</DialogTitle>
+
+                    <DialogContent>
+                      <EditStudyBuddy handleClose={() => setOpenSecond(false)} listing={listing} />
+                    </DialogContent>
+
+                    <DialogActions>
+                      <Button onClick={() => setOpenSecond(false)}>Close</Button>
+                    </DialogActions>
+                  </Dialog>
+                  <Button
+                    variant="contained"
                     color="error"
                     startIcon={<Icon icon={trashFill} />}
-                    onClick={() => handleClickOpen()}
+                    onClick={handleClickOpen}
                   >
                     Delete
                   </Button>
@@ -323,7 +341,7 @@ export default function BlogPostCard({ listing, index }) {
                     <Button
                       variant="contained"
                       startIcon={<Icon icon={plusFill} />}
-                      onClick={() => handleClickOpen()}
+                      onClick={handleClickOpen}
                     >
                       Sign Up Now!
                     </Button>
@@ -351,7 +369,7 @@ export default function BlogPostCard({ listing, index }) {
                     <Button
                       variant="contained"
                       startIcon={<Icon icon={logoutFill} />}
-                      onClick={() => handleClickOpen()}
+                      onClick={handleClickOpen}
                       color="warning"
                     >
                       Leave Study Group

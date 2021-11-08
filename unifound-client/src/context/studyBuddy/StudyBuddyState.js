@@ -61,7 +61,7 @@ const StudyBuddyState = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    console.log(value);
+
     try {
       const res = await axios.post(`/studybuddy/${user.id}`, value, config);
 
@@ -94,6 +94,29 @@ const StudyBuddyState = (props) => {
     }
   };
 
+  // Edit Study Listing
+  const editStudyListing = async (listing) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.put(`/studybuddy/${listing.id}`, listing, config);
+
+      dispatch({
+        type: EDIT_STUDY_LISTING,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
   // Join Study Listing
   const joinStudyListing = async (listing, user) => {
     const config = {
@@ -117,7 +140,7 @@ const StudyBuddyState = (props) => {
     }
   };
 
-  // Join Study Listing
+  // Leave Study Listing
   const leaveStudyListing = async (listing, user) => {
     const config = {
       headers: {
@@ -153,7 +176,8 @@ const StudyBuddyState = (props) => {
         getStudyListingByModule,
         deleteStudyListing,
         joinStudyListing,
-        leaveStudyListing
+        leaveStudyListing,
+        editStudyListing
       }}
     >
       {props.children}
