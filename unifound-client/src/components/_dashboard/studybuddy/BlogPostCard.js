@@ -7,10 +7,29 @@ import shareFill from '@iconify/icons-eva/share-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Button } from '@mui/material';
+import {
+  Box,
+  Link,
+  Card,
+  Grid,
+  Avatar,
+  Typography,
+  CardContent,
+  Button,
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from '@mui/material';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
+import trashFill from '@iconify/icons-eva/trash-2-fill';
+import plusFill from '@iconify/icons-eva/plus-fill';
+import logoutFill from '@iconify/icons-eva/log-out-fill';
 // context
 import UserContext from '../../../context/user/userContext';
+import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -49,6 +68,14 @@ const InfoStyle = styled('div')(({ theme }) => ({
   color: theme.palette.text.disabled
 }));
 
+const InfoStyleSecond = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-end',
+  marginTop: theme.spacing(3),
+  color: theme.palette.text
+}));
+
 const CoverImgStyle = styled('img')({
   top: 0,
   width: '100%',
@@ -65,9 +92,11 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ listing, index }) {
-  const { course, gender, module, yearOfStudy, location, groupsize, userEntity } = listing;
+  const { course, gender, module, yearOfStudy, location, groupsize, users } = listing;
 
   const userContext = useContext(UserContext);
+  const studyBuddyContext = useContext(StudyBuddyContext);
+  const { deleteStudyListing, joinStudyListing, leaveStudyListing } = studyBuddyContext;
   const { user } = userContext;
   const latestPostLarge = index === 1000000;
   const latestPost = index === 100000 || index === 20000;
@@ -78,7 +107,12 @@ export default function BlogPostCard({ listing, index }) {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleConfirm = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    // console.log(users.find((value) => value.id === user.id) !== undefined);
     setOpen(false);
   };
 
@@ -127,7 +161,7 @@ export default function BlogPostCard({ listing, index }) {
                 }}
               />
               <AvatarStyle
-                alt={userEntity.name}
+                // alt={userEntity.name}
                 // src="https://www.comp.nus.edu.sg/images/resources/content/mapsvenues/COM1_new.jpg"
                 sx={{
                   ...((latestPostLarge || latestPost) && {
@@ -210,7 +244,7 @@ export default function BlogPostCard({ listing, index }) {
                 variant="caption"
                 sx={{ color: 'text.disabled', display: 'block' }}
               >
-                Listed By: {userEntity.name}
+                Listed By: {users[0].name}
               </Typography>
 
               <TitleStyle
@@ -226,37 +260,16 @@ export default function BlogPostCard({ listing, index }) {
                   })
                 }}
               >
-                {module} Study Group
+                {module} Study Group <br />
+                Currently: {users.length} / {groupsize}
               </TitleStyle>
 
-              <InfoStyle>{location}</InfoStyle>
+              <InfoStyle> {location}</InfoStyle>
             </CardContent>
           </Card>
         </FrontSide>
         <BackSide>
           <Card sx={{ position: 'relative' }}>
-            {/* <CardMediaStyle
-              sx={{
-                ...((latestPostLarge || latestPost) && {
-                  pt: 'calc(100% * 4 / 3)',
-                  '&:after': {
-                    top: 0,
-                    content: "''",
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute'
-                    // bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
-                  }
-                }),
-                ...(latestPostLarge && {
-                  pt: {
-                    xs: 'calc(100% * 4 / 3)',
-                    sm: 'calc(100% * 3 / 4.66)'
-                  }
-                })
-              }}
-            /> */}
-
             <CardContent sx={{ color: 'text.primary', fontSize: 12 }}>
               <Typography sx={{ fontWeight: 'bold' }}> Preferences </Typography>
               Module: {module} <br />
@@ -265,40 +278,102 @@ export default function BlogPostCard({ listing, index }) {
               Group Size: {groupsize} <br />
               Location: {location} <br />
               Gender: {gender} <br />
-              {user.id !== userEntity.id ? (
-                <TitleStyle
-                  to="#"
-                  color="forestgreen"
-                  variant="subtitle2"
-                  underline="hover"
-                  component={RouterLink}
-                >
-                  <br />
-                  Sign Up Now!
-                </TitleStyle>
-              ) : (
-                <TitleStyle
-                  to="#"
-                  color="red"
-                  variant="subtitle2"
-                  underline="hover"
-                  component={RouterLink}
-                >
-                  <br />
-                  Delete Listing
-                </TitleStyle>
-              )}
               <Typography
                 gutterBottom
                 variant="caption"
                 sx={{ color: 'text.disabled', display: 'block' }}
               >
                 <br />
-                Listed by: {userEntity.name} <br />
-                Course: {userEntity.course} <br />
-                Academic Year: {userEntity.academicYear} <br />
-                Gender: {userEntity.gender}
+                Listed by: {users[0].name} <br />
+                Course: {users[0].course} <br />
+                Academic Year: {users[0].academicYear} <br />
+                Gender: {users[0].gender}
               </Typography>
+              {user !== null && user.id === users[0].id && (
+                <Stack>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<Icon icon={trashFill} />}
+                    onClick={() => handleClickOpen()}
+                  >
+                    Delete
+                  </Button>
+                  <Dialog open={open} onClose={handleCancel}>
+                    <DialogTitle>Confirm Delete?</DialogTitle>
+
+                    <DialogActions>
+                      {' '}
+                      <Button
+                        onClick={() => {
+                          deleteStudyListing(listing.id);
+                          setOpen(false);
+                        }}
+                      >
+                        Yes
+                      </Button>
+                      <Button onClick={handleCancel}>No</Button>
+                    </DialogActions>
+                  </Dialog>{' '}
+                </Stack>
+              )}{' '}
+              {user.id !== users[0].id &&
+                users.find((value) => value.id === user.id) === undefined && (
+                  <Stack>
+                    <Button
+                      variant="contained"
+                      startIcon={<Icon icon={plusFill} />}
+                      onClick={() => handleClickOpen()}
+                    >
+                      Sign Up Now!
+                    </Button>
+                    <Dialog open={open} onClose={handleCancel}>
+                      <DialogTitle>Apply to {module} study group</DialogTitle>
+
+                      <DialogActions>
+                        {' '}
+                        <Button
+                          onClick={() => {
+                            joinStudyListing(listing, user);
+                            setOpen(false);
+                          }}
+                        >
+                          Yes
+                        </Button>
+                        <Button onClick={handleCancel}>No</Button>
+                      </DialogActions>
+                    </Dialog>{' '}
+                  </Stack>
+                )}
+              {user.id !== users[0].id &&
+                users.find((value) => value.id === user.id) !== undefined && (
+                  <Stack>
+                    <Button
+                      variant="contained"
+                      startIcon={<Icon icon={logoutFill} />}
+                      onClick={() => handleClickOpen()}
+                      color="warning"
+                    >
+                      Leave Study Group
+                    </Button>
+                    <Dialog open={open} onClose={handleCancel}>
+                      <DialogTitle>Leave {module} study group</DialogTitle>
+
+                      <DialogActions>
+                        {' '}
+                        <Button
+                          onClick={() => {
+                            leaveStudyListing(listing, user);
+                            setOpen(false);
+                          }}
+                        >
+                          Yes
+                        </Button>
+                        <Button onClick={handleCancel}>No</Button>
+                      </DialogActions>
+                    </Dialog>{' '}
+                  </Stack>
+                )}
             </CardContent>
           </Card>
         </BackSide>

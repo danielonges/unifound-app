@@ -39,7 +39,7 @@ export default function StudyBuddyForm({ handleClose }) {
 
   const RegisterSchema = Yup.object().shape({
     gender: Yup.string().required('Gender is required'),
-    groupsize: Yup.number().integer().required('Group Size is required')
+    groupsize: Yup.number().integer().min(2).required('Group Size is required')
   });
 
   const formik = useFormik({
