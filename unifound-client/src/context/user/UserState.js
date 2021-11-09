@@ -3,7 +3,7 @@ import axios from 'axios';
 import UserContext from './userContext';
 import userReducer from './userReducer';
 
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER, EDIT_USER } from '../types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER } from '../types';
 
 const UserState = (props) => {
   const initialState = {
@@ -35,19 +35,6 @@ const UserState = (props) => {
     }
   };
 
-  const editUser = async (user) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    const res = await axios.put(`/user/${user.id}`, user, config);
-    dispatch({
-      type: EDIT_USER,
-      payload: res.data
-    });
-  };
-
   const logout = () => dispatch({ type: LOGOUT });
 
   return (
@@ -56,8 +43,7 @@ const UserState = (props) => {
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         login,
-        logout,
-        editUser
+        logout
       }}
     >
       {props.children}
