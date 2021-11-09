@@ -27,5 +27,7 @@ public interface StudyBuddySessionBeanLocal {
     public void updateStudyBuddyListing(StudyBuddyListing studyBuddyListing);
 
     public void createStudyBuddyListing(StudyBuddyListing s);
+
+    public List<StudyBuddyListing> getStudyListingsByModule(String moduleEntity);
     
 }

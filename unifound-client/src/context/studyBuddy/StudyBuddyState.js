@@ -3,7 +3,14 @@ import axios from 'axios';
 import StudyBuddyContext from './studyBuddyContext';
 import studyBuddyReducer from './studyBuddyReducer';
 
-import { GET_STUDY_LISTINGS, CREATE_ERROR, CREATE_FAIL, CREATE_SUCCESS } from '../types';
+import {
+  GET_STUDY_LISTINGS,
+  LISTING_ERROR,
+  CREATE_SUCCESS,
+  DELETE_STUDY_LISTING,
+  EDIT_STUDY_LISTING,
+  JOIN_LISTING
+} from '../types';
 
 const StudyBuddyState = (props) => {
   const initialState = {
@@ -23,7 +30,25 @@ const StudyBuddyState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: CREATE_ERROR,
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  // Get Study Listing by searching module
+  const getStudyListingByModule = async (obj) => {
+    try {
+      const res = await axios.get(`/studybuddy/search/${obj.module}`);
+
+      dispatch({
+        type: GET_STUDY_LISTINGS,
+        payload: res.data
+      });
+      console.log(obj);
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -36,7 +61,7 @@ const StudyBuddyState = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    console.log(value);
+
     try {
       const res = await axios.post(`/studybuddy/${user.id}`, value, config);
 
@@ -46,7 +71,97 @@ const StudyBuddyState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: CREATE_FAIL,
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  // Delete Study Buddy Listing
+  const deleteStudyListing = async (id) => {
+    try {
+      await axios.delete(`/studybuddy/${id}`);
+
+      dispatch({
+        type: DELETE_STUDY_LISTING,
+        payload: id
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  // Edit Study Listing
+  const editStudyListing = async (listing) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.put(`/studybuddy/${listing.id}`, listing, config);
+
+      dispatch({
+        type: EDIT_STUDY_LISTING,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  // Join Study Listing
+  const joinStudyListing = async (listing, user) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.put(`/studybuddy/${listing.id}/addUser/${user.id}`, listing, config);
+
+      dispatch({
+        type: JOIN_LISTING,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  // Leave Study Listing
+  const leaveStudyListing = async (listing, user) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.put(
+        `/studybuddy/${listing.id}/removeUser/${user.id}`,
+        listing,
+        config
+      );
+
+      dispatch({
+        type: EDIT_STUDY_LISTING,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -57,7 +172,12 @@ const StudyBuddyState = (props) => {
       value={{
         studyBuddyListings: state.studyBuddyListings,
         createStudyListing,
-        getStudyListings
+        getStudyListings,
+        getStudyListingByModule,
+        deleteStudyListing,
+        joinStudyListing,
+        leaveStudyListing,
+        editStudyListing
       }}
     >
       {props.children}

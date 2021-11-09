@@ -1,8 +1,15 @@
 /* eslint-disable react/jsx-fragments */
 /* eslint-disable prettier/prettier */
 import React, { useContext, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom'
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { useParams, Link } from 'react-router-dom';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from '@mui/material';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import CreateLostFoundForm from '../components/_dashboard/lostandfound/CreateLFListing';
@@ -38,7 +45,10 @@ export const LostFoundListing = (props) => {
         <DialogTitle>Edit a Lost And Found Listing</DialogTitle>
 
         <DialogContent>
-          <DialogContentText> Please provide more details on the item that you have lost or found. </DialogContentText>
+          <DialogContentText>
+            {' '}
+            Please provide more details on the item that you have lost or found.{' '}
+          </DialogContentText>
           <CreateLostFoundForm listingId={id} handleClose={handleClose} />
         </DialogContent>
 
@@ -48,6 +58,6 @@ export const LostFoundListing = (props) => {
       </Dialog>
     </React.Fragment>
   );
-}
+};
 
 export default LostFoundListing;

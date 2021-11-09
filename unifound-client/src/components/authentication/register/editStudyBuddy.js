@@ -28,14 +28,14 @@ import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 // ----------------------------------------------------------------------
 
-export default function StudyBuddyForm({ handleClose }) {
+export default function EditStudyBuddy({ handleClose, listing }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const userContext = useContext(UserContext);
   const { user } = userContext;
   const studyBuddyContext = useContext(StudyBuddyContext);
 
-  const { createStudyListing } = studyBuddyContext;
+  const { editStudyListing } = studyBuddyContext;
 
   const RegisterSchema = Yup.object().shape({
     gender: Yup.string().required('Gender is required'),
@@ -44,17 +44,19 @@ export default function StudyBuddyForm({ handleClose }) {
 
   const formik = useFormik({
     initialValues: {
-      gender: '',
-      module: '',
-      course: '',
-      yearOfStudy: '',
-      location: '',
-      groupsize: ''
+      gender: listing.gender,
+      module: listing.module,
+      course: listing.course,
+      yearOfStudy: listing.yearOfStudy,
+      location: listing.location,
+      groupsize: listing.groupsize,
+      id: listing.id,
+      users: listing.users
     },
     validationSchema: RegisterSchema,
     onSubmit: (value) => {
       console.log(value);
-      createStudyListing(value, user);
+      editStudyListing(value);
       handleClose();
     }
   });
@@ -71,6 +73,7 @@ export default function StudyBuddyForm({ handleClose }) {
             options={course}
             sx={{ width: 300 }}
             required
+            value={formik.initialValues.course}
             onChange={(e, value) => setFieldValue('course', value)}
             renderInput={(params) => <TextField {...params} required label="Course" />}
           />
@@ -81,6 +84,7 @@ export default function StudyBuddyForm({ handleClose }) {
             options={modules}
             sx={{ width: 300 }}
             required
+            value={formik.initialValues.module}
             onChange={(e, value) => setFieldValue('module', value)}
             renderInput={(params) => <TextField {...params} required label="Module" />}
           />
@@ -91,6 +95,7 @@ export default function StudyBuddyForm({ handleClose }) {
             options={yearOfStudy}
             sx={{ width: 300 }}
             required
+            value={formik.initialValues.yearOfStudy}
             onChange={(e, value) => setFieldValue('yearOfStudy', value)}
             renderInput={(params) => <TextField {...params} required label="Year Of Study" />}
           />
@@ -102,6 +107,7 @@ export default function StudyBuddyForm({ handleClose }) {
             options={location}
             sx={{ width: 300 }}
             required
+            value={formik.initialValues.location}
             onChange={(e, value) => setFieldValue('location', value)}
             renderInput={(params) => <TextField {...params} required label="Location" />}
           />
@@ -123,7 +129,7 @@ export default function StudyBuddyForm({ handleClose }) {
           </FormControl>
 
           <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-            Create Listing
+            Edit Listing
           </Button>
         </Stack>
       </Form>

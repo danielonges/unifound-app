@@ -5,19 +5,15 @@
  */
 package webservices.restful;
 
-import entity.OldTextbookListing;
 import entity.StudyBuddyListing;
 import entity.UserEntity;
 import exception.UserNotFoundException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
@@ -31,7 +27,6 @@ import javax.ws.rs.core.Response;
 import session.StudyBuddySessionBeanLocal;
 import session.UserSessionLocal;
 
-
 @Path("studybuddy")
 public class StudyBuddyResource {
 
@@ -44,46 +39,56 @@ public class StudyBuddyResource {
      */
     public StudyBuddyResource() {
     }
-    
+
     @POST
     @Path("/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createStudyBuddyListing(StudyBuddyListing studyBuddyListing, @PathParam("userId") Long userId) {
         try {
-             
+
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            System.out.println(studyBuddyListing.getLocation() + "*************************" + studyBuddyListing.getCourse());
-            System.out.println(studyBuddyListing.getGroupsize() + "*************************" + studyBuddyListing.getGender());
-            System.out.println(studyBuddyListing.getYearOfStudy()+ "*************************" + studyBuddyListing.getModule());
-            studyBuddyListing.setUserEntity(userEntity); 
+            studyBuddyListing.setStudyListingOwner(userEntity);
             studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing);
             return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
-                    .build();            
+                    .build();
             return Response.status(404).entity(exception).build();
+        }
+    }
+
+    @GET
+    @Path("/search/{module}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudyListingsByModule(@PathParam("module") String module) {
+        if (module.length() > 0) {
+
+            return Response.status(200).entity(studyBuddySessionBeanLocal.getStudyListingsByModule(module)).build();
+        } else {
+
+            return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
         }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStudyBuddyListings() {
-        return Response.ok().entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
+        return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudyBuddyListing(@PathParam("id") Long studyBuddyListingId) {
-       StudyBuddyListing studyBuddyListing = studyBuddySessionBeanLocal.getStudyBuddyListing(studyBuddyListingId);
+        StudyBuddyListing studyBuddyListing = studyBuddySessionBeanLocal.getStudyBuddyListing(studyBuddyListingId);
 
         return Response.status(200).entity(studyBuddyListing).build();
     }
 
     @DELETE
-    @Path("/id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteStudyBuddyListing(@PathParam("id") Long studyBuddyListingId) {
 
@@ -101,6 +106,69 @@ public class StudyBuddyResource {
         studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
 
         return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
+
+    }
+
+    @PUT
+    @Path("/{listingId}/addUser/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addUserToStudyListing(@PathParam("listingId") Long studyBuddyListingId, @PathParam("userId") Long userId, StudyBuddyListing studyBuddyListing) {
+        try {
+            studyBuddyListing.setId(studyBuddyListingId);
+            UserEntity user = userSessionLocal.getUser(userId);
+            boolean check = false;
+            for(int i = 0;i<studyBuddyListing.getUsers().size();i++) {
+                if(studyBuddyListing.getUsers().get(i).getId()== userId) {
+                    check=true;
+                }
+            }
+            if(check) {
+                JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "User is already in the study group!")
+                    .build();
+            return Response.status(404).entity(exception).build();
+            } else {
+               
+            studyBuddyListing.getUsers().add(user);
+            studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
+            return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
+            }
+        } catch (UserNotFoundException ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", ex.getMessage())
+                    .build();
+            return Response.status(404).entity(exception).build();
+        }
+
+    }
+    
+    
+    @PUT
+    @Path("/{listingId}/removeUser/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeUserFromStudyListing(@PathParam("listingId") Long studyBuddyListingId, @PathParam("userId") Long userId, StudyBuddyListing studyBuddyListing) {
+        try {
+            studyBuddyListing.setId(studyBuddyListingId);
+            UserEntity user = userSessionLocal.getUser(userId);
+            for(int i = 0;i<studyBuddyListing.getUsers().size();i++) {
+                if(studyBuddyListing.getUsers().get(i).getId()== userId) {
+                    studyBuddyListing.getUsers().remove(i);
+                }
+            }
+            
+            System.out.println(userId + "*************");
+            studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
+
+            return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
+            
+        } catch (UserNotFoundException ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", ex.getMessage())
+                    .build();
+            return Response.status(404).entity(exception).build();
+        }
 
     }
 
@@ -124,5 +192,4 @@ public class StudyBuddyResource {
         }
     }
 
-    
 }
