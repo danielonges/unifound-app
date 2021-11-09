@@ -5,15 +5,16 @@
  */
 package entity;
 
-import enumeration.CourseEnum;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 
@@ -49,24 +50,26 @@ public class StudyBuddyListing implements Serializable {
     @NotNull
     private int groupsize;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    private UserEntity userEntity;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<UserEntity> users;
 
 
     public StudyBuddyListing() {
+       this.users = new ArrayList<UserEntity>();
     }
 
-    
-    
+   
 
-    public StudyBuddyListing(String gender, String module, String course, String yearOfStudy, String location, int groupsize,UserEntity userEntity) {
+    public StudyBuddyListing(String gender, String module, String course, String yearOfStudy, String location, int groupsize) {
+        this();
         this.gender = gender;
         this.module = module;
         this.course = course;
         this.yearOfStudy = yearOfStudy;
         this.location = location;
         this.groupsize = groupsize;
-        this.userEntity = userEntity;
+       
     }
     
     public String getGender() {
@@ -134,13 +137,15 @@ public class StudyBuddyListing implements Serializable {
     public void setGroupsize(Integer groupsize) {
         this.groupsize = groupsize;
     }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
+ public List<UserEntity> getUsers() {
+        return users;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
+
+    
+    
 
 }

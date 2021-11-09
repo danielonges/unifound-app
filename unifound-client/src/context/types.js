@@ -16,10 +16,12 @@ export const LOSTFOUND_ERROR = 'LOSTFOUND_ERROR';
 export const GET_LOSTFOUND = 'GET_LOSTFOUND';
 
 // study buddy types
-export const CREATE_ERROR = 'CREATE_ERROR';
-export const CREATE_FAIL = 'CREATE_FAIL';
+export const LISTING_ERROR = 'LISTING_ERROR';
 export const CREATE_SUCCESS = 'CREATE_SUCCESS';
 export const GET_STUDY_LISTINGS = 'GET_STUDY_LISTINGS';
+export const DELETE_STUDY_LISTING = 'DELETE_STUDY_LISTING';
+export const EDIT_STUDY_LISTING = 'EDIT_STUDY__LISTING';
+export const JOIN_LISTING = 'JOIN_LISTING';
 // textbook types
 
 // user types

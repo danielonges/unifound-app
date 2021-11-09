@@ -50,7 +50,7 @@ export default function BlogPostsSearch({ listing }) {
     return [...new Map(arr.map((item) => [item[key], item])).values()];
   }
   const studyBuddyContext = useContext(StudyBuddyContext);
-  const { getStudyListingByModule } = studyBuddyContext;
+  const { getStudyListings, getStudyListingByModule } = studyBuddyContext;
 
   const formik = useFormik({
     initialValues: {
@@ -58,7 +58,11 @@ export default function BlogPostsSearch({ listing }) {
     },
 
     onSubmit: (value) => {
-      getStudyListingByModule(value.module);
+      if (value !== undefined && value.module !== null && value.module !== '') {
+        getStudyListingByModule(value.module);
+      } else {
+        getStudyListings();
+      }
     }
   });
 
