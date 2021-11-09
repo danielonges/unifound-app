@@ -3,6 +3,11 @@ export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'SET_ALERT';
 
 // announcement types
+export const CREATE_ANNOUNCEMENT = 'CREATE_ANNOUNCEMENT';
+export const UPDATE_ANNOUNCEMENT = 'UPDATE_ANNOUNCEMENT';
+export const DELETE_ANNOUNCEMENT = 'DELETE_ANNOUNCEMENT';
+export const GET_ALL_ANNOUNCEMENTS = 'GET_ALL_ANNOUNCEMENTS';
+export const GET_ANNOUNCEMENT = 'GET_ANNOUNCEMENT';
 
 // chat types
 
@@ -20,7 +25,15 @@ export const CREATE_ERROR = 'CREATE_ERROR';
 export const CREATE_FAIL = 'CREATE_FAIL';
 export const CREATE_SUCCESS = 'CREATE_SUCCESS';
 export const GET_STUDY_LISTINGS = 'GET_STUDY_LISTINGS';
+
 // textbook types
+export const CREATE_TEXTBOOK = 'CREATE_TEXTBOOK';
+export const UPDATE_TEXTBOOK = 'UPDATE_TEXTBOOK';
+export const DELETE_TEXTBOOK = 'DELETE_TEXTBOOK';
+export const SET_TEXTBOOK = 'SET_TEXTBOOK';
+export const GET_ALL_TEXTBOOKS = 'GET_ALL_TEXTBOOKS';
+export const TEXTBOOK_ERROR = 'TEXTBOOK_ERROR';
+export const GET_TEXTBOOK = 'GET_TEXTBOOK';
 
 // user types
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

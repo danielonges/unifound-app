@@ -24,11 +24,11 @@ public class LostFoundListing implements Serializable {
     
     private String name;
     // private String image;
-    // private String category;
     private String description;
     private String location;
     private String comments;
     private String type;
+    private String category;
     
     @OneToOne(fetch = FetchType.EAGER)
     private UserEntity user;
@@ -36,14 +36,14 @@ public class LostFoundListing implements Serializable {
     public LostFoundListing() {
     }
 
-    public LostFoundListing(String name, String description, String location, String comments, String type) {
+    public LostFoundListing(String name, String description, String location, String comments, String type, String category) {
         this.name = name;
         // this.image = image;
-        // this.category = category;
         this.description = description;
         this.location = location;
         this.comments = comments;
         this.type = type;
+        this.category = category;
     }
 
     public String getName() {
@@ -141,6 +141,14 @@ public class LostFoundListing implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
     
 }

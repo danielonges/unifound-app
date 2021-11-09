@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -15,18 +16,19 @@ import LFListing from './pages/LostFoundListing';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const sessionToken = localStorage.getItem("user");
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
-      children: [
-        { element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'lostfound', element: <LostFounds /> },
-        { path: 'viewlostfound/:id', element: <LFListing /> },
-        { path: 'studybuddy', element: <Blog /> }
-      ]
+        element: sessionToken ? <DashboardLayout/> : <Navigate to="/login"/>,
+          children: [
+            { element: <Navigate to="/dashboard/app" replace /> },
+            { path: 'app', element: <DashboardApp /> },
+            { path: 'user', element: <User /> },
+            { path: 'lostfound', element: <LostFounds /> },
+            { path: 'viewlostfound/:id', element: <LFListing /> },
+            { path: 'studybuddy', element: <Blog /> }
+          ]
     },
     {
       path: '/',

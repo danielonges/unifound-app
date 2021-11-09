@@ -39,9 +39,9 @@ public class UserSession implements UserSessionLocal {
         } catch (NoResultException ex) {
             em.persist(userEntity);
 
-        }  
+        }
     }
-    
+
     @Override
     public UserEntity retrieveUserById(Long userId) throws UserNotFoundException {
         UserEntity u = em.find(UserEntity.class, userId);
@@ -52,7 +52,7 @@ public class UserSession implements UserSessionLocal {
             throw new UserNotFoundException("User ID" + userId + " does not exist!");
         }
     }
-    
+
     @Override
     public List<UserEntity> retrieveAllUsers() {
         Query query = em.createQuery("SELECT u FROM UserEntity u");
@@ -86,11 +86,14 @@ public class UserSession implements UserSessionLocal {
 
     @Override
     public UserEntity loginUser(String email, String password) throws InvalidLoginException, UserNotFoundException {
-        UserEntity user = retrieveUserByEmail(email);
-        if (user.getPassword().equals(password)) {
-            return user;
+        Query q = em.createQuery("SELECT u from UserEntity u WHERE u.email = :inEmail AND u.password = :inPassword");
+        q.setParameter("inEmail", email);
+        q.setParameter("inPassword", password);
+        if (!q.getResultList().isEmpty()) {
+            UserEntity u = retrieveUserByEmail(email);
+            return u;
         } else {
-            throw new InvalidLoginException("Invalid Login!");
+            throw new UserNotFoundException("No Such User!");
         }
     }
 
@@ -98,7 +101,6 @@ public class UserSession implements UserSessionLocal {
     public void deleteUser(Long uId) throws NoResultException, UserNotFoundException {
         UserEntity user = getUser(uId);
 
-      
         em.remove(user);
     }
 

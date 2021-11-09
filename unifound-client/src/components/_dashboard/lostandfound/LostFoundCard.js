@@ -1,11 +1,12 @@
 /* eslint-disable prefer-template */
 /* eslint-disable prettier/prettier */
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
+import { DialogActions, DialogTitle, Card, Link, Typography, Stack, Button, Dialog } from '@mui/material';
 import { Icon } from '@iconify/react';
 import trashFill from '@iconify/icons-eva/trash-2-fill';
 import lostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
+import userContext from '../../../context/user/userContext';
 // import ColorPreview from '../../ColorPreview';
 
 // ----------------------------------------------------------------------
@@ -25,15 +26,29 @@ import lostAndFoundContext from '../../../context/lostAndFound/lostAndFoundConte
 // };
 
 export default function LostFoundCard({ lostFoundItem }) {
+
   const lostFoundContext = useContext(lostAndFoundContext);
   const { deleteLostFoundListing } = lostFoundContext;
+  const { user } = useContext(userContext);
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleConfirm = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
 
   const { id, name, description } = lostFoundItem;
   return (
     <Card>
-      <Box sx={{ pt: '100%', position: 'relative' }}>
-        {/* <Label
+      {/* <Box sx={{ pt: '100%', position: 'relative' }}>
+        <Label
           variant="filled"
           color="info"
           sx={{
@@ -43,10 +58,10 @@ export default function LostFoundCard({ lostFoundItem }) {
             position: 'absolute',
             textTransform: 'uppercase'
           }}
-        /> */}
+        />
         IMAGE
-        {/* <ProductImgStyle alt={name} src={cover} /> */}
-      </Box>
+        <ProductImgStyle alt={name} src={cover} />
+      </Box> */}
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link to={{ pathname: "/dashboard/viewlostfound/" + id }} color="inherit" underline="hover" component={RouterLink}>
@@ -75,14 +90,31 @@ export default function LostFoundCard({ lostFoundItem }) {
           </Typography>
         </Stack>
         <Stack>
+        {(lostFoundItem.user.id === JSON.parse(localStorage.getItem("user")).id) ?
           <Button
             variant="contained"
             startIcon={<Icon icon={trashFill} />}
             onClick={() => deleteLostFoundListing(lostFoundItem.id)}>
             Delete
-          </Button>
+          </Button> : ''}
+          </Stack>
+          <Dialog open={open} onClose={handleCancel}>
+            <DialogTitle>Confirm Delete?</DialogTitle>
+
+            <DialogActions>
+              {' '}
+              <Button
+                onClick={() => {
+                  deleteLostFoundListing(lostFoundItem.id);
+                  setOpen(false);
+                }}
+              >
+                Yes
+              </Button>
+              <Button onClick={handleCancel}>No</Button>
+            </DialogActions>
+          </Dialog>{' '}
         </Stack>
-      </Stack>
     </Card>
   );
 }
