@@ -94,10 +94,15 @@ public class DataInitSessionBean {
 
     public void initialiseStudyBuddy() {
         try {
-          
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2,userSessionLocal.getUser(1L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4,userSessionLocal.getUser(2L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5,userSessionLocal.getUser(3L)));
+            StudyBuddyListing l1 = new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2);
+            l1.getUsers().add(userSessionLocal.getUser(1L));
+            StudyBuddyListing l2 =new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4);
+            l2.getUsers().add(userSessionLocal.getUser(2L));
+            StudyBuddyListing l3 = new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5);
+            l3.getUsers().add(userSessionLocal.getUser(3L));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(l1);
+            studyBuddySessionBeanLocal.createStudyBuddyListing(l2);
+            studyBuddySessionBeanLocal.createStudyBuddyListing(l3 );
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
