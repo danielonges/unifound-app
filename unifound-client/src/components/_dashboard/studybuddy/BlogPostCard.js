@@ -95,7 +95,8 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ listing, index }) {
-  const { course, gender, module, yearOfStudy, location, groupsize, users } = listing;
+  const { course, gender, module, yearOfStudy, location, groupsize, users, studyListingOwner } =
+    listing;
 
   const userContext = useContext(UserContext);
   const studyBuddyContext = useContext(StudyBuddyContext);
@@ -243,7 +244,7 @@ export default function BlogPostCard({ listing, index }) {
                 variant="caption"
                 sx={{ color: 'text.disabled', display: 'block' }}
               >
-                Listed By: {users !== undefined && users[0].name}
+                Listed By: {users !== undefined && studyListingOwner.name}
               </Typography>
 
               <TitleStyle
@@ -260,7 +261,7 @@ export default function BlogPostCard({ listing, index }) {
                 }}
               >
                 {module} Study Group <br />
-                Currently: {users.length} / {groupsize}
+                Currently: {users.length + 1} / {groupsize}
               </TitleStyle>
 
               <InfoStyle> {location}</InfoStyle>
@@ -283,12 +284,12 @@ export default function BlogPostCard({ listing, index }) {
                 sx={{ color: 'text.disabled', display: 'block' }}
               >
                 <br />
-                Listed by: {users[0].name} <br />
-                Course: {users[0].course} <br />
-                Academic Year: {users[0].academicYear} <br />
-                Gender: {users[0].gender}
+                Listed by: {studyListingOwner.name} <br />
+                Course: {studyListingOwner.course} <br />
+                Academic Year: {studyListingOwner.academicYear} <br />
+                Gender: {studyListingOwner.gender}
               </Typography>
-              {user !== null && user.id === users[0].id && (
+              {user !== null && user.id === studyListingOwner.id && (
                 <Stack>
                   <Button
                     variant="contained"
@@ -335,7 +336,7 @@ export default function BlogPostCard({ listing, index }) {
                   </Dialog>{' '}
                 </Stack>
               )}{' '}
-              {user.id !== users[0].id &&
+              {user.id !== studyListingOwner.id &&
                 users.find((value) => value.id === user.id) === undefined && (
                   <Stack>
                     <Button
@@ -363,7 +364,7 @@ export default function BlogPostCard({ listing, index }) {
                     </Dialog>{' '}
                   </Stack>
                 )}
-              {user.id !== users[0].id &&
+              {user.id !== studyListingOwner.id &&
                 users.find((value) => value.id === user.id) !== undefined && (
                   <Stack>
                     <Button

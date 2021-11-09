@@ -25,8 +25,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'lostfound', element: <LostFounds /> },
         { path: 'viewlostfound/:id', element: <LFListing /> },
-        { path: 'studybuddy', element: <Blog /> },
-        { path: 'profile', element: <Profile /> }
+        { path: 'studybuddy', element: <Blog /> }
       ]
     },
     {
@@ -35,7 +34,7 @@ export default function Router() {
       children: [
         { path: 'login', element: <Login /> },
         // { path: 'register', element: <Register /> },
-
+        { path: 'profile', element: <Profile /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }
