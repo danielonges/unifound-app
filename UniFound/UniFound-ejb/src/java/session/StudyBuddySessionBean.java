@@ -43,6 +43,13 @@ public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
         }
     }
     
+    @Override
+    public List<StudyBuddyListing> getStudyListingsByModule(String moduleEntity) {
+       
+        Query q = em.createQuery("SELECT s FROM StudyBuddyListing s WHERE s.module=:inModule");
+        q.setParameter("inModule", moduleEntity);
+        return q.getResultList();
+    }
     
   @Override
     public List<StudyBuddyListing> getAllStudyBuddyListing() {

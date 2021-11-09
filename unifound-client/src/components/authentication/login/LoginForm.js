@@ -53,7 +53,7 @@ export default function LoginForm(props) {
     },
     validationSchema: LoginSchema,
     onSubmit: (user) => {
-      // console.log(user);
+      console.log(user);
       login(user);
       if (!userContext.isAuthenticated) {
         setDisplayMessage("Login failed.");
