@@ -25,13 +25,22 @@ public class Chat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    private String name;
+
     @OneToMany(fetch = FetchType.EAGER)
     private List<MessageEntity> messages;
 
     public Chat() {
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public List<MessageEntity> getMessages() {
         return messages;
@@ -41,7 +50,6 @@ public class Chat implements Serializable {
         this.messages = messages;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -74,7 +82,5 @@ public class Chat implements Serializable {
     public String toString() {
         return "entity.Chat[ id=" + id + " ]";
     }
-
-
 
 }
