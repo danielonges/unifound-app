@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 /* eslint-disable prettier/prettier */
-import { useContext } from 'react'
+import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
@@ -28,7 +28,6 @@ export default function LostFoundCard({ lostFoundItem }) {
   const lostFoundContext = useContext(lostAndFoundContext);
   const { deleteLostFoundListing } = lostFoundContext;
 
-
   const { id, name, description } = lostFoundItem;
   return (
     <Card>
@@ -49,7 +48,12 @@ export default function LostFoundCard({ lostFoundItem }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link to={{ pathname: "/dashboard/viewlostfound/" + id }} color="inherit" underline="hover" component={RouterLink}>
+        <Link
+          to={{ pathname: '/dashboard/viewlostfound/' + id }}
+          color="inherit"
+          underline="hover"
+          component={RouterLink}
+        >
           <Typography variant="subtitle2" noWrap>
             {name}
             {/* </Link> */}
@@ -77,8 +81,10 @@ export default function LostFoundCard({ lostFoundItem }) {
         <Stack>
           <Button
             variant="contained"
+            color="error"
             startIcon={<Icon icon={trashFill} />}
-            onClick={() => deleteLostFoundListing(lostFoundItem.id)}>
+            onClick={() => deleteLostFoundListing(lostFoundItem.id)}
+          >
             Delete
           </Button>
         </Stack>

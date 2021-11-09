@@ -20,7 +20,7 @@ import {
 // components
 import StudyBuddyContext from '../context/studyBuddy/studyBuddyContext';
 import Page from '../components/Page';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/blog';
+import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/studybuddy';
 //
 import POSTS from '../_mocks_/blog';
 import { StudyBuddyForm } from '../components/authentication/register';
