@@ -87,6 +87,17 @@ public class LostnFoundResource {
     }
     
     @GET
+    @Path("/search/{lostfound}")
+     @Produces(MediaType.APPLICATION_JSON)
+    public Response getLostFoundByNameOrCategory(@PathParam ("lostfound") String lostFound) {
+        if(lostFound.length() > 0) {
+            return Response.status(200).entity(lostFoundSessionBeanLocal.getLFListingsByNameOrCategory(lostFound)).build();
+        } else {
+            return Response.status(200).entity(lostFoundSessionBeanLocal.getAllLostFoundListings()).build();
+        }
+    }
+    
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLostFoundListing(@PathParam("id") Long lostFoundListingId) {

@@ -1,8 +1,14 @@
+/* eslint-disable prettier/prettier */
 // alert types
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'SET_ALERT';
 
 // announcement types
+export const CREATE_ANNOUNCEMENT = 'CREATE_ANNOUNCEMENT';
+export const GET_ALL_ANNOUNCEMENTS = 'GET_ALL_ANNOUNCEMENTS';
+export const GET_ANNOUNCEMENT = 'GET_ANNOUNCEMENT';
+export const UPDATE_ANNOUNCEMENT = 'UPDATE_ANNOUNCEMENT';
+export const DELETE_ANNOUNCEMENT = 'DELETE_ANNOUNCEMENT';
 
 // chat types
 
@@ -22,11 +28,24 @@ export const GET_STUDY_LISTINGS = 'GET_STUDY_LISTINGS';
 export const DELETE_STUDY_LISTING = 'DELETE_STUDY_LISTING';
 export const EDIT_STUDY_LISTING = 'EDIT_STUDY__LISTING';
 export const JOIN_LISTING = 'JOIN_LISTING';
+
 // textbook types
+export const CREATE_TEXTBOOK = 'CREATE_TEXTBOOK';
+export const UPDATE_TEXTBOOK = 'UPDATE_TEXTBOOK';
+export const DELETE_TEXTBOOK = 'DELETE_TEXTBOOK';
+export const GET_ALL_TEXTBOOKS = 'GET_ALL_TEXTBOOKS';
+export const GET_TEXTBOOK = 'GET_TEXTBOOK';
 
 // user types
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const GET_USER = 'GET_USER';
+
 export const EDIT_USER = 'EDIT_USER';
+
+
+// chat types
+export const GET_USER_CHATS = 'GET_USER_CHATS';
+export const CHAT_ERROR = 'CHAT_ERROR';
+

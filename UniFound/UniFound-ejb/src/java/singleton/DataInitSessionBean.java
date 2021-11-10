@@ -5,13 +5,16 @@
  */
 package singleton;
 
+import entity.Chat;
 import entity.LostFoundListing;
+import entity.MessageEntity;
 import entity.OldTextbookListing;
 import entity.StudyBuddyListing;
 import entity.UserEntity;
 import enumeration.UserStatusEnum;
 import exception.UserAlreadyExistException;
 import exception.UserNotFoundException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +25,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.ChatSessionBeanLocal;
 import session.LostFoundSessionBeanLocal;
+import session.MessageSessionBeanLocal;
 import session.ModuleSessionBeanLocal;
 import session.OldTextbookSessionBeanLocal;
 import session.StudyBuddySessionBeanLocal;
@@ -44,6 +49,10 @@ public class DataInitSessionBean {
     private StudyBuddySessionBeanLocal studyBuddySessionBeanLocal;
     @EJB
     private UserSessionLocal userSessionLocal;
+    @EJB
+    private ChatSessionBeanLocal chatSessionBeanLocal;
+    @EJB
+    private MessageSessionBeanLocal messageSessionBeanLocal; 
     
     @PersistenceContext
     private EntityManager em;
@@ -64,19 +73,48 @@ public class DataInitSessionBean {
     
     private void initialiseUsers() {
         try {
-            userSessionLocal.createUser(new UserEntity("Hsiang Hui", "password", "lek@gmail.com", "Male", "Year 5", UserStatusEnum.APPROVED, "Information Systems"));
-            userSessionLocal.createUser(new UserEntity("Bob", "password", "bob@gmail.com", "Male", "Year 1", UserStatusEnum.APPROVED, "Computer Science"));
-            userSessionLocal.createUser(new UserEntity("May", "password", "may@gmail.com", "Female", "Year 3", UserStatusEnum.APPROVED, "Information Security"));
+            UserEntity lek = new UserEntity("Hsiang Hui", "password", "lek@gmail.com", "Male", "Year 5", UserStatusEnum.APPROVED, "Information Systems");
+            UserEntity bob = new UserEntity("Bob", "password", "bob@gmail.com", "Male", "Year 1", UserStatusEnum.APPROVED, "Computer Science");
+            UserEntity may = new UserEntity("May", "password", "may@gmail.com", "Female", "Year 3", UserStatusEnum.APPROVED, "Information Security");
+            userSessionLocal.createUser(lek);
+            userSessionLocal.createUser(bob);
+            userSessionLocal.createUser(may);
+            
+            System.out.println(lek.getId());
+//            initialiseChats(lek, bob);
+//            initialiseChats(bob, may);
+//            initialiseChats(may, lek);
         } catch (UserAlreadyExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void initialiseChats(UserEntity user1, UserEntity user2) {
+        try {
+            Chat chat = new Chat();
+            chatSessionBeanLocal.createChat(chat, user1.getId(), user2.getId());
+//            for (int i = 0; i < 10; i++) {
+//                MessageEntity message = new MessageEntity();
+//                message.setDateCreated(new Date());
+//                if (i % 2 == 0) {
+//                    message.setUserEntity(user1);
+//                    message.setMessageBody("Message " + i + " from " + user1.getName());
+//                } else {
+//                    message.setUserEntity(user2);
+//                    message.setMessageBody("Message " + i + " from " + user2.getName());
+//                }
+//                messageSessionBeanLocal.createMessage(message, chat.getId());
+//            }
+        } catch (UserNotFoundException e) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     public void initialiseLostFound() {
         try {
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "Last seen at YIH", "YIH", "Please help!", "lost"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "Found an econs textbook", "COM1", "Chat me if it's yours", "found"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost", "ELECTRONICS"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "Last seen at YIH", "YIH", "Please help!", "lost", "ELECTRONICS"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "Found an econs textbook", "COM1", "Chat me if it's yours", "found", "EDUCATION"), new Long(1));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }

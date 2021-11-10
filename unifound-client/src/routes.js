@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -17,10 +18,11 @@ import MyStudyListings from './pages/MyStudyListings';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const sessionToken = localStorage.getItem('user');
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: sessionToken ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },

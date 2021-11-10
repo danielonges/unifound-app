@@ -1,18 +1,22 @@
 /* eslint-disable prettier/prettier */
-import React from 'react'
-import { Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import React, { useContext } from 'react';
+import { Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack } from '@mui/material';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
-
 import CreateLostFoundForm from '../components/_dashboard/lostandfound/CreateLFListing';
 import Page from '../components/Page';
 import {
   LostFoundListings
 } from '../components/_dashboard/lostandfound';
+import LostFoundFilter from '../components/_dashboard/lostandfound/LostFoundFilter';
+import LostAndFoundContext from '../context/lostAndFound/lostAndFoundContext';
 
 export default function LostFoundDashboard() {
   const [open, setOpen] = React.useState(false);
+
+  const lostFoundContext = useContext(LostAndFoundContext);
+  const { lostFoundListings, getLostFoundListings } = lostFoundContext;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,11 +58,12 @@ export default function LostFoundDashboard() {
   return (
     <Page title="Dashboard: Products | Minimal-UI">
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Lost And Found Listings
-        </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Lost And Found Listings
+          </Typography>
 
-        <div>
+          <div>
             <Button
               variant="contained"
               component={RouterLink}
@@ -82,25 +87,7 @@ export default function LostFoundDashboard() {
               </DialogActions>
             </Dialog>
           </div>
-
-        {/* <Stack
-          direction="row"
-          flexWrap="wrap-reverse"
-          alignItems="center"
-          justifyContent="flex-end"
-          sx={{ mb: 5 }}
-        >
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
-              formik={formik}
-              isOpenFilter={openFilter}
-              onResetFilter={handleResetFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
-            <ProductSort />
-          </Stack>
-        </Stack> */}
+        </Stack>
 
         <LostFoundListings />
         {/* <ProductCartWidget /> */}
