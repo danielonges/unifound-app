@@ -7,6 +7,7 @@ package session;
 
 import entity.Chat;
 import entity.MessageEntity;
+import entity.UserEntity;
 import exception.UserNotFoundException;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public interface ChatSessionBeanLocal {
 
     public void updateChat(Chat c) throws NoResultException;
 
-    public void createChat(Chat c, Long userId) throws UserNotFoundException;
+    public void createChat(Chat c, Long... userIds) throws UserNotFoundException;
+
+    public List<UserEntity> getAllUsersFromChat(Long cId) throws NoResultException;
+
+    public List<Chat> getUserChats(Long uId) throws UserNotFoundException;
     
 }

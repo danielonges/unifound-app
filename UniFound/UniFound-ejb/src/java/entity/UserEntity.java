@@ -5,9 +5,9 @@
  */
 package entity;
 
-import enumeration.CourseEnum;
 import enumeration.UserStatusEnum;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,6 +66,7 @@ public class UserEntity implements Serializable {
     private List<Chat> chats;
 
     public UserEntity() {
+        this.chats = new ArrayList<>();
     }
 
     public UserEntity(String name, String password, String email, String gender, String academicYear, UserStatusEnum status, String course) {
@@ -77,6 +78,7 @@ public class UserEntity implements Serializable {
         this.academicYear = academicYear;
         this.status = status;
         this.course = course;
+        this.chats = new ArrayList<>();
     }
 
     public UserStatusEnum getStatus() {

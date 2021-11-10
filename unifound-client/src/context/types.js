@@ -29,3 +29,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const GET_USER = 'GET_USER';
+
+// chat types
+export const GET_USER_CHATS = 'GET_USER_CHATS';
+export const CHAT_ERROR = 'CHAT_ERROR';
