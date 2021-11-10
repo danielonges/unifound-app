@@ -5,6 +5,8 @@
  */
 package webservices.restful;
 
+import entity.Chat;
+import entity.MessageEntity;
 import entity.UserEntity;
 import exception.InvalidLoginException;
 import exception.UserAlreadyExistException;
@@ -15,7 +17,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.NoResultException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -92,7 +93,8 @@ public class UserResource {
     public Response getUserEntity(@PathParam("id") Long userId) {
 
         try {
-            return Response.status(200).entity(userSessionLocal.getUser(userId)).type(MediaType.APPLICATION_JSON).build();
+            UserEntity user = userSessionLocal.getUser(userId);
+            return Response.status(200).entity(user).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", ex.getMessage())
@@ -122,7 +124,6 @@ public class UserResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     }
-    
 
     private UserSessionLocal lookupUserSessionLocal() {
         try {

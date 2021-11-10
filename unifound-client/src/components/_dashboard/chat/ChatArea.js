@@ -5,7 +5,7 @@ const ChatArea = ({ chat }) => (
   <div>
     {chat != null &&
       chat.map((msg) => (
-        <Card>
+        <Card key={msg.id}>
           <Typography variant="h6" gutterBottom>
             {msg.username}
           </Typography>

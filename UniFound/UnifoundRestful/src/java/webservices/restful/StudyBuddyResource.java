@@ -8,6 +8,7 @@ package webservices.restful;
 import entity.StudyBuddyListing;
 import entity.UserEntity;
 import exception.UserNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -64,18 +65,21 @@ public class StudyBuddyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudyListingsByModule(@PathParam("module") String module) {
         if (module.length() > 0) {
-
-            return Response.status(200).entity(studyBuddySessionBeanLocal.getStudyListingsByModule(module)).build();
+            List<StudyBuddyListing> studyBuddyListings = studyBuddySessionBeanLocal.getStudyListingsByModule(module);
+         
+            return Response.status(200).entity(studyBuddyListings).build();
         } else {
-
-            return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
+            List<StudyBuddyListing> studyBuddyListings = studyBuddySessionBeanLocal.getAllStudyBuddyListing();
+            return Response.status(200).entity(studyBuddyListings).build();
         }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllStudyBuddyListings() {
-        return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
+        List<StudyBuddyListing> studyBuddyListings = studyBuddySessionBeanLocal.getAllStudyBuddyListing();
+        
+        return Response.status(200).entity(studyBuddyListings).build();
     }
 
     @GET
@@ -83,7 +87,6 @@ public class StudyBuddyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudyBuddyListing(@PathParam("id") Long studyBuddyListingId) {
         StudyBuddyListing studyBuddyListing = studyBuddySessionBeanLocal.getStudyBuddyListing(studyBuddyListingId);
-
         return Response.status(200).entity(studyBuddyListing).build();
     }
 
@@ -118,21 +121,21 @@ public class StudyBuddyResource {
             studyBuddyListing.setId(studyBuddyListingId);
             UserEntity user = userSessionLocal.getUser(userId);
             boolean check = false;
-            for(int i = 0;i<studyBuddyListing.getUsers().size();i++) {
-                if(studyBuddyListing.getUsers().get(i).getId()== userId) {
-                    check=true;
+            for (int i = 0; i < studyBuddyListing.getUsers().size(); i++) {
+                if (studyBuddyListing.getUsers().get(i).getId() == userId) {
+                    check = true;
                 }
             }
-            if(check) {
+            if (check) {
                 JsonObject exception = Json.createObjectBuilder()
-                    .add("error", "User is already in the study group!")
-                    .build();
-            return Response.status(404).entity(exception).build();
+                        .add("error", "User is already in the study group!")
+                        .build();
+                return Response.status(404).entity(exception).build();
             } else {
-               
-            studyBuddyListing.getUsers().add(user);
-            studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
-            return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
+
+                studyBuddyListing.getUsers().add(user);
+                studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
+                return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
             }
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
@@ -142,8 +145,7 @@ public class StudyBuddyResource {
         }
 
     }
-    
-    
+
     @PUT
     @Path("/{listingId}/removeUser/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -152,17 +154,17 @@ public class StudyBuddyResource {
         try {
             studyBuddyListing.setId(studyBuddyListingId);
             UserEntity user = userSessionLocal.getUser(userId);
-            for(int i = 0;i<studyBuddyListing.getUsers().size();i++) {
-                if(studyBuddyListing.getUsers().get(i).getId()== userId) {
+            for (int i = 0; i < studyBuddyListing.getUsers().size(); i++) {
+                if (studyBuddyListing.getUsers().get(i).getId() == userId) {
                     studyBuddyListing.getUsers().remove(i);
                 }
             }
-            
+
             System.out.println(userId + "*************");
             studyBuddySessionBeanLocal.updateStudyBuddyListing(studyBuddyListing);
 
             return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
-            
+
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", ex.getMessage())

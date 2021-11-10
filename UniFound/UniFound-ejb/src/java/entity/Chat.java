@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,6 +33,7 @@ public class Chat implements Serializable {
     private List<MessageEntity> messages;
 
     public Chat() {
+        this.messages = new ArrayList<>();
     }
 
     public String getName() {
