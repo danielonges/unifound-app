@@ -38,11 +38,7 @@ const sidebarConfig = [
     path: '/login',
     icon: getIcon(lockFill)
   },
-  // {
-  //   title: 'register',
-  //   path: '/register',
-  //   icon: getIcon(personAddFill)
-  // },
+
   {
     title: 'Chats',
     path: '/dashboard/chats',

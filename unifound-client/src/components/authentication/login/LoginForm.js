@@ -33,7 +33,7 @@ export default function LoginForm(props) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+      navigate('/dashboard/app', { replace: true });
     }
 
     // if (error === 'Invalid Credentials') {
@@ -51,7 +51,6 @@ export default function LoginForm(props) {
     },
     validationSchema: LoginSchema,
     onSubmit: (user) => {
-      console.log(user);
       login(user);
       // navigate('/dashboard', { replace: true });
     }

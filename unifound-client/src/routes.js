@@ -12,7 +12,8 @@ import NotFound from './pages/Page404';
 import Profile from './pages/Profile';
 import LFListing from './pages/LostFoundListing';
 import Chats from './pages/Chats';
-
+import MyLostFoundListings from './pages/MyLostFoundListings';
+import MyStudyListings from './pages/MyStudyListings';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -27,7 +28,10 @@ export default function Router() {
         { path: 'lostfound', element: <LostFounds /> },
         { path: 'viewlostfound/:id', element: <LFListing /> },
         { path: 'studybuddy', element: <Blog /> },
-        { path: 'chats', element: <Chats /> }
+        { path: 'profile', element: <Profile /> },
+        { path: 'chats', element: <Chats /> },
+        { path: 'mystudylistings', element: <MyStudyListings /> },
+        { path: 'mylostfoundlistings', element: <MyLostFoundListings /> }
       ]
     },
     {
@@ -35,8 +39,6 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
-        // { path: 'register', element: <Register /> },
-        { path: 'profile', element: <Profile /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> }

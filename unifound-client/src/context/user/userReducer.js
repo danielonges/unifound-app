@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER } from '../types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER, EDIT_USER } from '../types';
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -26,6 +26,10 @@ const userReducer = (state, action) => {
         user: null,
         error: action.payload
       };
+    case EDIT_USER:
+      localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify(action.payload));
+      return { ...state, user: action.payload };
     default:
       return state;
   }
