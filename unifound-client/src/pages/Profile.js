@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Link as RouterLink } from 'react-router-dom';
-// material
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Icon } from '@iconify/react';
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import {
   Box,
   Card,
@@ -11,8 +20,12 @@ import {
   CardContent,
   Button,
   CardActions,
-  Avatar
+  Avatar,
+  IconButton,
+  InputAdornment
 } from '@mui/material';
+import { green } from '@mui/material/colors';
+import PersistentDrawerRight from '../components/_dashboard/profile/PersistentDrawerRight';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 // components
@@ -24,20 +37,36 @@ import UserContext from '../context/user/userContext';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex'
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5'
   }
-}));
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center'
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center'
+    }}
+    {...props}
+  />
+));
 
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2)
-}));
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.success.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white
+      }
+    }
+  }
+}))(MenuItem);
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -45,71 +74,149 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   flexDirection: 'column',
-  justifyContent: 'center',
-  padding: theme.spacing(12, 0)
+  justifyContent: 'center'
+  // padding: theme.spacing(12, 0)
 }));
 
 // ----------------------------------------------------------------------
 
 export default function Profile() {
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { user, editUser } = userContext;
+
+  const [disabled, setDisable] = useState(true);
+  const handleEdit = (event) => {
+    event.preventDefault();
+    setDisable(false);
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    setDisable(true);
+    setShowPassword(false);
+  };
+
+  const handleConfirm = (event) => {
+    event.preventDefault();
+    editUser(tempUser);
+    setDisable(true);
+    setShowPassword(false);
+  };
+
+  const [tempUser, setUser] = useState(user);
+  const { name, email, password } = tempUser;
+  const onChange = (event) => setUser({ ...tempUser, [event.target.name]: event.target.value });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
 
   return (
-    <RootStyle title="Register | Minimal-UI">
-      <AuthLayout>
-        {/* Already have an account? &nbsp; */}
-        <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
-          {/* Login */}
-        </Link>
-      </AuthLayout>
-
-      <MHidden width="mdDown">
-        <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Manage your profile
-          </Typography>
-          <img alt="register" src="/static/illustrations/illustration_register.png" />
-        </SectionStyle>
-      </MHidden>
-
-      <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            {' '}
-            <Typography variant="h4" gutterBottom>
+    <Page title="Dashboard: Blog | Minimal-UI">
+      {' '}
+      <Container sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Container>
+          <ContentStyle>
+            <Avatar sx={{ m: 1, bgcolor: green[500] }} style={{ alignSelf: 'center' }} />
+            <Typography component="h1" variant="h5" style={{ alignSelf: 'center' }}>
               My Profile
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Edit your details</Typography>
-            <Avatar>N</Avatar>
-          </Box>
-
-          {/* <AuthSocial /> */}
-
-          {/* <RegisterForm /> */}
-
-          <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By registering, I agree to Minimal&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Terms of Service
-            </Link>
-            &nbsp;and&nbsp;
-            <Link underline="always" sx={{ color: 'text.primary' }}>
-              Privacy Policy
-            </Link>
-            .
-          </Typography>
-
-          <MHidden width="smUp">
-            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
-              Already have an account?&nbsp;
-              <Link to="/login" component={RouterLink}>
-                Login
-              </Link>
-            </Typography>
-          </MHidden>
-        </ContentStyle>
+            <br />
+            <TextField
+              fullWidth
+              label="Name"
+              disabled={disabled}
+              defaultValue={user.name}
+              onChange={onChange}
+              name="name"
+              value={name}
+              style={{ alignSelf: 'center' }}
+            />{' '}
+            <br />
+            {/* <label for="email"> Email </label> */}
+            <TextField
+              fullWidth
+              disabled={disabled}
+              label="Email"
+              defaultValue={user.email}
+              onChange={onChange}
+              name="email"
+              value={email}
+              style={{ alignSelf: 'center' }}
+            />
+            <br />
+            <TextField
+              fullWidth
+              disabled={disabled}
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={password}
+              defaultValue={user.password}
+              onChange={onChange}
+              style={{ alignSelf: 'center' }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword} edge="end">
+                      <Icon icon={showPassword ? eyeFill : eyeOffFill} />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+            <br />
+            {/* <label for="gender"> Gender </label> */}
+            <TextField
+              fullWidth
+              disabled
+              label="Gender"
+              defaultValue={user.gender}
+              style={{ alignSelf: 'center' }}
+            />
+            <br />
+            {/* <label for="academicYear"> Gender </label> */}
+            <TextField
+              fullWidth
+              disabled
+              label="Academic Year"
+              defaultValue={user.academicYear}
+              style={{ alignSelf: 'center' }}
+            />
+            <br />
+            <TextField
+              fullWidth
+              disabled
+              label="Course"
+              defaultValue={user.course}
+              style={{ alignSelf: 'center' }}
+            />
+            <br />
+            {disabled && (
+              <Button variant="contained" onClick={handleEdit}>
+                {' '}
+                Edit profile
+              </Button>
+            )}
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {!disabled && (
+                <Button variant="contained" onClick={handleConfirm}>
+                  {' '}
+                  Confirm
+                </Button>
+              )}
+              {!disabled && (
+                <Button variant="contained" onClick={handleCancel} color="error">
+                  Cancel
+                </Button>
+              )}
+            </div>
+          </ContentStyle>
+        </Container>
+        <PersistentDrawerRight />
       </Container>
-    </RootStyle>
+    </Page>
   );
 }

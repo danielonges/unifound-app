@@ -8,13 +8,15 @@ import {
   GET_LOSTFOUND,
   CREATE_LOSTFOUND,
   UPDATE_LOSTFOUND,
-  DELETE_LOSTFOUND
+  DELETE_LOSTFOUND,
+  LISTING_ERROR
 } from '../types';
 
 const LostAndFoundState = (props) => {
   const initialState = {
     lostFoundListing: null,
-    lostFoundListings: []
+    lostFoundListings: [],
+    error: null
   };
 
   const [state, dispatch] = useReducer(lostAndFoundReducer, initialState);
@@ -25,6 +27,22 @@ const LostAndFoundState = (props) => {
       type: GET_ALL_LOSTFOUNDS,
       payload: res.data
     });
+  };
+
+  const getLostFoundListingOfUser = async (userId) => {
+    try {
+      const res = await axios.get(`/lostnfound/allLFlistings/${userId}/user`);
+
+      dispatch({
+        type: GET_ALL_LOSTFOUNDS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
   };
 
   const createLostFoundListing = async (value, user) => {
@@ -43,7 +61,7 @@ const LostAndFoundState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: CREATE_LOSTFOUND,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -64,14 +82,6 @@ const LostAndFoundState = (props) => {
   //     });
   // };
 
-  // const updateLostFoundListing = async (lostFoundListing) => {
-  //     const config = {
-  //         headers: {
-  //             'Content-Type': 'application/json'
-  //         }
-  //     };
-  // }
-
   const updateLostFoundListing = async (lostFoundListing, listingId) => {
     try {
       const res = await axios.put(`/lostnfound/edit/${listingId}`, lostFoundListing, {
@@ -84,7 +94,7 @@ const LostAndFoundState = (props) => {
       getLostFoundListing(listingId);
     } catch (err) {
       dispatch({
-        type: UPDATE_LOSTFOUND,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -111,11 +121,11 @@ const LostAndFoundState = (props) => {
       const res = await axios.delete(`/lostnfound/delete/${listingId}`);
       dispatch({
         type: DELETE_LOSTFOUND,
-        payload: res.data
+        payload: listingId
       });
     } catch (err) {
       dispatch({
-        type: DELETE_LOSTFOUND,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -131,7 +141,11 @@ const LostAndFoundState = (props) => {
         getLostFoundListing,
         updateLostFoundListing,
         deleteLostFoundListing,
+
+        getLostFoundListingOfUser
+
         getLostFoundListingsByNameOrCategory
+
         // setLostFoundListing
       }}
     >

@@ -36,6 +36,22 @@ const StudyBuddyState = (props) => {
     }
   };
 
+  const getStudyListingOfUser = async (userId) => {
+    try {
+      const res = await axios.get(`/studybuddy/search/${userId}/user`);
+
+      dispatch({
+        type: GET_STUDY_LISTINGS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.data.error
+      });
+    }
+  };
+
   // Get Study Listing by searching module
   const getStudyListingByModule = async (obj) => {
     try {
@@ -45,7 +61,6 @@ const StudyBuddyState = (props) => {
         type: GET_STUDY_LISTINGS,
         payload: res.data
       });
-      console.log(obj);
     } catch (err) {
       dispatch({
         type: LISTING_ERROR,
@@ -177,7 +192,8 @@ const StudyBuddyState = (props) => {
         deleteStudyListing,
         joinStudyListing,
         leaveStudyListing,
-        editStudyListing
+        editStudyListing,
+        getStudyListingOfUser
       }}
     >
       {props.children}
