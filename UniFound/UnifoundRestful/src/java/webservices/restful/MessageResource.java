@@ -48,7 +48,7 @@ public class MessageResource {
     public Response createMessageEntity(MessageEntity messageEntity,@PathParam("id") Long userId, @PathParam("chatId") Long chatId) {
         try {
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            messageEntity.setUserEntity(userEntity);
+            messageEntity.setUsername(userEntity.getName());
             messageSessionBean.createMessage(messageEntity,chatId);
             return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {

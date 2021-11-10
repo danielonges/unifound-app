@@ -83,7 +83,8 @@ public class LostnFoundResource {
     @Path("/allLFlistings")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllLostFoundListings() {
-        return Response.ok().entity(lostFoundSessionBeanLocal.getAllLostFoundListings()).build();
+        List<LostFoundListing> lostFoundListings = lostFoundSessionBeanLocal.getAllLostFoundListings();
+        return Response.ok().entity(lostFoundListings).build();
     }
     
     @GET

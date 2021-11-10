@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -24,6 +24,9 @@ import {
 // components
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+
+import ChatContext from '../context/chat/chatContext';
+import UserContext from '../context/user/userContext';
 
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -139,6 +142,12 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function Chats() {
+  const chatContext = useContext(ChatContext);
+  const userContext = useContext(UserContext);
+
+  const { chats, getUserChats } = chatContext;
+  const { user } = userContext;
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -161,6 +170,11 @@ export default function Chats() {
     }
     setSelected([]);
   };
+
+  useEffect(() => {
+    getUserChats(user.id);
+    // eslint-disable-next-line
+  }, []);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -238,30 +252,31 @@ export default function Chats() {
                 <TableContainer>
                   <Table>
                     <TableBody>
-                      {CHATS.map((row) => {
-                        const { id, name, messages } = row;
-                        const isItemSelected = selected.indexOf(name) !== -1;
+                      {chats !== null &&
+                        chats.map((row) => {
+                          const { id, name, messages } = row;
+                          const isItemSelected = selected.indexOf(name) !== -1;
 
-                        return (
-                          <TableRowStyle
-                            hover
-                            key={id}
-                            tabIndex={-1}
-                            role="checkbox"
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}
-                            onClick={(e) => onClickChat(e, row)}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                onChange={(event) => handleClick(event, name)}
-                              />
-                            </TableCell>
-                            <TableCell align="left">{name}</TableCell>
-                          </TableRowStyle>
-                        );
-                      })}
+                          return (
+                            <TableRowStyle
+                              hover
+                              key={id}
+                              tabIndex={-1}
+                              role="checkbox"
+                              selected={isItemSelected}
+                              aria-checked={isItemSelected}
+                              onClick={(e) => onClickChat(e, row)}
+                            >
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  checked={isItemSelected}
+                                  onChange={(event) => handleClick(event, name)}
+                                />
+                              </TableCell>
+                              <TableCell align="left">{name}</TableCell>
+                            </TableRowStyle>
+                          );
+                        })}
                       {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
                           <TableCell colSpan={6} />
