@@ -3,15 +3,15 @@ import { useContext, useEffect, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import {
-    Stack,
-    TextField,
-    FormControl,
-    FormLabel,
-    RadioGroup,
-    Radio,
-    FormControlLabel,
-    Autocomplete,
-    Button
+  Stack,
+  TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  Autocomplete,
+  Button
 } from '@mui/material';
 import nuslocation from '../../../_mocks_/nuslocation';
 import categories from '../../../_mocks_/categories';
@@ -19,16 +19,19 @@ import UserContext from '../../../context/user/userContext';
 import LostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
 
 export default function CreateLostFoundForm({ listingId, handleClose }) {
+
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
     const { user } = userContext;
     const lostAndFoundContext = useContext(LostAndFoundContext);
     const { createLostFoundListing, updateLostFoundListing } = lostAndFoundContext;
 
-    //   const RegisterSchema = Yup.object().shape({
-    //     gender: Yup.string().required('Gender is required'),
-    //     groupsize: Yup.number().integer().required('Group Size is required')
-    //   });
+
+  //   const RegisterSchema = Yup.object().shape({
+  //     gender: Yup.string().required('Gender is required'),
+  //     groupsize: Yup.number().integer().required('Group Size is required')
+  //   });
+
 
     const formik = useFormik({
         initialValues: {
@@ -47,7 +50,9 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
         }
     });
 
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+
 
     useEffect(() => {
         if (!listingId) return;
@@ -60,25 +65,27 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
         setFieldValue('category', lostAndFoundContext.lostFoundListing.category);
     }, [])
 
-    return (
-        <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Stack spacing={3}>
-                    <TextField
-                        fullWidth
-                        label="Name"
-                        {...getFieldProps('name')}
-                        error={Boolean(touched.name && errors.name)}
-                        helperText={touched.name && errors.name}
-                    />
 
-                    <TextField
-                        fullWidth
-                        label="Description"
-                        {...getFieldProps('description')}
-                        error={Boolean(touched.description && errors.description)}
-                        helperText={touched.description && errors.description}
-                    />
+  return (
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack spacing={3}>
+          <TextField
+            fullWidth
+            label="Name"
+            {...getFieldProps('name')}
+            error={Boolean(touched.name && errors.name)}
+            helperText={touched.name && errors.name}
+          />
+
+          <TextField
+            fullWidth
+            label="Description"
+            {...getFieldProps('description')}
+            error={Boolean(touched.description && errors.description)}
+            helperText={touched.description && errors.description}
+          />
+
 
                     <Autocomplete
                         {...getFieldProps}
@@ -110,19 +117,20 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
                         helperText={touched.comments && errors.comments}
                     />
 
-                    <FormControl component="fieldset">
-                        <FormLabel component="legend">Type</FormLabel>
-                        <RadioGroup row aria-label="type" name="type" required {...getFieldProps('type')}>
-                            <FormControlLabel value="lost" control={<Radio />} label="Lost" />
-                            <FormControlLabel value="found" control={<Radio />} label="Found" />
-                        </RadioGroup>
-                    </FormControl>
 
-                    <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                        {listingId ? 'Edit' : 'Create'} Lost And Found Listing
-                    </Button>
-                </Stack>
-            </Form>
-        </FormikProvider>
-    );
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Type</FormLabel>
+            <RadioGroup row aria-label="type" name="type" required {...getFieldProps('type')}>
+              <FormControlLabel value="lost" control={<Radio />} label="Lost" />
+              <FormControlLabel value="found" control={<Radio />} label="Found" />
+            </RadioGroup>
+          </FormControl>
+
+          <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+            {listingId ? 'Edit' : 'Create'} Lost And Found Listing
+          </Button>
+        </Stack>
+      </Form>
+    </FormikProvider>
+  );
 }

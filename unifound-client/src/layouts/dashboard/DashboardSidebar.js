@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -12,6 +12,7 @@ import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
 import account from '../../_mocks_/account';
+import UserContext from '../../context/user/userContext';
 
 // ----------------------------------------------------------------------
 
@@ -41,11 +42,13 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
   useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
@@ -63,15 +66,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="/profile">
+        <Link underline="none" component={RouterLink} to="/dashboard/profile">
           <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user.name}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {user.course}
               </Typography>
             </Box>
           </AccountStyle>
