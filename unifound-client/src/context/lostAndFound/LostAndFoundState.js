@@ -73,7 +73,7 @@ const LostAndFoundState = (props) => {
       type: GET_LOSTFOUND,
       payload: res.data
     });
-  }
+  };
 
   // const setLostFoundListing = (lostFoundListing) => {
   //     dispatch({
@@ -141,9 +141,7 @@ const LostAndFoundState = (props) => {
         getLostFoundListing,
         updateLostFoundListing,
         deleteLostFoundListing,
-
-        getLostFoundListingOfUser
-
+        getLostFoundListingOfUser,
         getLostFoundListingsByNameOrCategory
 
         // setLostFoundListing

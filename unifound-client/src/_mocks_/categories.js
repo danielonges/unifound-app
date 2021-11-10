@@ -1,8 +1,14 @@
 /* eslint-disable prettier/prettier */
 const categories = [
-    'ELECTRONICS',
-    'EDUCATION',
-    'VALUABLE ITEMS'
+  'Phone',
+  'Wallet',
+  'Keys',
+  'Water Bottle',
+  'Laptop',
+  'Earphones',
+  'Bag',
+  'Charging Cable',
+  'Spectacles'
 ];
 
 export default categories;

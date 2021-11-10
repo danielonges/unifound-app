@@ -1,8 +1,20 @@
 /* eslint-disable prefer-template */
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react'
-import { DialogActions, DialogTitle, Card, Link, Typography, Stack, Button, Dialog, DialogContent, DialogContentText } from '@mui/material';
+import { useContext, useState } from 'react';
+import {
+  DialogActions,
+  DialogTitle,
+  Card,
+  Link,
+  Typography,
+  Stack,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  CardContent
+} from '@mui/material';
 import { Icon } from '@iconify/react';
 import editFill from '@iconify/icons-eva/edit-fill';
 import trashFill from '@iconify/icons-eva/trash-2-fill';
@@ -19,8 +31,28 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%'
 }));
 
-export default function LostFoundCard({ lostFoundItem }) {
+const InfoStyle = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-end',
+  marginTop: theme.spacing(3),
+  color: theme.palette.error.main
+}));
 
+const CoverImgStyle = styled('img')({
+  top: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  position: 'absolute'
+});
+
+const CardMediaStyle = styled('div')({
+  position: 'relative',
+  paddingTop: 'calc(100% * 3 / 5)'
+});
+
+export default function LostFoundCard({ lostFoundItem }) {
   const lostFoundContext = useContext(lostAndFoundContext);
   const { deleteLostFoundListing } = lostFoundContext;
   const { currentUser } = useContext(userContext);
@@ -30,115 +62,144 @@ export default function LostFoundCard({ lostFoundItem }) {
   const handleCloseEdit = () => setEditOpen(false);
   const handleCancel = () => setDeleteOpen(false);
 
-  const { id, name, description, location, comments, type, user } = lostFoundItem;
+  const { id, name, description, location, comments, type, user, category } = lostFoundItem;
   return (
     <SectionStyle>
-      <Stack spacing={2} sx={{ p: 3 }}>
-        {/* <Link to={{ pathname: "/dashboard/viewlostfound/" + id }} color="inherit" underline="hover" component={RouterLink}> */}
+      <Card sx={{ position: 'relative' }}>
+        <CardMediaStyle>
+          {category === 'Phone' && (
+            <CoverImgStyle src="https://guide-images.cdn.ifixit.com/igi/o4OjCNmNeOhvsS1P.large" />
+          )}
+          {category === 'Wallet' && (
+            <CoverImgStyle src="https://bellroy-product-images.imgix.net/bellroy_dot_com_gallery_image/USD/WSSB-BLACK/0?w=345&h=220&fit=clip&auto=format" />
+          )}
+          {category === 'Keys' && (
+            <CoverImgStyle src="https://m.media-amazon.com/images/I/71h8ATGZZpL._AC_SY355_.jpg" />
+          )}
+          {category === 'Water Bottle' && (
+            <CoverImgStyle src="https://nalgene.com/wp-content/uploads/2020/12/Gray_WM-1-282x423.png" />
+          )}
+          {category === 'Laptop' && (
+            <CoverImgStyle src="https://media.wired.com/photos/607de3f5a4b6a04f9b0280ce/master/w_2024,h_1518,c_limit/Gear-Surface-Laptop-4-angle-SOURCE-Microsoft.jpg" />
+          )}
+          {category === 'Earphones' && (
+            <CoverImgStyle src="https://m.media-amazon.com/images/I/51Re0QcVSDL._SL1500_.jpg" />
+          )}
+          {category === 'Bag' && (
+            <CoverImgStyle src="https://bellroy-product-images.imgix.net/bellroy_dot_com_gallery_image/SGD/BTBA-LUN-213/0?w=345&h=220&fit=clip&dpr=2&q=37&auto=format" />
+          )}
+          {category === 'Charging Cable' && (
+            <CoverImgStyle src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MD818?wid=4000&hei=3072&fmt=jpeg&qlt=95&.v=1600799997000" />
+          )}
+          {category === 'Spectacles' && (
+            <CoverImgStyle src="https://cf.shopee.sg/file/2dab14a2a09b66bf95d071f7a063aab2" />
+          )}
+        </CardMediaStyle>
+        <CardContent sx={{ color: 'text.primary', fontSize: 12 }}>
+          {name} <br />
+          {description} <br />
+          Location: {location} <br />
+          {comments} <br />
+          Posted by: {user.name} <br />
+          <InfoStyle> {type.toUpperCase()}</InfoStyle>
+        </CardContent>
+      </Card>
+      {/* <Stack spacing={2} sx={{ p: 3 }}>
         <Typography variant="subtitle2" noWrap>
           {name}
         </Typography>
-        {/* </Link> */}
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           {description}
-          <Typography variant="subtitle1">
-            &nbsp;
-          </Typography>
+          <Typography variant="subtitle1">&nbsp;</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           Location: {location}
-          <Typography variant="subtitle1">
-            &nbsp;
-          </Typography>
+          <Typography variant="subtitle1">&nbsp;</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           {comments}
-          <Typography variant="subtitle1">
-            &nbsp;
-          </Typography>
+          <Typography variant="subtitle1">&nbsp;</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           Posted by: {user.name}
-          {/* {JSON.stringify(user)} */}
-          <Typography variant="subtitle3">
-            &nbsp;
-          </Typography>
+          <Typography variant="subtitle3">&nbsp;</Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           <Typography variant="subtitle3">
             {type.toUpperCase()}
             &nbsp;
           </Typography>
-        </Stack>
+        </Stack> */}
 
-        {(lostFoundItem.user.id === JSON.parse(localStorage.getItem("user")).id) ?
-          <Stack>
-            <Button
-              variant="contained"
-              component={Link}
-              to="#"
-              startIcon={<Icon icon={editFill} />}
-              onClick={handleClickOpenEdit}
-            >
-              Edit Listing
-            </Button>
-            <Dialog open={editOpen} onClose={handleCloseEdit} fullWidth>
-              <DialogTitle>Edit a Lost And Found Listing</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  {' '}
-                  Please provide more details on the item that you have lost or found.{' '}
-                </DialogContentText>
-                <EditLostFoundForm listing={lostFoundItem} handleClose={handleCloseEdit} />
-              </DialogContent>
-
-              <DialogActions>
-                <Button onClick={handleCloseEdit}>Close</Button>
-              </DialogActions>
-            </Dialog>
-          </Stack>
-          : ''}
-
-        {(lostFoundItem.user.id === JSON.parse(localStorage.getItem("user")).id) ?
-          <Stack>
-            <Button
-              variant="contained"
-              startIcon={<Icon icon={trashFill} />}
-              style={{ backgroundColor: '#FF0000', color: '#FFFFFF' }}
-              onClick={() => { setDeleteOpen(true) }}>
-              Delete
-            </Button>
-            {/* : ''} */}
-            {/* </Stack> */}
-            <Dialog open={deleteOpen} onClose={handleCancel}>
-              <DialogTitle>Confirm Delete?</DialogTitle>
-
-              <DialogActions>
+      {lostFoundItem.user.id === JSON.parse(localStorage.getItem('user')).id ? (
+        <Stack>
+          <Button
+            variant="contained"
+            component={Link}
+            to="#"
+            startIcon={<Icon icon={editFill} />}
+            onClick={handleClickOpenEdit}
+          >
+            Edit Listing
+          </Button>
+          <Dialog open={editOpen} onClose={handleCloseEdit} fullWidth>
+            <DialogTitle>Edit a Lost And Found Listing</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
                 {' '}
-                <Button
-                  onClick={() => {
-                    deleteLostFoundListing(lostFoundItem.id);
-                    setDeleteOpen(false);
-                  }}
-                >
-                  Yes
-                </Button>
-                <Button onClick={handleCancel}>No</Button>
-              </DialogActions>
-            </Dialog>{' '}
-          </Stack>
-          : ''}
-      </Stack>
+                Please provide more details on the item that you have lost or found.{' '}
+              </DialogContentText>
+              <EditLostFoundForm listing={lostFoundItem} handleClose={handleCloseEdit} />
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={handleCloseEdit}>Close</Button>
+            </DialogActions>
+          </Dialog>
+        </Stack>
+      ) : (
+        ''
+      )}
+
+      {lostFoundItem.user.id === JSON.parse(localStorage.getItem('user')).id ? (
+        <Stack>
+          <Button
+            variant="contained"
+            startIcon={<Icon icon={trashFill} />}
+            style={{ backgroundColor: '#FF0000', color: '#FFFFFF' }}
+            onClick={() => {
+              setDeleteOpen(true);
+            }}
+          >
+            Delete
+          </Button>
+          {/* : ''} */}
+          {/* </Stack> */}
+          <Dialog open={deleteOpen} onClose={handleCancel}>
+            <DialogTitle>Confirm Delete?</DialogTitle>
+
+            <DialogActions>
+              {' '}
+              <Button
+                onClick={() => {
+                  deleteLostFoundListing(lostFoundItem.id);
+                  setDeleteOpen(false);
+                }}
+              >
+                Yes
+              </Button>
+              <Button onClick={handleCancel}>No</Button>
+            </DialogActions>
+          </Dialog>{' '}
+        </Stack>
+      ) : (
+        ''
+      )}
     </SectionStyle>
   );
 }

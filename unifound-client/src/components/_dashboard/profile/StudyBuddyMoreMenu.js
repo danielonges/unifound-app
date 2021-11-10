@@ -20,13 +20,15 @@ import {
   DialogContentText,
   DialogActions
 } from '@mui/material';
-import lostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
-import EditLostFoundForm from '../lostandfound/EditLFListing';
+import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
+import { EditStudyBuddy } from '../../authentication/register';
 // ----------------------------------------------------------------------
 
-export default function LostFoundMoreMenu({ lostFoundItem }) {
+export default function StudyBuddyMoreMenu({ listing }) {
   const [open, setOpen] = useState(false);
   const [openSecond, setOpenSecond] = useState(false);
+  const studyBuddyContext = useContext(StudyBuddyContext);
+  const { deleteStudyListing } = studyBuddyContext;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,8 +39,7 @@ export default function LostFoundMoreMenu({ lostFoundItem }) {
   };
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const lostFoundContext = useContext(lostAndFoundContext);
-  const { deleteLostFoundListing } = lostFoundContext;
+
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -68,7 +69,7 @@ export default function LostFoundMoreMenu({ lostFoundItem }) {
             {' '}
             <Button
               onClick={() => {
-                deleteLostFoundListing(lostFoundItem.id);
+                deleteStudyListing(listing.id);
                 setOpenSecond(false);
               }}
             >
@@ -90,14 +91,10 @@ export default function LostFoundMoreMenu({ lostFoundItem }) {
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
         <Dialog open={open} onClose={handleClose} fullWidth>
-          <DialogTitle>Edit a Lost And Found Listing</DialogTitle>
+          <DialogTitle>Edit Study Buddy Listing</DialogTitle>
 
           <DialogContent>
-            <DialogContentText>
-              {' '}
-              Please provide more details on the item that you have lost or found.{' '}
-            </DialogContentText>
-            <EditLostFoundForm listing={lostFoundItem} handleClose={handleClose} />
+            <EditStudyBuddy handleClose={handleClose} listing={listing} />
           </DialogContent>
 
           <DialogActions>

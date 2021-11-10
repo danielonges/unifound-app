@@ -112,9 +112,9 @@ public class DataInitSessionBean {
 
     public void initialiseLostFound() {
         try {
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost", "ELECTRONICS"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "Last seen at YIH", "YIH", "Please help!", "lost", "ELECTRONICS"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "Found an econs textbook", "COM1", "Chat me if it's yours", "found", "EDUCATION"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost", "Phone"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Airpods Pro", "Last seen at YIH", "YIH", "Please help!", "lost", "Earphones"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Canvas bag", "Found a bag", "COM1", "Chat me if it's yours", "found", "Bag"), new Long(1));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
