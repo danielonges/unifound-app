@@ -48,7 +48,7 @@ public class StudyBuddyResource {
         try {
 
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            studyBuddyListing.getUsers().add(userEntity);
+            studyBuddyListing.setStudyListingOwner(userEntity);
             studyBuddySessionBeanLocal.createStudyBuddyListing(studyBuddyListing);
             return Response.status(200).entity(studyBuddyListing).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {

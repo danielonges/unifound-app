@@ -29,9 +29,6 @@ public class MessageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Chat chat;
-    
     @Column(nullable = false)
     @NotNull
     private String messageBody;
@@ -43,15 +40,6 @@ public class MessageEntity implements Serializable {
     private UserEntity userEntity;
 
     public MessageEntity() {
-    }
-
-
-    public Chat getChat() {
-        return chat;
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
     }
 
     public String getMessageBody() {

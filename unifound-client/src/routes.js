@@ -12,6 +12,7 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import Profile from './pages/Profile';
 import LFListing from './pages/LostFoundListing';
+import Chats from './pages/Chats';
 
 // ----------------------------------------------------------------------
 

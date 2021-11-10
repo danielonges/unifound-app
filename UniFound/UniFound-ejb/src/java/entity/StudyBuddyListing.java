@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -51,6 +52,10 @@ public class StudyBuddyListing implements Serializable {
     private int groupsize;
     
     
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserEntity studyListingOwner;
+    
+    
     @OneToMany(fetch = FetchType.EAGER)
     private List<UserEntity> users;
 
@@ -61,7 +66,7 @@ public class StudyBuddyListing implements Serializable {
 
    
 
-    public StudyBuddyListing(String gender, String module, String course, String yearOfStudy, String location, int groupsize) {
+    public StudyBuddyListing(String gender, String module, String course, String yearOfStudy, String location, int groupsize,UserEntity studyListingOwner) {
         this();
         this.gender = gender;
         this.module = module;
@@ -69,7 +74,7 @@ public class StudyBuddyListing implements Serializable {
         this.yearOfStudy = yearOfStudy;
         this.location = location;
         this.groupsize = groupsize;
-       
+       this.studyListingOwner = studyListingOwner;
     }
     
     public String getGender() {
@@ -143,6 +148,14 @@ public class StudyBuddyListing implements Serializable {
 
     public void setUsers(List<UserEntity> users) {
         this.users = users;
+    }
+
+    public UserEntity getStudyListingOwner() {
+        return studyListingOwner;
+    }
+
+    public void setStudyListingOwner(UserEntity studyListingOwner) {
+        this.studyListingOwner = studyListingOwner;
     }
 
     
