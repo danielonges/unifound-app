@@ -8,9 +8,11 @@ package webservices.restful;
 import entity.Chat;
 import entity.UserEntity;
 import exception.UserNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.naming.InitialContext;
@@ -31,6 +33,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import session.ChatSessionBeanLocal;
+import session.UserSessionLocal;
 
 /**
  * REST Web Service
@@ -40,6 +43,9 @@ import session.ChatSessionBeanLocal;
 @Path("chat")
 public class ChatResource {
 
+    @EJB
+    private UserSessionLocal userSessionLocal;
+    
     ChatSessionBeanLocal chatSessionBeanLocal = lookupChatSessionBeanLocal();
 
     @Context
@@ -56,8 +62,12 @@ public class ChatResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createChats(@HeaderParam("userIds") List<Long> userIds, Chat chat) {
+        List<UserEntity> users = new ArrayList<>();
         try {
-            chatSessionBeanLocal.createChat(chat, userIds.toArray(new Long[1]));
+            for (Long uId : userIds) {
+                users.add(userSessionLocal.getUser(uId));
+            }
+            chatSessionBeanLocal.createChat(chat, users.toArray(new UserEntity[1]));
             return Response.status(200).entity(chat).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()

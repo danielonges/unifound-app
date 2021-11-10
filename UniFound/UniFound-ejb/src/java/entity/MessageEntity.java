@@ -36,8 +36,7 @@ public class MessageEntity implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreated;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    private UserEntity userEntity;
+    private String username;
 
     public MessageEntity() {
     }
@@ -72,12 +71,14 @@ public class MessageEntity implements Serializable {
         return "entity.Message[ id=" + id + " ]";
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
+   
 
 }

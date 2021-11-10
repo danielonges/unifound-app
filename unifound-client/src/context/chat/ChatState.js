@@ -12,13 +12,6 @@ const ChatState = (props) => {
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
 
-  // retrieve chats from user every 5 seconds
-  if (localStorage.getItem('user') !== null) {
-    console.log('Hello');
-  }
-  //   setInterval(() => {
-  //     console.log('Hello');
-  //   }, 3000);
   const getUserChats = async (userId) => {
     try {
       const res = await axios.get(`/chat/user/${userId}`);
@@ -34,7 +27,25 @@ const ChatState = (props) => {
     }
   };
 
-  return <ChatContext.Provider value={{}}>{props.children}</ChatContext.Provider>;
+  //   const user = JSON.parse(localStorage.getItem('user'));
+  //   if (user !== null) {
+  //     // setInterval(() => {
+  //     // getUserChats(user.id);
+  //     // console.log('Got it!');
+  //     // }, 5000);
+  //   }
+
+  return (
+    <ChatContext.Provider
+      value={{
+        chats: state.chats,
+        error: state.error,
+        getUserChats
+      }}
+    >
+      {props.children}
+    </ChatContext.Provider>
+  );
 };
 
 export default ChatState;

@@ -32,7 +32,7 @@ public interface ChatSessionBeanLocal {
 
     public void updateChat(Chat c) throws NoResultException;
 
-    public void createChat(Chat c, Long... userIds) throws UserNotFoundException;
+    public void createChat(Chat c, UserEntity... users) throws UserNotFoundException;
 
     public List<UserEntity> getAllUsersFromChat(Long cId) throws NoResultException;
 
