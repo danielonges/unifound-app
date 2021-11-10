@@ -9,6 +9,7 @@
             <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/entity/LostFoundListing.java</file>
             <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/LostFoundSessionBean.java</file>
             <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/LostFoundSessionBeanLocal.java</file>
+            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/UserSession.java</file>
             <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/entity/UserEntity.java</file>
         </group>
     </open-files>
