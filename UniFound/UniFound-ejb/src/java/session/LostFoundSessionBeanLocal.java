@@ -24,5 +24,9 @@ public interface LostFoundSessionBeanLocal {
 
     public void createLostFound(LostFoundListing lostFoundListing, Long userId) throws UserNotFoundException;
 
+
+    public List<LostFoundListing> getAllLostFoundListingsOfUser(Long userId) throws UserNotFoundException;
+
     public List<LostFoundListing> getLFListingsByNameOrCategory(String input);
+
 }

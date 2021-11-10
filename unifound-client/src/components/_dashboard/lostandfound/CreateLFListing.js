@@ -47,7 +47,9 @@ export default function CreateLostFoundForm({ handleClose }) {
         }
     });
 
+
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+
 
     // useEffect(() => {
     //     if (!listingId) return;
@@ -61,6 +63,7 @@ export default function CreateLostFoundForm({ handleClose }) {
     //     setFieldValue('type', lostAndFoundContext.lostFoundListing.type);
     //     setFieldValue('category', lostAndFoundContext.lostFoundListing.category);
     // }, [])
+
 
     return (
         <FormikProvider value={formik}>
@@ -81,6 +84,7 @@ export default function CreateLostFoundForm({ handleClose }) {
                         error={Boolean(touched.description && errors.description)}
                         helperText={touched.description && errors.description}
                     />
+
 
                     <Autocomplete
                         {...getFieldProps}

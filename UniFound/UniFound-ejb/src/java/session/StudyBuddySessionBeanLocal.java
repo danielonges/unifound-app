@@ -29,5 +29,7 @@ public interface StudyBuddySessionBeanLocal {
     public void createStudyBuddyListing(StudyBuddyListing s);
 
     public List<StudyBuddyListing> getStudyListingsByModule(String moduleEntity);
+
+    public List<StudyBuddyListing> getAllStudyListingsOfUser(Long userId) throws UserNotFoundException;
     
 }

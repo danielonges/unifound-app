@@ -71,6 +71,20 @@ public class StudyBuddyResource {
             return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyBuddyListing()).build();
         }
     }
+    
+    @GET
+    @Path("/search/{userId}/user")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllStudyBuddyListings(@PathParam ("userId") Long userId) {
+        try {
+            return Response.status(200).entity(studyBuddySessionBeanLocal.getAllStudyListingsOfUser(userId)).build();
+        } catch (UserNotFoundException ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+            return Response.status(404).entity(exception).build();
+        }
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
