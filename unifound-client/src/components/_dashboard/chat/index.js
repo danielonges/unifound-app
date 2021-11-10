@@ -3,3 +3,4 @@ export { default as ChatListToolbar } from './ChatListToolbar';
 export { default as ChatMoreMenu } from './ChatMoreMenu';
 export { default as ChatAreaToolbar } from './ChatAreaToolbar';
 export { default as ChatArea } from './ChatArea';
+export { default as ChatReplyBar } from './ChatReplyBar';
