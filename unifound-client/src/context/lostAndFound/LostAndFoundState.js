@@ -55,7 +55,7 @@ const LostAndFoundState = (props) => {
       type: GET_LOSTFOUND,
       payload: res.data
     });
-  };
+  }
 
   // const setLostFoundListing = (lostFoundListing) => {
   //     dispatch({
@@ -90,12 +90,28 @@ const LostAndFoundState = (props) => {
     }
   };
 
+  const getLostFoundListingsByNameOrCategory = async (obj) => {
+    try {
+      const res = await axios.get(`/lostnfound/search/${obj.name}`);
+      dispatch({
+        type: GET_ALL_LOSTFOUNDS,
+        payload: res.data
+      });
+      console.log(obj);
+    } catch (err) {
+      dispatch({
+        type: GET_ALL_LOSTFOUNDS,
+        payload: err.response.data.error
+      });
+    }
+  };
+
   const deleteLostFoundListing = async (listingId) => {
     try {
       const res = await axios.delete(`/lostnfound/delete/${listingId}`);
       dispatch({
         type: DELETE_LOSTFOUND,
-        payload: listingId
+        payload: res.data
       });
     } catch (err) {
       dispatch({
@@ -114,7 +130,8 @@ const LostAndFoundState = (props) => {
         createLostFoundListing,
         getLostFoundListing,
         updateLostFoundListing,
-        deleteLostFoundListing
+        deleteLostFoundListing,
+        getLostFoundListingsByNameOrCategory
         // setLostFoundListing
       }}
     >

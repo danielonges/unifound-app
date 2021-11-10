@@ -43,6 +43,15 @@ public class LostFoundSessionBean implements LostFoundSessionBeanLocal {
         q = em.createQuery("SELECT l FROM LostFoundListing l");
         return q.getResultList();
     }
+    
+    @Override
+    public List<LostFoundListing> getLFListingsByNameOrCategory(String input) {
+       
+        Query q = em.createQuery("SELECT lf FROM LostFoundListing lf WHERE lf.name = :inName OR lf.category = :inCategory");
+        q.setParameter("inName", input);
+        q.setParameter("inCategory", input);
+        return q.getResultList();
+    }
 
     @Override
     public LostFoundListing getLostFoundListing(Long lId) throws NoResultException {

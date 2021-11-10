@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,6 +14,7 @@ import {
     Button
 } from '@mui/material';
 import nuslocation from '../../../_mocks_/nuslocation';
+import categories from '../../../_mocks_/categories';
 import UserContext from '../../../context/user/userContext';
 import LostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
 
@@ -22,7 +23,6 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
     const userContext = useContext(UserContext);
     const { user } = userContext;
     const lostAndFoundContext = useContext(LostAndFoundContext);
-
     const { createLostFoundListing, updateLostFoundListing } = lostAndFoundContext;
 
     //   const RegisterSchema = Yup.object().shape({
@@ -36,7 +36,8 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
             description: '',
             location: '',
             comments: '',
-            type: ''
+            type: '',
+            category: ''
         },
         // validationSchema: RegisterSchema,
         onSubmit: (value) => {
@@ -56,6 +57,7 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
         setFieldValue('location', lostAndFoundContext.lostFoundListing.location);
         setFieldValue('comments', lostAndFoundContext.lostFoundListing.comments);
         setFieldValue('type', lostAndFoundContext.lostFoundListing.type);
+        setFieldValue('category', lostAndFoundContext.lostFoundListing.category);
     }, [])
 
     return (
@@ -85,8 +87,19 @@ export default function CreateLostFoundForm({ listingId, handleClose }) {
                         options={nuslocation}
                         sx={{ width: 300 }}
                         required
-                        onChange={(e, value) => {setFieldValue('location', value); console.log(value); }}
+                        onChange={(e, value) => { setFieldValue('location', value); console.log(value); }}
                         renderInput={(params) => <TextField {...params} required label="Location" />}
+                    />
+
+                    <Autocomplete
+                        {...getFieldProps}
+                        disablePortal
+                        id="category"
+                        options={categories}
+                        sx={{ width: 300 }}
+                        required
+                        onChange={(e, value) => { setFieldValue('category', value); console.log(value); }}
+                        renderInput={(params) => <TextField {...params} required label="Category" />}
                     />
 
                     <TextField

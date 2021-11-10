@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as Yup from 'yup';
 import { useState, useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -15,7 +16,7 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
+  Button
 } from '@mui/material';
 import UserContext from '../../../context/user/userContext';
 // ----------------------------------------------------------------------
@@ -23,6 +24,7 @@ import UserContext from '../../../context/user/userContext';
 export default function LoginForm(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState("");
   const userContext = useContext(UserContext);
   const { error, login, isAuthenticated } = userContext;
 
@@ -53,6 +55,9 @@ export default function LoginForm(props) {
     onSubmit: (user) => {
       console.log(user);
       login(user);
+      if (!userContext.isAuthenticated) {
+        setDisplayMessage("Login failed.");
+      }
       // navigate('/dashboard', { replace: true });
     }
   });
@@ -65,6 +70,7 @@ export default function LoginForm(props) {
 
   return (
     <FormikProvider value={formik}>
+      <p>{displayMessage}</p>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
@@ -99,26 +105,26 @@ export default function LoginForm(props) {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          {/* <FormControlLabel
+        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+          <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
-          /> */}
+          />
 
           <Link component={RouterLink} variant="subtitle2" to="#">
             Forgot password?
           </Link>
-        </Stack>
-
-        <LoadingButton
+        </Stack> */}
+        
+        <Button
           fullWidth
           size="large"
           type="submit"
           variant="contained"
-          loading={isSubmitting}
+          // loading={isSubmitting}
         >
           Login
-        </LoadingButton>
+        </Button>
       </Form>
     </FormikProvider>
   );
