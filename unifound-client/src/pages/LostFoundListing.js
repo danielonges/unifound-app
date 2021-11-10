@@ -16,7 +16,7 @@ import CreateLostFoundForm from '../components/_dashboard/lostandfound/CreateLFL
 import lostAndFoundContext from '../context/lostAndFound/lostAndFoundContext';
 import userContext from '../context/user/userContext';
 
-export const LostFoundListing = (props) => {
+const LostFoundListing = (props) => {
   const [open, setOpen] = React.useState(false);
   const { id } = useParams();
   const lostFoundContext = useContext(lostAndFoundContext);
@@ -30,20 +30,23 @@ export const LostFoundListing = (props) => {
   }, []);
 
   if (!lostFoundContext.lostFoundListing) {
-    return <></>
+    return <></>;
   }
   return (
     <React.Fragment>
-      {(lostFoundContext.lostFoundListing.user.id === JSON.parse(localStorage.getItem("user")).id) ?
-      <Button
-        variant="contained"
-        component={Link}
-        to="#"
-        startIcon={<Icon icon={editFill} />}
-        onClick={handleClickOpen}
-      >
-        Edit Listing
-      </Button> : ''}
+      {lostFoundContext.lostFoundListing.user.id === JSON.parse(localStorage.getItem('user')).id ? (
+        <Button
+          variant="contained"
+          component={Link}
+          to="#"
+          startIcon={<Icon icon={editFill} />}
+          onClick={handleClickOpen}
+        >
+          Edit Listing
+        </Button>
+      ) : (
+        ''
+      )}
       <h1>{lostFoundContext.lostFoundListing.name}</h1>
 
       {JSON.stringify(lostFoundContext.lostFoundListing)}
