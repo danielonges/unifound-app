@@ -37,7 +37,8 @@ import {
   ChatAreaToolbar,
   ChatListHead,
   ChatListToolbar,
-  ChatMoreMenu
+  ChatMoreMenu,
+  ChatReplyBar
 } from '../components/_dashboard/chat';
 
 import USERLIST from '../_mocks_/user';
@@ -203,13 +204,12 @@ export default function Chats() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  const handleFilterByName = (e) => {
+    setFilterName(e.target.value);
   };
 
   const onClickChat = (e, row) => {
     e.preventDefault();
-    console.log('hi');
     setCurrChat(row);
   };
 
@@ -220,7 +220,7 @@ export default function Chats() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="Chats | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -253,45 +253,41 @@ export default function Chats() {
                   <Table>
                     <TableBody>
                       {chats !== null &&
-                        chats.map((row) => {
-                          const { id, name, messages } = row;
-                          const isItemSelected = selected.indexOf(name) !== -1;
+                        chats
+                          .filter((row) =>
+                            filterName.length > 0 ? row.name.startsWith(filterName) : true
+                          )
+                          .sort((a, b) => a.id - b.id)
+                          .map((row) => {
+                            const { id, name } = row;
+                            const isItemSelected = selected.indexOf(name) !== -1;
 
-                          return (
-                            <TableRowStyle
-                              hover
-                              key={id}
-                              tabIndex={-1}
-                              role="checkbox"
-                              selected={isItemSelected}
-                              aria-checked={isItemSelected}
-                              onClick={(e) => onClickChat(e, row)}
-                            >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  checked={isItemSelected}
-                                  onChange={(event) => handleClick(event, name)}
-                                />
-                              </TableCell>
-                              <TableCell align="left">{name}</TableCell>
-                            </TableRowStyle>
-                          );
-                        })}
+                            return (
+                              <TableRowStyle
+                                hover
+                                key={id}
+                                tabIndex={-1}
+                                role="checkbox"
+                                selected={isItemSelected}
+                                aria-checked={isItemSelected}
+                                onClick={(e) => onClickChat(e, row)}
+                              >
+                                <TableCell padding="checkbox">
+                                  <Checkbox
+                                    checked={isItemSelected}
+                                    onChange={(event) => handleClick(event, name)}
+                                  />
+                                </TableCell>
+                                <TableCell align="left">{name}</TableCell>
+                              </TableRowStyle>
+                            );
+                          })}
                       {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
                           <TableCell colSpan={6} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isUserNotFound && (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                            <SearchNotFound searchQuery={filterName} />
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    )}
                   </Table>
                 </TableContainer>
               </Scrollbar>
@@ -307,8 +303,9 @@ export default function Chats() {
               />
             </Grid>
             <Grid item xs={8}>
-              <ChatAreaToolbar />
+              <ChatAreaToolbar chatTitle={currChat === null ? '' : currChat.name} />
               <ChatArea chat={currChat === null ? null : currChat.messages} />
+              {currChat !== null && <ChatReplyBar userId={user.id} chatId={currChat.id} />}
             </Grid>
           </Grid>
         </Card>
