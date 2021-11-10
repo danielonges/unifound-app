@@ -17,19 +17,20 @@ import Chats from './pages/Chats';
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const sessionToken = localStorage.getItem("user");
+  const sessionToken = localStorage.getItem('user');
   return useRoutes([
     {
       path: '/dashboard',
-        element: sessionToken ? <DashboardLayout/> : <Navigate to="/login"/>,
-          children: [
-            { element: <Navigate to="/dashboard/app" replace /> },
-            { path: 'app', element: <DashboardApp /> },
-            { path: 'user', element: <User /> },
-            { path: 'lostfound', element: <LostFounds /> },
-            { path: 'viewlostfound/:id', element: <LFListing /> },
-            { path: 'studybuddy', element: <Blog /> }
-          ]
+      element: sessionToken ? <DashboardLayout /> : <Navigate to="/login" />,
+      children: [
+        { element: <Navigate to="/dashboard/app" replace /> },
+        { path: 'app', element: <DashboardApp /> },
+        { path: 'user', element: <User /> },
+        { path: 'lostfound', element: <LostFounds /> },
+        { path: 'viewlostfound/:id', element: <LFListing /> },
+        { path: 'studybuddy', element: <Blog /> },
+        { path: 'chats', element: <Chats /> }
+      ]
     },
     {
       path: '/',
