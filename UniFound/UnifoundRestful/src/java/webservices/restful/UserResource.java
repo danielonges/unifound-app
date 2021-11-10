@@ -63,14 +63,8 @@ public class UserResource {
         try {
             userEntity = userSessionLocal.loginUser(email, password);
             return Response.status(200).entity(userEntity).build();
-
         } catch (InvalidLoginException | UserNotFoundException ex) {
-            JsonObject exception = Json.createObjectBuilder()
-                    .add("error", ex.getMessage())
-                    .build();
-
-            return Response.status(404).entity(exception)
-                    .type(MediaType.APPLICATION_JSON).build();
+            return Response.status(400).entity("{\"errorMessage\":\"No such username!\"}").build();
         }
     }
 
