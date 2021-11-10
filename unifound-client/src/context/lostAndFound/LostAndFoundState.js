@@ -64,14 +64,6 @@ const LostAndFoundState = (props) => {
   //     });
   // };
 
-  // const updateLostFoundListing = async (lostFoundListing) => {
-  //     const config = {
-  //         headers: {
-  //             'Content-Type': 'application/json'
-  //         }
-  //     };
-  // }
-
   const updateLostFoundListing = async (lostFoundListing, listingId) => {
     try {
       const res = await axios.put(`/lostnfound/edit/${listingId}`, lostFoundListing, {
@@ -111,7 +103,7 @@ const LostAndFoundState = (props) => {
       const res = await axios.delete(`/lostnfound/delete/${listingId}`);
       dispatch({
         type: DELETE_LOSTFOUND,
-        payload: res.data
+        payload: listingId
       });
     } catch (err) {
       dispatch({

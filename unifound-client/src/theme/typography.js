@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------
+/* eslint-disable prettier/prettier */
 
 function pxToRem(value) {
   return `${value / 16}rem`;
@@ -69,7 +69,13 @@ const typography = {
   subtitle2: {
     fontWeight: 600,
     lineHeight: 22 / 14,
-    fontSize: pxToRem(14)
+    fontSize: pxToRem(17)
+  },
+  subtitle3: {
+    fontWeight: 600,
+    lineHeight: 22 / 14,
+    fontSize: pxToRem(14),
+    color: "#ff0000"
   },
   body1: {
     lineHeight: 1.5,

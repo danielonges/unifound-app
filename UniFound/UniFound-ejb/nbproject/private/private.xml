@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-<<<<<<< HEAD
-            <file>file:/Users/danielonges/NetBeansProjects/IS3106/unifound-app/UniFound/UniFound-ejb/src/java/entity/Chat.java</file>
-            <file>file:/Users/danielonges/NetBeansProjects/IS3106/unifound-app/UniFound/UniFound-ejb/src/java/entity/MessageEntity.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/entity/StudyBuddyListing.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/StudyBuddySessionBean.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/singleton/DataInitSessionBean.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/entity/LostFoundListing.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/LostFoundSessionBean.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/LostFoundSessionBeanLocal.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/session/UserSession.java</file>
-            <file>file:/Users/merylseow/Downloads/unifound-app/UniFound/UniFound-ejb/src/java/entity/UserEntity.java</file>
-=======
->>>>>>> 156415d21e356b3ff282d69e1d77eaafebfc130f
-            <file>file:/Users/danielonges/NetBeansProjects/IS3106/unifound-app/UniFound/UniFound-ejb/src/java/entity/StudyBuddyListing.java</file>
-            <file>file:/Users/danielonges/NetBeansProjects/IS3106/unifound-app/UniFound/UniFound-ejb/src/java/entity/UserEntity.java</file>
->>>>>>> master
-        </group>
-    </open-files>
 </project-private>
