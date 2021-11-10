@@ -43,6 +43,15 @@ public class LostFoundSessionBean implements LostFoundSessionBeanLocal {
         q = em.createQuery("SELECT l FROM LostFoundListing l");
         return q.getResultList();
     }
+    
+    @Override
+    public List<LostFoundListing> getAllLostFoundListingsOfUser(Long userId) throws UserNotFoundException {
+        UserEntity user = userSessionLocal.getUser(userId);
+        
+        Query q = em.createQuery("SELECT l FROM LostFoundListing l WHERE l.user =:inUser");
+        q.setParameter("inUser", user);
+        return q.getResultList();
+    }
 
     @Override
     public LostFoundListing getLostFoundListing(Long lId) throws NoResultException {
