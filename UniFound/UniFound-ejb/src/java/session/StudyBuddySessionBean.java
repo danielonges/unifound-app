@@ -20,10 +20,13 @@ import javax.persistence.Query;
 @Stateless
 public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
 
+    @EJB(name = "UserSessionLocal")
+    private UserSessionLocal userSessionLocal;
+
     @PersistenceContext
     private EntityManager em;
     
-   
+    
 
     @Override
     public void createStudyBuddyListing(StudyBuddyListing s)  {
@@ -41,6 +44,15 @@ public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
         } else {
             throw new NoResultException("StudyBuddyListing Not found");
         }
+    }
+    
+    @Override
+     public List<StudyBuddyListing> getAllStudyListingsOfUser(Long userId) throws UserNotFoundException {
+        UserEntity user = userSessionLocal.getUser(userId);
+        
+        Query q = em.createQuery("SELECT s FROM StudyBuddyListing s WHERE s.studyListingOwner =:inUser");
+        q.setParameter("inUser", user);
+        return q.getResultList();
     }
     
     @Override
