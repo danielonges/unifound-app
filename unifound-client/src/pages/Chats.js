@@ -110,13 +110,32 @@ export default function Chats() {
   };
 
   useEffect(() => {
-    const refreshChats = setInterval(() => {
+    const refreshChats = setInterval(async () => {
       console.log('Got my chats');
-      getUserChats(user.id);
-    }, 5000);
+      await getUserChats(user.id);
+      //   if (currChat !== null) {
+      //     setCurrChat(chats.find((chat) => chat.id === currChat.id));
+      //   }
+    }, 3000);
     return () => clearInterval(refreshChats);
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    getUserChats(user.id);
+    if (currChat !== null) {
+      setCurrChat(chats.find((chat) => chat.id === currChat.id));
+    }
+    // const refreshChats = setInterval(async () => {
+    //   console.log('Got my chats');
+    //   await getUserChats(user.id);
+    //   //   if (currChat !== null) {
+    //   //     setCurrChat(chats.find((chat) => chat.id === currChat.id));
+    //   //   }
+    // }, 3000);
+    // return () => clearInterval(refreshChats);
+    // eslint-disable-next-line
+  }, [JSON.stringify(chats)]);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
