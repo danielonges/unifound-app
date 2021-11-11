@@ -30,6 +30,7 @@ const ChatState = (props) => {
   const sendMessage = async (userId, message, chatId) => {
     try {
       const res = await axios.post(`/message/${userId}/${chatId}`, message);
+      await getUserChats(userId);
       dispatch({
         type: SEND_MESSAGE,
         payload: {
