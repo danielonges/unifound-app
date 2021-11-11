@@ -187,7 +187,7 @@ export default function Chats() {
   };
 
   const onCreateChat = () => {
-    if (name === null) {
+    if (name === null || name === '') {
       setAlert('Chat title must be provided!', 'error');
     } else {
       const chat = {
