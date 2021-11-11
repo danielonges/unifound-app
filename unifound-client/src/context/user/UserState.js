@@ -8,7 +8,8 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER, EDIT_USER } from '../types
 const UserState = (props) => {
   const initialState = {
     user: JSON.parse(localStorage.getItem('user')) || {},
-    isAuthenticated: false
+    isAuthenticated: false,
+    error: null
   };
 
   const [state, dispatch] = useReducer(userReducer, initialState);
@@ -30,7 +31,7 @@ const UserState = (props) => {
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data.msg
+        payload: err.response.data.error
       });
     }
   };
@@ -41,11 +42,18 @@ const UserState = (props) => {
         'Content-Type': 'application/json'
       }
     };
-    const res = await axios.put(`/user/${user.id}`, user, config);
-    dispatch({
-      type: EDIT_USER,
-      payload: res.data
-    });
+    try {
+      const res = await axios.put(`/user/${user.id}`, user, config);
+      dispatch({
+        type: EDIT_USER,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.error
+      });
+    }
   };
 
   const logout = () => dispatch({ type: LOGOUT });
@@ -55,6 +63,7 @@ const UserState = (props) => {
       value={{
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        error: state.error,
         login,
         logout,
         editUser
