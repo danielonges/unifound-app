@@ -41,6 +41,12 @@ public class UserSession implements UserSessionLocal {
 
         }
     }
+    
+    @Override
+    public List<UserEntity> getAllUsers() {
+        Query q = em.createQuery("SELECT u FROM UserEntity u");
+        return q.getResultList();
+    }
 
     @Override
     public UserEntity retrieveUserById(Long userId) throws UserNotFoundException {
