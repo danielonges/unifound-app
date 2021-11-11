@@ -37,7 +37,7 @@ export default function StudyBuddyMoreMenu({ listing }) {
   const [openSecond, setOpenSecond] = useState(false);
   const [openThird, setOpenThird] = useState(false);
   const studyBuddyContext = useContext(StudyBuddyContext);
-  const { deleteStudyListing } = studyBuddyContext;
+  const { deleteStudyListing, leaveStudyListing } = studyBuddyContext;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,7 +47,6 @@ export default function StudyBuddyMoreMenu({ listing }) {
     setOpen(false);
   };
 
-  const handleClick = () => {};
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -105,7 +104,11 @@ export default function StudyBuddyMoreMenu({ listing }) {
                     <TableCell align="left">{user.course}</TableCell>
                     <TableCell align="left">{user.gender}</TableCell>
                     <TableCell align="left">
-                      <Button onClick={handleClick}>
+                      <Button
+                        onClick={() => {
+                          leaveStudyListing(listing, user);
+                        }}
+                      >
                         <Icon icon={trash2Outline} width={24} height={24} />
                       </Button>
                     </TableCell>

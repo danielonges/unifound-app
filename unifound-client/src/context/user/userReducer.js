@@ -20,7 +20,8 @@ const userReducer = (state, action) => {
     case CREATE_USER:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
+        isAuthenticated: true
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('user', JSON.stringify(action.payload));
