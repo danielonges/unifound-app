@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
 import trash2Fill from '@iconify/icons-eva/trash-2-fill';
@@ -14,6 +15,9 @@ import {
   OutlinedInput,
   InputAdornment
 } from '@mui/material';
+import { ChatMoreMenu } from '.';
+
+import UserContext from '../../../context/user/userContext';
 
 // ----------------------------------------------------------------------
 
@@ -25,31 +29,32 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
   borderBottom: '1px solid lightGrey'
 }));
 
-const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
-  transition: theme.transitions.create(['box-shadow', 'width'], {
-    easing: theme.transitions.easing.easeInOut,
-    duration: theme.transitions.duration.shorter
-  }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
-  '& fieldset': {
-    borderWidth: `1px !important`,
-    borderColor: `${theme.palette.grey[500_32]} !important`
-  }
-}));
+export default function ChatAreaToolbar({ chat }) {
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
+  const [numUsers, setNumUsers] = useState(1);
 
-// ----------------------------------------------------------------------
-
-ChatAreaToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func
-};
-
-export default function ChatAreaToolbar({ chatTitle }) {
+  useEffect(async () => {
+    if (chat) {
+      const res = await axios.get(`/chat/${chat.id}/users`);
+      setNumUsers(res.data.length);
+    }
+  }, [chat]);
   return (
     <RootStyle>
-      <Typography variant="h6">{chatTitle}</Typography>
+      {chat && (
+        <>
+          <Typography variant="body">
+            {numUsers} member{numUsers > 1 ? 's' : ''}
+          </Typography>
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="h6">{chat.name}</Typography>
+            {chat.ownerId === user.id && <Typography variant="caption">Owner</Typography>}
+          </div>
+
+          <ChatMoreMenu chat={chat} />
+        </>
+      )}
     </RootStyle>
   );
 }

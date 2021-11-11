@@ -38,4 +38,6 @@ public interface UserSessionLocal {
 
     public UserEntity retrieveUserById(Long userId) throws UserNotFoundException;
 
+    public List<UserEntity> getAllUsers();
+
 }

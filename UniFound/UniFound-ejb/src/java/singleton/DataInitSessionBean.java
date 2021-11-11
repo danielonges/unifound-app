@@ -101,7 +101,8 @@ public class DataInitSessionBean {
         try {
             Chat chat = new Chat();
             chat.setName(name);
-            chatSessionBeanLocal.createChat(chat, user1, user2);
+            chatSessionBeanLocal.createChat(chat, user1);
+            chatSessionBeanLocal.addToChat(chat, user2);
             System.out.println(chat.getId());
             
             for (int i = 0; i < 10; i++) {

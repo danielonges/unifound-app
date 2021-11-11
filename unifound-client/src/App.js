@@ -19,8 +19,8 @@ import AlertState from './context/alert/AlertState';
 export default function App() {
   return (
     <ThemeConfig>
-      <AlertState>
-        <UserState>
+      <UserState>
+        <AlertState>
           <AnnouncementState>
             <TextbookState>
               <LostAndFoundState>
@@ -35,8 +35,8 @@ export default function App() {
               </LostAndFoundState>
             </TextbookState>
           </AnnouncementState>
-        </UserState>
-      </AlertState>
+        </AlertState>
+      </UserState>
     </ThemeConfig>
   );
 }

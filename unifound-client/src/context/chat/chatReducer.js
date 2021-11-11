@@ -1,4 +1,11 @@
-import { CHAT_ERROR, GET_USER_CHATS, SEND_MESSAGE } from '../types';
+import {
+  CHAT_ERROR,
+  GET_USER_CHATS,
+  SEND_MESSAGE,
+  CREATE_CHAT,
+  ADD_TO_CHAT,
+  DELETE_CHAT
+} from '../types';
 
 const chatReducer = (state, action) => {
   switch (action.type) {
@@ -20,6 +27,17 @@ const chatReducer = (state, action) => {
         chats: state.chats.map((chat) => (chat.id === action.payload.chatId ? updatedChat : chat))
       };
     }
+    case CREATE_CHAT:
+    case ADD_TO_CHAT:
+      return {
+        ...state,
+        chats: [...state.chats, action.payload]
+      };
+    case DELETE_CHAT:
+      return {
+        ...state,
+        chats: state.chats.filter((chat) => chat.id !== action.payload)
+      };
     default:
       return state;
   }
