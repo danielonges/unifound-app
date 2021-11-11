@@ -19,7 +19,9 @@ const lostAndFoundReducer = (state, action) => {
     case SET_LOSTFOUND:
       return {
         ...state,
-        lostFoundListing: action.payload
+        lostFoundListings: state.lostFoundListings.map((listing) =>
+          listing.id === action.payload.id ? action.payload : listing
+        )
       };
     case DELETE_LOSTFOUND:
       return {

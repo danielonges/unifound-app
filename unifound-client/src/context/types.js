@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // alert types
 export const SET_ALERT = 'SET_ALERT';
-export const REMOVE_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
 
 // announcement types
 export const CREATE_ANNOUNCEMENT = 'CREATE_ANNOUNCEMENT';
@@ -43,6 +43,7 @@ export const GET_USER = 'GET_USER';
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_FAIL = 'CREATE_USER_FAIL';
 export const EDIT_USER = 'EDIT_USER';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 // chat types
 export const GET_USER_CHATS = 'GET_USER_CHATS';

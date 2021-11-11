@@ -19,14 +19,18 @@ import {
   Button
 } from '@mui/material';
 import UserContext from '../../../context/user/userContext';
+import AlertContext from '../../../context/alert/alertContext';
+import AlertBar from '../../AlertBar';
 // ----------------------------------------------------------------------
 
 export default function LoginForm(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [displayMessage, setDisplayMessage] = useState("");
+  const [displayMessage, setDisplayMessage] = useState('');
   const userContext = useContext(UserContext);
-  const { error, login, isAuthenticated } = userContext;
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
+  const { error, login, isAuthenticated, clearErrors } = userContext;
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -38,10 +42,11 @@ export default function LoginForm(props) {
       navigate('/dashboard/app', { replace: true });
     }
 
-    // if (error === 'Invalid Credentials') {
-    //   setAlert(error, 'danger');
-    //   clearErrors();
-    // }
+    if (error) {
+      setAlert(error, 'error');
+      clearErrors();
+    }
+
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
 
@@ -54,9 +59,7 @@ export default function LoginForm(props) {
     validationSchema: LoginSchema,
     onSubmit: (user) => {
       login(user);
-      if (!userContext.isAuthenticated) {
-        setDisplayMessage("Login failed.");
-      }
+
       // navigate('/dashboard', { replace: true });
     }
   });
@@ -69,7 +72,9 @@ export default function LoginForm(props) {
 
   return (
     <FormikProvider value={formik}>
-      <p>{displayMessage}</p>
+      {' '}
+      <AlertBar />
+      <br />
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
@@ -104,17 +109,6 @@ export default function LoginForm(props) {
           />
         </Stack>
 
-        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-
-          <Link component={RouterLink} variant="subtitle2" to="#">
-            Forgot password?
-          </Link>
-        </Stack> */}
-        
         <Button
           sx={{ mt: 3 }}
           fullWidth

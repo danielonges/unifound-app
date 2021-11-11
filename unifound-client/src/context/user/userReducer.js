@@ -5,7 +5,8 @@ import {
   GET_USER,
   EDIT_USER,
   CREATE_USER,
-  CREATE_USER_FAIL
+  CREATE_USER_FAIL,
+  CLEAR_ERRORS
 } from '../types';
 
 const userReducer = (state, action) => {
@@ -19,7 +20,8 @@ const userReducer = (state, action) => {
     case CREATE_USER:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
+        isAuthenticated: true
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('user', JSON.stringify(action.payload));
@@ -32,6 +34,7 @@ const userReducer = (state, action) => {
     case LOGIN_FAIL:
     case CREATE_USER_FAIL:
       return {
+        ...state,
         error: action.payload
       };
     case LOGOUT:
@@ -47,6 +50,11 @@ const userReducer = (state, action) => {
       localStorage.removeItem('user');
       localStorage.setItem('user', JSON.stringify(action.payload));
       return { ...state, user: action.payload };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null
+      };
     default:
       return state;
   }
