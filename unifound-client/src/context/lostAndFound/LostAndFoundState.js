@@ -22,17 +22,23 @@ const LostAndFoundState = (props) => {
   const [state, dispatch] = useReducer(lostAndFoundReducer, initialState);
 
   const getAllLostFoundListings = async () => {
-    const res = await axios.get('/lostnfound/allLFlistings');
-    dispatch({
-      type: GET_ALL_LOSTFOUNDS,
-      payload: res.data
-    });
+    try {
+      const res = await axios.get('/lostnfound/allLFlistings');
+      dispatch({
+        type: GET_ALL_LOSTFOUNDS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.error
+      });
+    }
   };
 
   const getLostFoundListingOfUser = async (userId) => {
     try {
       const res = await axios.get(`/lostnfound/allLFlistings/${userId}/user`);
-
       dispatch({
         type: GET_ALL_LOSTFOUNDS,
         payload: res.data
@@ -68,19 +74,19 @@ const LostAndFoundState = (props) => {
   };
 
   const getLostFoundListing = async (listingId) => {
-    const res = await axios.get(`/lostnfound/${listingId}`);
-    dispatch({
-      type: GET_LOSTFOUND,
-      payload: res.data
-    });
-  };
-
-  // const setLostFoundListing = (lostFoundListing) => {
-  //     dispatch({
-  //         type: SET_LOSTFOUND,
-  //         payload: lostFoundListing
-  //     });
-  // };
+    try {
+      const res = await axios.get(`/lostnfound/${listingId}`);
+      dispatch({
+        type: GET_LOSTFOUND,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.error
+      })
+    }
+  }
 
   const updateLostFoundListing = async (lostFoundListing, listingId) => {
     try {
@@ -110,7 +116,7 @@ const LostAndFoundState = (props) => {
       console.log(obj);
     } catch (err) {
       dispatch({
-        type: GET_ALL_LOSTFOUNDS,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }

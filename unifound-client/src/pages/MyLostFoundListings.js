@@ -36,8 +36,6 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 import LostFoundMoreMenu from '../components/_dashboard/profile/LostFoundMoreMenu';
-//
-import USERLIST from '../_mocks_/user';
 import UserContext from '../context/user/userContext';
 
 // ----------------------------------------------------------------------

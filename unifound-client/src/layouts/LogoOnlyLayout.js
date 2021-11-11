@@ -24,7 +24,7 @@ export default function LogoOnlyLayout() {
   return (
     <>
       <HeaderStyle>
-        <RouterLink to="/">
+        <RouterLink to="/dashboard">
           <Logo />
         </RouterLink>
       </HeaderStyle>

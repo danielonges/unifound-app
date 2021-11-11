@@ -71,6 +71,7 @@ export default function CreateLostFoundForm({ handleClose }) {
                         fullWidth
                         label="Name"
                         {...getFieldProps('name')}
+                        required
                         error={Boolean(touched.name && errors.name)}
                         helperText={touched.name && errors.name}
                     />
@@ -78,6 +79,7 @@ export default function CreateLostFoundForm({ handleClose }) {
                     <TextField
                         fullWidth
                         label="Description"
+                        required
                         {...getFieldProps('description')}
                         error={Boolean(touched.description && errors.description)}
                         helperText={touched.description && errors.description}

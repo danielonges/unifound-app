@@ -9,7 +9,6 @@ import Register from './pages/Register'
 import DashboardApp from './pages/DashboardApp';
 import LostFounds from './pages/LostFounds';
 import Blog from './pages/StudyBuddy';
-import User from './pages/User';
 import NotFound from './pages/Page404';
 import Profile from './pages/Profile';
 import LFListing from './pages/LostFoundListing';
@@ -28,10 +27,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <Confessions /> },
-        // { path: 'home', element: <Confessions />},
-        { path: 'user', element: <User /> },
         { path: 'lostfound', element: <LostFounds /> },
-        { path: 'viewlostfound/:id', element: <LFListing /> },
         { path: 'studybuddy', element: <Blog /> },
         { path: 'profile', element: <Profile /> },
         { path: 'chats', element: <Chats /> },

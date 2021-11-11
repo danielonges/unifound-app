@@ -56,7 +56,7 @@ export default function LostFoundDashboard() {
   // };
 
   return (
-    <Page title="Dashboard: Products | Minimal-UI">
+    <Page title="Unifound: Lost And Found">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" sx={{ mb: 5 }}>

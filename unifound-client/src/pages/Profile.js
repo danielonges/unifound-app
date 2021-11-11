@@ -114,7 +114,7 @@ export default function Profile() {
   };
 
   return (
-    <Page title="Dashboard: Blog | Minimal-UI">
+    <Page title="Unifound: Profile">
       {' '}
       <Container sx={{ display: 'flex', flexDirection: 'row' }}>
         <Container>

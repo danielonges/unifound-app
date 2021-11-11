@@ -17,23 +17,16 @@ import {
   DialogActions
 } from '@mui/material';
 
-// components
 import StudyBuddyContext from '../context/studyBuddy/studyBuddyContext';
 import Page from '../components/Page';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/studybuddy';
-//
-import POSTS from '../_mocks_/blog';
 import { StudyBuddyForm } from '../components/authentication/register';
-
-// ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
   { value: 'latest', label: 'Latest' },
   { value: 'popular', label: 'Popular' },
   { value: 'oldest', label: 'Oldest' }
 ];
-
-// ----------------------------------------------------------------------
 
 export default function StudyBuddy(props) {
   const [open, setOpen] = React.useState(false);
@@ -54,7 +47,7 @@ export default function StudyBuddy(props) {
   }, []);
 
   return (
-    <Page title="Dashboard: Blog | Minimal-UI">
+    <Page title="Unifound: Study Buddy">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
