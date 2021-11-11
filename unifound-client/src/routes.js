@@ -15,6 +15,7 @@ import LFListing from './pages/LostFoundListing';
 import Chats from './pages/Chats';
 import MyLostFoundListings from './pages/MyLostFoundListings';
 import MyStudyListings from './pages/MyStudyListings';
+import Confessions from './pages/Confessions';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -25,7 +26,8 @@ export default function Router() {
       element: sessionToken ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
+        { path: 'app', element: <Confessions /> },
+        // { path: 'home', element: <Confessions />},
         { path: 'user', element: <User /> },
         { path: 'lostfound', element: <LostFounds /> },
         { path: 'viewlostfound/:id', element: <LFListing /> },

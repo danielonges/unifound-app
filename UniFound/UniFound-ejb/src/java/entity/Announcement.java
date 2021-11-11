@@ -5,17 +5,12 @@
  */
 package entity;
 
-import enumeration.AnnouncementEnum;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,15 +24,17 @@ public class Announcement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /*
     @Column(nullable = false)
     @NotNull
     private String announcementTitle;
-
+    */
+    
     @Column(nullable = false)
     @NotNull
     private String announcementBody;
-
+    
+    /*
     @Enumerated(EnumType.STRING)
     private AnnouncementEnum announcementStatus;
 
@@ -45,10 +42,15 @@ public class Announcement implements Serializable {
     
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
+    */
     
     public Announcement() {
     }
 
+    public Announcement(String announcementBody) {
+        this.announcementBody = announcementBody;
+    }
+    /*
     public boolean isAnnouncementPin() {
         return announcementPin;
     }
@@ -64,6 +66,7 @@ public class Announcement implements Serializable {
     public void setAnnouncementTitle(String announcementTitle) {
         this.announcementTitle = announcementTitle;
     }
+    */
 
     public String getAnnouncementBody() {
         return announcementBody;
@@ -73,6 +76,7 @@ public class Announcement implements Serializable {
         this.announcementBody = announcementBody;
     }
 
+    /*
     public AnnouncementEnum getAnnouncementStatus() {
         return announcementStatus;
     }
@@ -80,6 +84,7 @@ public class Announcement implements Serializable {
     public void setAnnouncementStatus(AnnouncementEnum announcementStatus) {
         this.announcementStatus = announcementStatus;
     }
+    */
 
     public Long getId() {
         return id;
@@ -95,7 +100,7 @@ public class Announcement implements Serializable {
     public String toString() {
         return "entity.Announcement[ id=" + id + " ]";
     }
-
+    /*
     public UserEntity getUserEntity() {
         return userEntity;
     }
@@ -103,5 +108,5 @@ public class Announcement implements Serializable {
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
-
+    */
 }

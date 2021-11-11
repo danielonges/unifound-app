@@ -143,7 +143,6 @@ const LostAndFoundState = (props) => {
         deleteLostFoundListing,
         getLostFoundListingOfUser,
         getLostFoundListingsByNameOrCategory
-        // setLostFoundListing
       }}
     >
       {props.children}
