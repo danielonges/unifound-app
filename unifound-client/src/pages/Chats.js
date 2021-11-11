@@ -48,69 +48,6 @@ const TableRowStyle = styled(TableRow)(({ theme }) => ({
   padding: theme.spacing(0, 1, 0, 3)
 }));
 
-const MESSAGES_1 = [
-  {
-    messageBody: 'Hello!1',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye1!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What?1',
-    username: 'Bob'
-  }
-];
-
-const MESSAGES_2 = [
-  {
-    messageBody: 'Hello2!',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye2!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What2?',
-    username: 'Bob'
-  }
-];
-
-const MESSAGES_3 = [
-  {
-    messageBody: 'Hello3!',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye3!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What3?',
-    username: 'Bob'
-  }
-];
-
-const CHATS = [
-  {
-    id: 1,
-    name: 'Chat 1',
-    messages: MESSAGES_1
-  },
-  {
-    id: 2,
-    name: 'Chat 2',
-    messages: MESSAGES_2
-  },
-  {
-    id: 3,
-    name: 'Chat 3',
-    messages: MESSAGES_3
-  }
-];
-
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
@@ -173,7 +110,11 @@ export default function Chats() {
   };
 
   useEffect(() => {
-    getUserChats(user.id);
+    const refreshChats = setInterval(() => {
+      console.log('Got my chats');
+      getUserChats(user.id);
+    }, 5000);
+    return () => clearInterval(refreshChats);
     // eslint-disable-next-line
   }, []);
 
