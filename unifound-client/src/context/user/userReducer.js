@@ -1,4 +1,12 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER, EDIT_USER } from '../types';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  GET_USER,
+  EDIT_USER,
+  CREATE_USER,
+  CREATE_USER_FAIL
+} from '../types';
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -7,6 +15,11 @@ const userReducer = (state, action) => {
         ...state,
         user: action.payload,
         isAuthenticated: true
+      };
+    case CREATE_USER:
+      return {
+        ...state,
+        user: action.payload
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('user', JSON.stringify(action.payload));
@@ -17,6 +30,7 @@ const userReducer = (state, action) => {
         loading: false
       };
     case LOGIN_FAIL:
+    case CREATE_USER_FAIL:
       return {
         error: action.payload
       };

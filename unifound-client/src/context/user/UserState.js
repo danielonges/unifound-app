@@ -3,7 +3,15 @@ import axios from 'axios';
 import UserContext from './userContext';
 import userReducer from './userReducer';
 
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, GET_USER, EDIT_USER } from '../types';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  GET_USER,
+  EDIT_USER,
+  CREATE_USER,
+  CREATE_USER_FAIL
+} from '../types';
 
 const UserState = (props) => {
   const initialState = {
@@ -32,6 +40,28 @@ const UserState = (props) => {
       dispatch({
         type: LOGIN_FAIL,
         payload: err.response.data.error
+      });
+    }
+  };
+
+  const createUser = async (user) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.post('/user/register', user, config);
+
+      dispatch({
+        type: CREATE_USER,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: CREATE_USER_FAIL,
+        payload: err.response.data.msg
       });
     }
   };
@@ -66,7 +96,8 @@ const UserState = (props) => {
         error: state.error,
         login,
         logout,
-        editUser
+        editUser,
+        createUser
       }}
     >
       {props.children}
