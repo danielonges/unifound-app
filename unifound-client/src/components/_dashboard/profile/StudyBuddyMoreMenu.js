@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import editFill from '@iconify/icons-eva/edit-fill';
+import peopleOutline from '@iconify/icons-eva/people-outline';
 import { Link as RouterLink } from 'react-router-dom';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
@@ -18,7 +19,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  TableCell,
+  TableRow,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableBody
 } from '@mui/material';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 import { EditStudyBuddy } from '../../authentication/register';
@@ -27,6 +35,7 @@ import { EditStudyBuddy } from '../../authentication/register';
 export default function StudyBuddyMoreMenu({ listing }) {
   const [open, setOpen] = useState(false);
   const [openSecond, setOpenSecond] = useState(false);
+  const [openThird, setOpenThird] = useState(false);
   const studyBuddyContext = useContext(StudyBuddyContext);
   const { deleteStudyListing } = studyBuddyContext;
 
@@ -37,6 +46,8 @@ export default function StudyBuddyMoreMenu({ listing }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleClick = () => {};
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,29 +67,57 @@ export default function StudyBuddyMoreMenu({ listing }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenSecond(true)}>
+        <MenuItem
+          component={RouterLink}
+          to="#"
+          sx={{ color: 'text.secondary' }}
+          onClick={() => setOpenThird(true)}
+        >
           <ListItemIcon>
-            <Icon icon={trash2Outline} width={24} height={24} />
+            <Icon icon={peopleOutline} width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="View Users" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <Dialog open={openSecond} onClose={() => setOpenSecond(false)}>
-          <DialogTitle>Confirm Delete?</DialogTitle>
-
+        <Dialog open={openThird} onClose={() => setOpenThird(false)} fullWidth>
+          <DialogTitle>View Users</DialogTitle>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Name</TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Academic Year</TableCell>
+                  <TableCell align="left">Course</TableCell>
+                  <TableCell align="left">Gender</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {listing.users.map((user) => (
+                  <TableRow
+                    key={user.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row" align="left">
+                      {user.name}
+                    </TableCell>
+                    <TableCell align="left">{user.email}</TableCell>
+                    <TableCell align="left">{user.academicYear}</TableCell>
+                    <TableCell align="left">{user.course}</TableCell>
+                    <TableCell align="left">{user.gender}</TableCell>
+                    <TableCell align="left">
+                      <Button onClick={handleClick}>
+                        <Icon icon={trash2Outline} width={24} height={24} />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <DialogActions>
-            {' '}
-            <Button
-              onClick={() => {
-                deleteStudyListing(listing.id);
-                setOpenSecond(false);
-              }}
-            >
-              Yes
-            </Button>
-            <Button onClick={() => setOpenSecond(false)}>No</Button>
+            <Button onClick={() => setOpenThird(false)}>Close</Button>
           </DialogActions>
         </Dialog>
-
         <MenuItem
           component={RouterLink}
           to="#"
@@ -99,6 +138,29 @@ export default function StudyBuddyMoreMenu({ listing }) {
 
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenSecond(true)}>
+          <ListItemIcon>
+            <Icon icon={trash2Outline} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <Dialog open={openSecond} onClose={() => setOpenSecond(false)}>
+          <DialogTitle>Confirm Delete?</DialogTitle>
+
+          <DialogActions>
+            {' '}
+            <Button
+              onClick={() => {
+                deleteStudyListing(listing.id);
+                setOpenSecond(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button onClick={() => setOpenSecond(false)}>No</Button>
           </DialogActions>
         </Dialog>
       </Menu>

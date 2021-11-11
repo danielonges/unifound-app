@@ -10,7 +10,8 @@ import {
   GET_USER,
   EDIT_USER,
   CREATE_USER,
-  CREATE_USER_FAIL
+  CREATE_USER_FAIL,
+  CLEAR_ERRORS
 } from '../types';
 
 const UserState = (props) => {
@@ -44,6 +45,9 @@ const UserState = (props) => {
     }
   };
 
+  // clear errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+
   const createUser = async (user) => {
     const config = {
       headers: {
@@ -61,7 +65,7 @@ const UserState = (props) => {
     } catch (err) {
       dispatch({
         type: CREATE_USER_FAIL,
-        payload: err.response.data.msg
+        payload: err.response.data.error
       });
     }
   };
@@ -97,7 +101,8 @@ const UserState = (props) => {
         login,
         logout,
         editUser,
-        createUser
+        createUser,
+        clearErrors
       }}
     >
       {props.children}
