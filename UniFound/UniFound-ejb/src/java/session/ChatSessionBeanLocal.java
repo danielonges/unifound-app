@@ -28,14 +28,18 @@ public interface ChatSessionBeanLocal {
 
     public List<Chat> getAllChats();
 
-    public void deleteChat(Long cId) throws NoResultException;
+    public void deleteChat(Long cId, Long userId) throws NoResultException, UserNotFoundException;
 
     public void updateChat(Chat c) throws NoResultException;
 
-    public void createChat(Chat c, UserEntity... users) throws UserNotFoundException;
+    public void createChat(Chat c, UserEntity user) throws UserNotFoundException;
+    
+    public void addToChat(Chat c, UserEntity user) throws UserNotFoundException;
 
     public List<UserEntity> getAllUsersFromChat(Long cId) throws NoResultException;
 
     public List<Chat> getUserChats(Long uId) throws UserNotFoundException;
+
+    public void deleteChatForAll(Long cId) throws NoResultException, UserNotFoundException;
     
 }

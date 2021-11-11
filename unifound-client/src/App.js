@@ -12,6 +12,7 @@ import LostAndFoundState from './context/lostAndFound/LostAndFoundState';
 import ChatState from './context/chat/ChatState';
 import AnnouncementState from './context/announcement/AnnouncementState';
 import TextbookState from './context/textbook/TextbookState';
+import AlertState from './context/alert/AlertState';
 
 // ----------------------------------------------------------------------
 
@@ -19,20 +20,22 @@ export default function App() {
   return (
     <ThemeConfig>
       <UserState>
-        <AnnouncementState>
-          <TextbookState>
-            <LostAndFoundState>
-              <StudyBuddyState>
-                <ChatState>
-                  <ScrollToTop />
-                  <GlobalStyles />
-                  <BaseOptionChartStyle />
-                  <Router />
-                </ChatState>
-              </StudyBuddyState>
-            </LostAndFoundState>
-          </TextbookState>
-        </AnnouncementState>
+        <AlertState>
+          <AnnouncementState>
+            <TextbookState>
+              <LostAndFoundState>
+                <StudyBuddyState>
+                  <ChatState>
+                    <ScrollToTop />
+                    <GlobalStyles />
+                    <BaseOptionChartStyle />
+                    <Router />
+                  </ChatState>
+                </StudyBuddyState>
+              </LostAndFoundState>
+            </TextbookState>
+          </AnnouncementState>
+        </AlertState>
       </UserState>
     </ThemeConfig>
   );

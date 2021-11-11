@@ -48,3 +48,6 @@ export const EDIT_USER = 'EDIT_USER';
 export const GET_USER_CHATS = 'GET_USER_CHATS';
 export const CHAT_ERROR = 'CHAT_ERROR';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const CREATE_CHAT = 'CREATE_CHAT';
+export const ADD_TO_CHAT = 'ADD_TO_CHAT';
+export const DELETE_CHAT = 'DELETE_CHAT';

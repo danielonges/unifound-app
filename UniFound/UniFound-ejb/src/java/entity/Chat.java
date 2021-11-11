@@ -31,6 +31,8 @@ public class Chat implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<MessageEntity> messages;
+    
+    private Long ownerId;
 
     public Chat() {
         this.messages = new ArrayList<>();
@@ -50,6 +52,14 @@ public class Chat implements Serializable {
 
     public void setMessages(List<MessageEntity> messages) {
         this.messages = messages;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Long getId() {

@@ -61,13 +61,10 @@ public class ChatResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createChats(@HeaderParam("userIds") List<Long> userIds, Chat chat) {
-        List<UserEntity> users = new ArrayList<>();
+    public Response createChat(@HeaderParam("userId") Long userId, Chat chat) {
         try {
-            for (Long uId : userIds) {
-                users.add(userSessionLocal.getUser(uId));
-            }
-            chatSessionBeanLocal.createChat(chat, users.toArray(new UserEntity[1]));
+            UserEntity user = userSessionLocal.getUser(userId);
+            chatSessionBeanLocal.createChat(chat, user);
             return Response.status(200).entity(chat).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {
             JsonObject exception = Json.createObjectBuilder()
@@ -75,8 +72,25 @@ public class ChatResource {
                     .build();
             return Response.status(404).entity(exception).build();
         }
-
     }
+    
+    @PUT
+    @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addToChat(@HeaderParam("userId") Long userId, Chat chat) {
+        try {
+            UserEntity user = userSessionLocal.getUser(userId);
+            chatSessionBeanLocal.addToChat(chat, user);
+            return Response.status(204).build();
+        } catch (UserNotFoundException e) {
+             JsonObject exception = Json.createObjectBuilder()
+                    .add("error", e.getMessage())
+                    .build();
+            return Response.status(404).entity(exception).build();
+        }
+    }
+    
 
     @GET
     @Path("/{cId}/users")
@@ -120,13 +134,29 @@ public class ChatResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/delete-user/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteChat(@PathParam("id") Long chatId) {
+    public Response deleteChatForUser(@PathParam("id") Long chatId, @HeaderParam("userId") Long userId) {
         try {
-            chatSessionBeanLocal.deleteChat(chatId);
+            chatSessionBeanLocal.deleteChat(chatId, userId);
             return Response.status(204).build();
-        } catch (NoResultException e) {
+        } catch (NoResultException | UserNotFoundException e) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Not found")
+                    .build();
+
+            return Response.status(404).entity(exception).build();
+        }
+    }
+    
+    @DELETE
+    @Path("/delete-all/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteChatForAll(@PathParam("id") Long chatId) {
+        try {
+            chatSessionBeanLocal.deleteChatForAll(chatId);
+            return Response.status(204).build();
+        } catch (NoResultException | UserNotFoundException e) {
             JsonObject exception = Json.createObjectBuilder()
                     .add("error", "Not found")
                     .build();
