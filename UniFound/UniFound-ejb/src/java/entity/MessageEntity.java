@@ -28,16 +28,13 @@ public class MessageEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     @NotNull
     private String messageBody;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreated;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private UserEntity userEntity;
+
+    private String username;
 
     public MessageEntity() {
     }
@@ -66,18 +63,17 @@ public class MessageEntity implements Serializable {
         this.id = id;
     }
 
-    
     @Override
     public String toString() {
         return "entity.Message[ id=" + id + " ]";
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

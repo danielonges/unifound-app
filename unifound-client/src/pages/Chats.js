@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
@@ -25,6 +25,9 @@ import {
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
+import ChatContext from '../context/chat/chatContext';
+import UserContext from '../context/user/userContext';
+
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -34,7 +37,8 @@ import {
   ChatAreaToolbar,
   ChatListHead,
   ChatListToolbar,
-  ChatMoreMenu
+  ChatMoreMenu,
+  ChatReplyBar
 } from '../components/_dashboard/chat';
 
 import USERLIST from '../_mocks_/user';
@@ -43,69 +47,6 @@ const TableRowStyle = styled(TableRow)(({ theme }) => ({
   height: 96,
   padding: theme.spacing(0, 1, 0, 3)
 }));
-
-const MESSAGES_1 = [
-  {
-    messageBody: 'Hello!1',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye1!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What?1',
-    username: 'Bob'
-  }
-];
-
-const MESSAGES_2 = [
-  {
-    messageBody: 'Hello2!',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye2!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What2?',
-    username: 'Bob'
-  }
-];
-
-const MESSAGES_3 = [
-  {
-    messageBody: 'Hello3!',
-    username: 'John'
-  },
-  {
-    messageBody: 'Bye3!',
-    username: 'Peter'
-  },
-  {
-    messageBody: 'What3?',
-    username: 'Bob'
-  }
-];
-
-const CHATS = [
-  {
-    id: 1,
-    name: 'Chat 1',
-    messages: MESSAGES_1
-  },
-  {
-    id: 2,
-    name: 'Chat 2',
-    messages: MESSAGES_2
-  },
-  {
-    id: 3,
-    name: 'Chat 3',
-    messages: MESSAGES_3
-  }
-];
 
 // ----------------------------------------------------------------------
 
@@ -139,6 +80,12 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function Chats() {
+  const chatContext = useContext(ChatContext);
+  const userContext = useContext(UserContext);
+
+  const { chats, getUserChats } = chatContext;
+  const { user } = userContext;
+
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -161,6 +108,15 @@ export default function Chats() {
     }
     setSelected([]);
   };
+
+  useEffect(() => {
+    const refreshChats = setInterval(() => {
+      console.log('Got my chats');
+      getUserChats(user.id);
+    }, 5000);
+    return () => clearInterval(refreshChats);
+    // eslint-disable-next-line
+  }, []);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -189,13 +145,12 @@ export default function Chats() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  const handleFilterByName = (e) => {
+    setFilterName(e.target.value);
   };
 
   const onClickChat = (e, row) => {
     e.preventDefault();
-    console.log('hi');
     setCurrChat(row);
   };
 
@@ -206,7 +161,7 @@ export default function Chats() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="Chats | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -238,45 +193,42 @@ export default function Chats() {
                 <TableContainer>
                   <Table>
                     <TableBody>
-                      {CHATS.map((row) => {
-                        const { id, name, messages } = row;
-                        const isItemSelected = selected.indexOf(name) !== -1;
+                      {chats !== null &&
+                        chats
+                          .filter((row) =>
+                            filterName.length > 0 ? row.name.startsWith(filterName) : true
+                          )
+                          .sort((a, b) => a.id - b.id)
+                          .map((row) => {
+                            const { id, name } = row;
+                            const isItemSelected = selected.indexOf(name) !== -1;
 
-                        return (
-                          <TableRowStyle
-                            hover
-                            key={id}
-                            tabIndex={-1}
-                            role="checkbox"
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}
-                            onClick={(e) => onClickChat(e, row)}
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                checked={isItemSelected}
-                                onChange={(event) => handleClick(event, name)}
-                              />
-                            </TableCell>
-                            <TableCell align="left">{name}</TableCell>
-                          </TableRowStyle>
-                        );
-                      })}
+                            return (
+                              <TableRowStyle
+                                hover
+                                key={id}
+                                tabIndex={-1}
+                                role="checkbox"
+                                selected={isItemSelected}
+                                aria-checked={isItemSelected}
+                                onClick={(e) => onClickChat(e, row)}
+                              >
+                                <TableCell padding="checkbox">
+                                  <Checkbox
+                                    checked={isItemSelected}
+                                    onChange={(event) => handleClick(event, name)}
+                                  />
+                                </TableCell>
+                                <TableCell align="left">{name}</TableCell>
+                              </TableRowStyle>
+                            );
+                          })}
                       {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
                           <TableCell colSpan={6} />
                         </TableRow>
                       )}
                     </TableBody>
-                    {isUserNotFound && (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                            <SearchNotFound searchQuery={filterName} />
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    )}
                   </Table>
                 </TableContainer>
               </Scrollbar>
@@ -292,8 +244,9 @@ export default function Chats() {
               />
             </Grid>
             <Grid item xs={8}>
-              <ChatAreaToolbar />
+              <ChatAreaToolbar chatTitle={currChat === null ? '' : currChat.name} />
               <ChatArea chat={currChat === null ? null : currChat.messages} />
+              {currChat !== null && <ChatReplyBar userId={user.id} chatId={currChat.id} />}
             </Grid>
           </Grid>
         </Card>

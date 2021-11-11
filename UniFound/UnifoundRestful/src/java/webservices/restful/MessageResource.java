@@ -8,6 +8,7 @@ package webservices.restful;
 import entity.MessageEntity;
 import entity.UserEntity;
 import exception.UserNotFoundException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -42,13 +43,14 @@ public class MessageResource {
     }
     
     @POST
-    @Path("chat/{id}/{chatId}")
+    @Path("/{uId}/{chatId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createMessageEntity(MessageEntity messageEntity,@PathParam("id") Long userId, @PathParam("chatId") Long chatId) {
+    public Response createMessageEntity(MessageEntity messageEntity,@PathParam("uId") Long userId, @PathParam("chatId") Long chatId) {
         try {
             UserEntity userEntity = userSessionLocal.getUser(userId);
-            messageEntity.setUserEntity(userEntity);
+            messageEntity.setUsername(userEntity.getName());
+            messageEntity.setDateCreated(new Date());
             messageSessionBean.createMessage(messageEntity,chatId);
             return Response.status(200).entity(messageEntity).type(MediaType.APPLICATION_JSON).build();
         } catch (UserNotFoundException ex) {

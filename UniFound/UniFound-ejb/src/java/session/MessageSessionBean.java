@@ -25,7 +25,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     @EJB(name = "ChatSessionBeanLocal")
     private ChatSessionBeanLocal chatSessionBeanLocal;
 
-    @PersistenceContext
+    @PersistenceContext(name = "UniFound-ejbPU")
     private EntityManager em;
 
     @Override
@@ -55,13 +55,12 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     @Override
     public void deleteMessage(Long mId) throws NoResultException {
         MessageEntity m = getMessage(mId);
-       
 
         Query query = em.createQuery("SELECT c FROM Chat c WHERE :message MEMBER OF c.messages");
         query.setParameter("message", m);
 
         Chat chat = (Chat) query.getSingleResult();
-        m.setUserEntity(null);
+//        m.setUserEntity(null);
         chat.getMessages().remove(m);
 
         em.remove(m);

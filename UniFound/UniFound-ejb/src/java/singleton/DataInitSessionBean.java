@@ -33,12 +33,11 @@ import session.OldTextbookSessionBeanLocal;
 import session.StudyBuddySessionBeanLocal;
 import session.UserSessionLocal;
 
-
 @Singleton
 @LocalBean
 @Startup
 public class DataInitSessionBean {
-    
+
     @EJB
     private LostFoundSessionBeanLocal lostFoundSessionBeanLocal;
     @EJB
@@ -52,25 +51,26 @@ public class DataInitSessionBean {
     @EJB
     private ChatSessionBeanLocal chatSessionBeanLocal;
     @EJB
-    private MessageSessionBeanLocal messageSessionBeanLocal; 
-    
-    @PersistenceContext
-    private EntityManager em;
+    private MessageSessionBeanLocal messageSessionBeanLocal;
 
     public DataInitSessionBean() {
     }
 
     @PostConstruct
-    public void postConstruct() {
+    private void init() {
         List<UserEntity> users = userSessionLocal.retrieveAllUsers();
         if (users.isEmpty()) {
             initialiseUsers();
             initialiseLostFound();
             initialiseOldTextbook();
             initialiseStudyBuddy();
+            
+//            initialiseMessage(1L, 1L, 2L);
+//            initialiseMessage(2L, 2L, 3L);
+//            initialiseMessage(3L, 1L, 3L);
         }
     }
-    
+
     private void initialiseUsers() {
         try {
             UserEntity lek = new UserEntity("Hsiang Hui", "password", "lek@gmail.com", "Male", "Year 5", UserStatusEnum.APPROVED, "Information Systems");
@@ -80,31 +80,35 @@ public class DataInitSessionBean {
             userSessionLocal.createUser(bob);
             userSessionLocal.createUser(may);
             
-            System.out.println(lek.getId());
-//            initialiseChats(lek, bob);
-//            initialiseChats(bob, may);
-//            initialiseChats(may, lek);
+            initialiseChats(lek, bob, "Hello 1");
+            initialiseChats(bob, may, "Hello 2");
+            initialiseChats(lek, may, "Hello 3");
+
         } catch (UserAlreadyExistException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void initialiseChats(UserEntity user1, UserEntity user2) {
+
+    private void initialiseChats(UserEntity user1, UserEntity user2, String name) {
         try {
             Chat chat = new Chat();
-            chatSessionBeanLocal.createChat(chat, user1.getId(), user2.getId());
-//            for (int i = 0; i < 10; i++) {
-//                MessageEntity message = new MessageEntity();
-//                message.setDateCreated(new Date());
-//                if (i % 2 == 0) {
-//                    message.setUserEntity(user1);
-//                    message.setMessageBody("Message " + i + " from " + user1.getName());
-//                } else {
-//                    message.setUserEntity(user2);
-//                    message.setMessageBody("Message " + i + " from " + user2.getName());
-//                }
-//                messageSessionBeanLocal.createMessage(message, chat.getId());
-//            }
+            chat.setName(name);
+            chatSessionBeanLocal.createChat(chat, user1, user2);
+            System.out.println(chat.getId());
+            
+            for (int i = 0; i < 10; i++) {
+                MessageEntity message = new MessageEntity();
+                message.setDateCreated(new Date());
+                if (i % 2 == 0) {
+                    message.setUsername(user1.getName());
+                    message.setMessageBody("Message " + i + " from " + user1.getName());
+                } else {
+                    message.setUsername(user2.getName());
+                    message.setMessageBody("Message " + i + " from " + user2.getName());
+                }
+                messageSessionBeanLocal.createMessage(message, chat.getId());
+            }
+
         } catch (UserNotFoundException e) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -112,9 +116,9 @@ public class DataInitSessionBean {
 
     public void initialiseLostFound() {
         try {
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost", "ELECTRONICS"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Calculator", "Last seen at YIH", "YIH", "Please help!", "lost", "ELECTRONICS"), new Long(1));
-            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Econs Textbook", "Found an econs textbook", "COM1", "Chat me if it's yours", "found", "EDUCATION"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("iPhone 13", "Lost at CLB 2 days ago", "CLB", "Please help me find it", "lost", "Phone"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Airpods Pro", "Last seen at YIH", "YIH", "Please help!", "lost", "Earphones"), new Long(1));
+            lostFoundSessionBeanLocal.createLostFound(new LostFoundListing("Canvas bag", "Found a bag", "COM1", "Chat me if it's yours", "found", "Bag"), new Long(1));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -127,18 +131,18 @@ public class DataInitSessionBean {
             oldTextbookSessionBeanLocal.createOldTextbook(new OldTextbookListing("CS2102", "Introduction to Database", "Good condition"), new Long(1));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        }       
+        }
     }
 
     public void initialiseStudyBuddy() {
         try {
-          
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2,userSessionLocal.getUser(1L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4,userSessionLocal.getUser(2L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5,userSessionLocal.getUser(3L)));
+
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2, userSessionLocal.getUser(1L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4, userSessionLocal.getUser(2L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5, userSessionLocal.getUser(3L)));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 }

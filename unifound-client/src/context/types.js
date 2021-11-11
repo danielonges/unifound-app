@@ -44,8 +44,7 @@ export const GET_USER = 'GET_USER';
 
 export const EDIT_USER = 'EDIT_USER';
 
-
 // chat types
 export const GET_USER_CHATS = 'GET_USER_CHATS';
 export const CHAT_ERROR = 'CHAT_ERROR';
-
+export const SEND_MESSAGE = 'SEND_MESSAGE';

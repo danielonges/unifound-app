@@ -8,6 +8,7 @@ package webservices.restful;
 import entity.LostFoundListing;
 import entity.UserEntity;
 import exception.UserNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -83,7 +84,8 @@ public class LostnFoundResource {
     @Path("/allLFlistings")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllLostFoundListings() {
-        return Response.ok().entity(lostFoundSessionBeanLocal.getAllLostFoundListings()).build();
+        List<LostFoundListing> lostFoundListings = lostFoundSessionBeanLocal.getAllLostFoundListings();
+        return Response.ok().entity(lostFoundListings).build();
     }
     
     @GET

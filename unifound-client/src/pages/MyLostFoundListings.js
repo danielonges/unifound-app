@@ -240,13 +240,8 @@ export default function MyLostFoundListings() {
                                 onChange={(event) => handleClick(event, name)}
                               />
                             </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                              <Stack direction="row" alignItems="center" spacing={2}>
-                                <Typography variant="subtitle2" noWrap>
-                                  {name}
-                                </Typography>
-                              </Stack>
-                            </TableCell>
+
+                            <TableCell align="left">{name}</TableCell>
                             <TableCell align="left">{description}</TableCell>
                             <TableCell align="left">{location}</TableCell>
                             <TableCell align="left">{comments}</TableCell>

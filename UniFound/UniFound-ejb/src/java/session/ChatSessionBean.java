@@ -28,15 +28,16 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     @EJB(name = "UserSessionLocal")
     private UserSessionLocal userSessionLocal;
 
-    @PersistenceContext
+    @PersistenceContext(name = "UniFound-ejbPU")
     private EntityManager em;
 
     @Override
-    public void createChat(Chat c, Long... userIds) throws UserNotFoundException {
+    public void createChat(Chat c, UserEntity... users) throws UserNotFoundException {
         em.persist(c);
-        for (Long userId : userIds) {
-            UserEntity userEntity = userSessionLocal.getUser(userId);
-            userEntity.getChats().add(c);
+        em.flush();
+        for (UserEntity user : users) {
+            user.getChats().add(c);
+            userSessionLocal.updateUser(user);
         }
     }
 
@@ -80,9 +81,9 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     @Override
     public void deleteChat(Long cId) throws NoResultException {
         Chat c = getChat(cId);
-        for (int i = 0; i < c.getMessages().size(); i++) {
-            c.getMessages().get(i).setUserEntity(null);
-        }
+//        for (int i = 0; i < c.getMessages().size(); i++) {
+//            c.getMessages().get(i).setUserEntity(null);
+//        }
         Query query = em.createQuery("SELECT u FROM UserEntity u WHERE :chat MEMBER OF u.chats");
         query.setParameter("chat", c);
 
