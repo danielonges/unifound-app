@@ -1,15 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Icon } from '@iconify/react';
-import eyeFill from '@iconify/icons-eva/eye-fill';
 import { Link as RouterLink } from 'react-router-dom';
-
-import shareFill from '@iconify/icons-eva/share-fill';
-import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {
-  Box,
   Link,
   Card,
   Grid,
@@ -21,7 +16,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@mui/material';
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
@@ -29,17 +23,10 @@ import trashFill from '@iconify/icons-eva/trash-2-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import logoutFill from '@iconify/icons-eva/log-out-fill';
 import edit2Fill from '@iconify/icons-eva/edit-2-fill';
-// context
 import { EditStudyBuddy } from '../../authentication/register';
 import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
-// utils
-import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
-//
 import SvgIconStyle from '../../SvgIconStyle';
-
-// ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
   position: 'relative',
@@ -89,12 +76,12 @@ const CoverImgStyle = styled('img')({
 
 // ----------------------------------------------------------------------
 
-BlogPostCard.propTypes = {
+StudyBuddyCard.propTypes = {
   post: PropTypes.object.isRequired,
   index: PropTypes.number
 };
 
-export default function BlogPostCard({ listing, index }) {
+export default function StudyBuddyCard({ listing, index }) {
   const { course, gender, module, yearOfStudy, location, groupsize, users, studyListingOwner } =
     listing;
 

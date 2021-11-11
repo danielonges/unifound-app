@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { createRef, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
@@ -19,7 +20,7 @@ import {
 
 import StudyBuddyContext from '../context/studyBuddy/studyBuddyContext';
 import Page from '../components/Page';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/studybuddy';
+import { StudyBuddySort, StudyBuddySearch, StudyBuddyCard } from '../components/_dashboard/studybuddy';
 import { StudyBuddyForm } from '../components/authentication/register';
 
 const SORT_OPTIONS = [
@@ -81,13 +82,13 @@ export default function StudyBuddy(props) {
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <BlogPostsSearch listing={studyBuddyListings} />
-          <BlogPostsSort options={SORT_OPTIONS} />
+          <StudyBuddySearch listing={studyBuddyListings} />
+          <StudyBuddySort options={SORT_OPTIONS} />
         </Stack>
 
         <Grid container spacing={3}>
           {studyBuddyListings.map((listing, index) => (
-            <BlogPostCard key={listing.id} listing={listing} index={index} />
+            <StudyBuddyCard key={listing.id} listing={listing} index={index} />
           ))}
         </Grid>
       </Container>

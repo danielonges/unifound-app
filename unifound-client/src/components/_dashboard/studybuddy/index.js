@@ -1,3 +1,3 @@
-export { default as BlogPostCard } from './BlogPostCard';
-export { default as BlogPostsSearch } from './BlogPostsSearch';
-export { default as BlogPostsSort } from './BlogPostsSort';
+export { default as StudyBuddyCard } from './StudyBuddyCard';
+export { default as StudyBuddySearch } from './StudyBuddySearch';
+export { default as StudyBuddySort } from './StudyBuddySort';

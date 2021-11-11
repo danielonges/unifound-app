@@ -4,12 +4,12 @@ import { MenuItem, TextField } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-BlogPostsSort.propTypes = {
+StudyBuddySort.propTypes = {
   options: PropTypes.array,
   onSort: PropTypes.func
 };
 
-export default function BlogPostsSort({ options, onSort }) {
+export default function StudyBuddySort({ options, onSort }) {
   return (
     <TextField select size="small" value="latest" onChange={onSort}>
       {options.map((option) => (
