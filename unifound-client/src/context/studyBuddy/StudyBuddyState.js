@@ -14,7 +14,8 @@ import {
 
 const StudyBuddyState = (props) => {
   const initialState = {
-    studyBuddyListings: []
+    studyBuddyListings: [],
+    error: null
   };
 
   const [state, dispatch] = useReducer(studyBuddyReducer, initialState);
@@ -186,6 +187,7 @@ const StudyBuddyState = (props) => {
     <StudyBuddyContext.Provider
       value={{
         studyBuddyListings: state.studyBuddyListings,
+        error: state.error,
         createStudyListing,
         getStudyListings,
         getStudyListingByModule,

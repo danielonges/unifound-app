@@ -6,9 +6,7 @@ import AnnouncementContext from './announcementContext';
 import announcementReducer from './announcementReducer';
 import {
   GET_ALL_ANNOUNCEMENTS,
-  GET_ANNOUNCEMENT,
   CREATE_ANNOUNCEMENT,
-  UPDATE_ANNOUNCEMENT,
   DELETE_ANNOUNCEMENT
 } from '../types';
 
@@ -36,7 +34,7 @@ const AnnouncementState = (props) => {
     };
     console.log(value);
     try {
-      const res = await axios.post(`/announcement/create/${user.id}`, value, config);
+      const res = await axios.post(`/announcement/create`, value, config);
 
       dispatch({
         type: CREATE_ANNOUNCEMENT,
@@ -50,38 +48,12 @@ const AnnouncementState = (props) => {
     }
   };
 
-  const getAnnouncement = async (announcementId) => {
-    const res = await axios.get(`/lostnfound/${announcementId}`);
-    dispatch({
-      type: GET_ANNOUNCEMENT,
-      payload: res.data
-    });
-  };
-
-  const updateAnnouncement = async (announcement, announcementId) => {
+  const deleteAnnouncement = async (listingId) => {
     try {
-      const res = await axios.put(`/announcement/edit/${announcementId}`, announcement, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      dispatch({
-        type: UPDATE_ANNOUNCEMENT,
-        payload: res.data
-      });
-      getAnnouncement(announcementId);
-    } catch (err) {
-      dispatch({
-        type: UPDATE_ANNOUNCEMENT,
-        payload: err.response.data.error
-      });
-    }
-  };
-
-  const deleteAnnouncement = async (announcementId) => {
-    try {
-      const res = await axios.delete(`/lostnfound/delete/${announcementId}`);
+      const res = await axios.delete(`/announcement/delete/${listingId}`);
       dispatch({
         type: DELETE_ANNOUNCEMENT,
-        payload: res.data
+        payload: listingId
       });
     } catch (err) {
       dispatch({
@@ -98,8 +70,6 @@ const AnnouncementState = (props) => {
         announcements: state.announcements,
         getAllAnnouncements,
         createAnnouncement,
-        getAnnouncement,
-        updateAnnouncement,
         deleteAnnouncement
       }}
     >

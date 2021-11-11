@@ -3,15 +3,15 @@ import { useContext, useEffect, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import {
-  Stack,
-  TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  Autocomplete,
-  Button
+    Stack,
+    TextField,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    Radio,
+    FormControlLabel,
+    Autocomplete,
+    Button
 } from '@mui/material';
 import nuslocation from '../../../_mocks_/nuslocation';
 import categories from '../../../_mocks_/categories';
@@ -48,7 +48,7 @@ export default function CreateLostFoundForm({ handleClose }) {
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   // useEffect(() => {
   //     if (!listingId) return;
@@ -63,25 +63,25 @@ export default function CreateLostFoundForm({ handleClose }) {
   //     setFieldValue('category', lostAndFoundContext.lostFoundListing.category);
   // }, [])
 
-  return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <TextField
-            fullWidth
-            label="Name"
-            {...getFieldProps('name')}
-            error={Boolean(touched.name && errors.name)}
-            helperText={touched.name && errors.name}
-          />
+    return (
+        <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <Stack spacing={3}>
+                    <TextField
+                        fullWidth
+                        label="Name"
+                        {...getFieldProps('name')}
+                        error={Boolean(touched.name && errors.name)}
+                        helperText={touched.name && errors.name}
+                    />
 
-          <TextField
-            fullWidth
-            label="Description"
-            {...getFieldProps('description')}
-            error={Boolean(touched.description && errors.description)}
-            helperText={touched.description && errors.description}
-          />
+                    <TextField
+                        fullWidth
+                        label="Description"
+                        {...getFieldProps('description')}
+                        error={Boolean(touched.description && errors.description)}
+                        helperText={touched.description && errors.description}
+                    />
 
           <Autocomplete
             {...getFieldProps}

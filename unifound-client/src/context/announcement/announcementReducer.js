@@ -2,7 +2,6 @@
 // /* eslint-disable prettier/prettier */
 import {
   CREATE_ANNOUNCEMENT,
-  UPDATE_ANNOUNCEMENT,
   DELETE_ANNOUNCEMENT,
   GET_ALL_ANNOUNCEMENTS,
   GET_ANNOUNCEMENT
@@ -11,10 +10,9 @@ import {
 const announcementReducer = (state, action) => {
   switch (action.type) {
     case CREATE_ANNOUNCEMENT:
-    case UPDATE_ANNOUNCEMENT:
       return {
         ...state,
-        announcements: action.payload
+        announcements: [action.payload, ...state.announcements]
       };
     case DELETE_ANNOUNCEMENT:
       return {

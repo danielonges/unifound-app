@@ -5,6 +5,7 @@
  */
 package singleton;
 
+import entity.Announcement;
 import entity.Chat;
 import entity.LostFoundListing;
 import entity.MessageEntity;
@@ -25,6 +26,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import session.AnnouncementSessionBeanLocal;
 import session.ChatSessionBeanLocal;
 import session.LostFoundSessionBeanLocal;
 import session.MessageSessionBeanLocal;
@@ -52,6 +54,11 @@ public class DataInitSessionBean {
     private ChatSessionBeanLocal chatSessionBeanLocal;
     @EJB
     private MessageSessionBeanLocal messageSessionBeanLocal;
+    @EJB
+    private AnnouncementSessionBeanLocal announcementSessionBeanLocal;
+    
+    @PersistenceContext
+    private EntityManager em;
 
     public DataInitSessionBean() {
     }
@@ -64,6 +71,7 @@ public class DataInitSessionBean {
             initialiseLostFound();
             initialiseOldTextbook();
             initialiseStudyBuddy();
+            initialiseAnnouncement();
             
 //            initialiseMessage(1L, 1L, 2L);
 //            initialiseMessage(2L, 2L, 3L);
@@ -135,14 +143,18 @@ public class DataInitSessionBean {
     }
 
     public void initialiseStudyBuddy() {
-        try {
-
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2, userSessionLocal.getUser(1L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4, userSessionLocal.getUser(2L)));
-            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5, userSessionLocal.getUser(3L)));
+        try {    
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "IS3106", "Information Systems", "Year 5", "CLB", 2,userSessionLocal.getUser(1L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Male", "CS2105", "Computer Science", "Year 1", "COM1", 4,userSessionLocal.getUser(2L)));
+            studyBuddySessionBeanLocal.createStudyBuddyListing(new StudyBuddyListing("Female", "CS2102", "Information Security", "Year 3", "UTOWN", 5,userSessionLocal.getUser(3L)));
         } catch (UserNotFoundException ex) {
             Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        } 
+    }
+    
+    private void initialiseAnnouncement() {
+        announcementSessionBeanLocal.createAnnouncement(new Announcement("Week 13 hell week..."));
+        announcementSessionBeanLocal.createAnnouncement(new Announcement("They're giving out welfare packs from 8-10 Nov at COM2!"));
+        announcementSessionBeanLocal.createAnnouncement(new Announcement("Stay positive everyone the sem is ending soon!"));
     }
 }

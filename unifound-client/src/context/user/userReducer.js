@@ -31,6 +31,9 @@ const userReducer = (state, action) => {
       };
     case LOGIN_FAIL:
     case CREATE_USER_FAIL:
+      return {
+        error: action.payload
+      };
     case LOGOUT:
       localStorage.removeItem('user');
       return {
