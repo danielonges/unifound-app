@@ -75,7 +75,7 @@ export default function LostFoundCard({ lostFoundItem }) {
     };
     createChatForLostFound(chat, user.id, JSON.parse(localStorage.getItem('user')).id);
   };
-  
+
   return (
     <SectionStyle>
       <Card sx={{ position: 'relative' }}>
@@ -122,7 +122,7 @@ export default function LostFoundCard({ lostFoundItem }) {
           Posted by: {lostFoundItem.user.name} <br />
           <InfoStyle> {type.toUpperCase()}</InfoStyle>
           {lostFoundItem.user.id !== JSON.parse(localStorage.getItem('user')).id ? (
-            <Button variant="contained" component={RouterLink} to="#" onClick={onCreateChat}>
+            <Button variant="contained" component={RouterLink} to="/dashboard/chats" onClick={onCreateChat}>
               Chat Now
             </Button>
           ) : (
