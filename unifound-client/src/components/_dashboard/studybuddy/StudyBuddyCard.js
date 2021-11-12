@@ -23,7 +23,7 @@ import trashFill from '@iconify/icons-eva/trash-2-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import logoutFill from '@iconify/icons-eva/log-out-fill';
 import edit2Fill from '@iconify/icons-eva/edit-2-fill';
-import { EditStudyBuddy } from '../../authentication/register';
+import { EditStudyBuddy } from '../../authentication/register/editStudyBuddy';
 import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 import SvgIconStyle from '../../SvgIconStyle';
@@ -102,12 +102,6 @@ export default function StudyBuddyCard({ listing, index }) {
   const handleCancel = () => {
     setOpen(false);
   };
-
-  // const POST_INFO = [
-  //   { number: comment, icon: messageCircleFill },
-  //   { number: view, icon: eyeFill },
-  //   { number: share, icon: shareFill }
-  // ];
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
@@ -233,25 +227,33 @@ export default function StudyBuddyCard({ listing, index }) {
               >
                 Listed By: {users !== undefined && studyListingOwner.name}
               </Typography>
-
               <TitleStyle
                 to="#"
                 color="inherit"
-                variant="subtitle2"
+                variant="subtitle3"
                 underline="hover"
                 component={RouterLink}
-                sx={{
-                  ...(latestPostLarge && { typography: 'h5', height: 60 }),
-                  ...((latestPostLarge || latestPost) && {
-                    color: 'common.white'
-                  })
-                }}
               >
                 {module} Study Group <br />
                 Currently: {users.length + 1} / {groupsize}
-              </TitleStyle>
-
+              </TitleStyle>{' '}
               <InfoStyle> {location}</InfoStyle>
+              {user.id === studyListingOwner.id && (
+                <Label variant="ghost" color="warning">
+                  Owner
+                </Label>
+              )}
+              {user.id !== studyListingOwner.id &&
+                users.find((value) => value.id === user.id) === undefined && (
+                  <Label variant="ghost" color="success">
+                    Open
+                  </Label>
+                )}
+              {users.find((value) => value.id === user.id) !== undefined && (
+                <Label variant="ghost" color="error">
+                  Joined
+                </Label>
+              )}
             </CardContent>
           </Card>
         </FrontSide>

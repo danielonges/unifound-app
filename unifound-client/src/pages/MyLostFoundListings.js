@@ -102,6 +102,10 @@ export default function MyLostFoundListings() {
     getLostFoundListingOfUser(user.id);
   }, []);
 
+  useEffect(() => {
+    getLostFoundListingOfUser(user.id);
+  }, []);
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = lostFoundListings.map((n) => n.name);

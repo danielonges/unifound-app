@@ -104,6 +104,9 @@ export default function MyStudyListings() {
   useEffect(() => {
     getStudyListingOfUser(user.id);
   }, []);
+  useEffect(() => {
+    getStudyListingOfUser(user.id);
+  }, []);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {

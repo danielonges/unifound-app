@@ -70,6 +70,7 @@ public class StudyBuddySessionBean implements StudyBuddySessionBeanLocal {
         return q.getResultList();
     }
     
+    
      @Override
     public void deleteStudyBuddyListing(Long sId) throws NoResultException {
         StudyBuddyListing s = getStudyBuddyListing(sId);

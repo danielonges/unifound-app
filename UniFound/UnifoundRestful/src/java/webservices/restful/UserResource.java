@@ -5,12 +5,11 @@
  */
 package webservices.restful;
 
-import entity.Chat;
-import entity.MessageEntity;
 import entity.UserEntity;
 import exception.InvalidLoginException;
 import exception.UserAlreadyExistException;
 import exception.UserNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -49,11 +48,12 @@ public class UserResource {
     public UserResource() {
     }
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAllUsers() {
-//       
-//    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<UserEntity> getAllUsers() {
+        return userSessionLocal.getAllUsers();
+    }
+    
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -65,7 +65,12 @@ public class UserResource {
             userEntity = userSessionLocal.loginUser(email, password);
             return Response.status(200).entity(userEntity).build();
         } catch (InvalidLoginException | UserNotFoundException ex) {
-            return Response.status(400).entity("{\"errorMessage\":\"No such username!\"}").build();
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", "Username or password is incorrect!")
+                    .build();
+
+            return Response.status(404).entity(exception)
+                    .type(MediaType.APPLICATION_JSON).build();
         }
     }
 

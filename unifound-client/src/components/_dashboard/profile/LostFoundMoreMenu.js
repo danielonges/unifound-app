@@ -55,29 +55,6 @@ export default function LostFoundMoreMenu({ lostFoundItem }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenSecond(true)}>
-          <ListItemIcon>
-            <Icon icon={trash2Outline} width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-        <Dialog open={openSecond} onClose={() => setOpenSecond(false)}>
-          <DialogTitle>Confirm Delete?</DialogTitle>
-
-          <DialogActions>
-            {' '}
-            <Button
-              onClick={() => {
-                deleteLostFoundListing(lostFoundItem.id);
-                setOpenSecond(false);
-              }}
-            >
-              Yes
-            </Button>
-            <Button onClick={() => setOpenSecond(false)}>No</Button>
-          </DialogActions>
-        </Dialog>
-
         <MenuItem
           component={RouterLink}
           to="#"
@@ -102,6 +79,28 @@ export default function LostFoundMoreMenu({ lostFoundItem }) {
 
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>{' '}
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={() => setOpenSecond(true)}>
+          <ListItemIcon>
+            <Icon icon={trash2Outline} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <Dialog open={openSecond} onClose={() => setOpenSecond(false)}>
+          <DialogTitle>Confirm Delete?</DialogTitle>
+
+          <DialogActions>
+            {' '}
+            <Button
+              onClick={() => {
+                deleteLostFoundListing(lostFoundItem.id);
+                setOpenSecond(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button onClick={() => setOpenSecond(false)}>No</Button>
           </DialogActions>
         </Dialog>
       </Menu>

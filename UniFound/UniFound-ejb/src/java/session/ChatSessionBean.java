@@ -32,19 +32,25 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createChat(Chat c, UserEntity... users) throws UserNotFoundException {
+    public void createChat(Chat c, UserEntity user) throws UserNotFoundException {
+        c.setOwnerId(user.getId());
         em.persist(c);
         em.flush();
-        for (UserEntity user : users) {
-            user.getChats().add(c);
-            userSessionLocal.updateUser(user);
-        }
+        user.getChats().add(c);
+        userSessionLocal.updateUser(user);
+    }
+    
+    @Override
+    public void addToChat(Chat c, UserEntity user) throws UserNotFoundException {
+        user.getChats().add(c);
+        userSessionLocal.updateUser(user);
     }
 
     @Override
     public List<UserEntity> getAllUsersFromChat(Long cId) throws NoResultException {
         Chat c = getChat(cId);
         Query q = em.createQuery("SELECT u FROM UserEntity u WHERE :inChat MEMBER OF u.chats");
+        q.setParameter("inChat", c);
         return q.getResultList();
     }
 
@@ -79,16 +85,24 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     }
 
     @Override
-    public void deleteChat(Long cId) throws NoResultException {
+    public void deleteChat(Long cId, Long userId) throws NoResultException, UserNotFoundException {
         Chat c = getChat(cId);
-//        for (int i = 0; i < c.getMessages().size(); i++) {
-//            c.getMessages().get(i).setUserEntity(null);
-//        }
-        Query query = em.createQuery("SELECT u FROM UserEntity u WHERE :chat MEMBER OF u.chats");
-        query.setParameter("chat", c);
 
-        UserEntity userEntity = (UserEntity) query.getSingleResult();
+        UserEntity userEntity = userSessionLocal.getUser(userId);
         userEntity.getChats().remove(c);
+
+//        em.remove(c);
+    }
+
+    @Override
+    public void deleteChatForAll(Long cId) throws NoResultException, UserNotFoundException {
+        Chat c = getChat(cId);
+        List<UserEntity> users = getAllUsersFromChat(cId);
+
+        for (UserEntity userEntity : users) {
+            userEntity.getChats().remove(c);
+        }
+
         em.remove(c);
     }
 

@@ -19,12 +19,21 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Divider
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField
 } from '@mui/material';
 // components
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import { Box } from '@mui/system';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
+import AlertContext from '../context/alert/alertContext';
 import ChatContext from '../context/chat/chatContext';
 import UserContext from '../context/user/userContext';
 
@@ -80,10 +89,12 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function Chats() {
+  const alertContext = useContext(AlertContext);
   const chatContext = useContext(ChatContext);
   const userContext = useContext(UserContext);
 
-  const { chats, getUserChats } = chatContext;
+  const { setAlert } = alertContext;
+  const { chats, createChat, getUserChats } = chatContext;
   const { user } = userContext;
 
   const [page, setPage] = useState(0);
@@ -93,6 +104,8 @@ export default function Chats() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currChat, setCurrChat] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(null);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -123,17 +136,9 @@ export default function Chats() {
 
   useEffect(() => {
     getUserChats(user.id);
-    if (currChat !== null) {
+    if (currChat) {
       setCurrChat(chats.find((chat) => chat.id === currChat.id));
     }
-    // const refreshChats = setInterval(async () => {
-    //   console.log('Got my chats');
-    //   await getUserChats(user.id);
-    //   //   if (currChat !== null) {
-    //   //     setCurrChat(chats.find((chat) => chat.id === currChat.id));
-    //   //   }
-    // }, 3000);
-    // return () => clearInterval(refreshChats);
     // eslint-disable-next-line
   }, [JSON.stringify(chats)]);
 
@@ -173,6 +178,29 @@ export default function Chats() {
     setCurrChat(row);
   };
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onCreateChat = () => {
+    if (name === null || name === '') {
+      setAlert('Chat title must be provided!', 'error');
+    } else {
+      const chat = {
+        name
+      };
+      createChat(chat, user.id);
+    }
+  };
+
+  const onChatNameChange = (e) => {
+    setName(e.target.value);
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
@@ -186,12 +214,7 @@ export default function Chats() {
           <Typography variant="h4" gutterBottom>
             Chats
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
+          <Button variant="contained" onClick={handleOpen} startIcon={<Icon icon={plusFill} />}>
             New Chat
           </Button>
         </Stack>
@@ -233,10 +256,7 @@ export default function Chats() {
                                 onClick={(e) => onClickChat(e, row)}
                               >
                                 <TableCell padding="checkbox">
-                                  <Checkbox
-                                    checked={isItemSelected}
-                                    onChange={(event) => handleClick(event, name)}
-                                  />
+                                  <ChatBubbleOutlineIcon sx={{ margin: 2 }} />
                                 </TableCell>
                                 <TableCell align="left">{name}</TableCell>
                               </TableRowStyle>
@@ -251,24 +271,40 @@ export default function Chats() {
                   </Table>
                 </TableContainer>
               </Scrollbar>
-
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={USERLIST.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </Grid>
             <Grid item xs={8}>
-              <ChatAreaToolbar chatTitle={currChat === null ? '' : currChat.name} />
-              <ChatArea chat={currChat === null ? null : currChat.messages} />
-              {currChat !== null && <ChatReplyBar userId={user.id} chatId={currChat.id} />}
+              <ChatAreaToolbar chat={currChat && currChat} />
+              <ChatArea chat={currChat ? currChat.messages : null} />
+              {currChat && <ChatReplyBar userId={user.id} chatId={currChat.id} />}
             </Grid>
           </Grid>
         </Card>
+        {/* create chat dialog */}
+        <Dialog open={open} onClose={handleClose} fullWidth>
+          <DialogTitle>New Chat</DialogTitle>
+
+          <Box component="form" onSubmit={onCreateChat}>
+            <DialogContent>
+              <DialogContentText>Create new chat</DialogContentText>
+              <TextField
+                fullWidth
+                name="name"
+                label="Chat Title"
+                id="name"
+                required
+                onChange={onChatNameChange}
+                sx={{ mt: 3 }}
+              />
+            </DialogContent>
+
+            <DialogActions>
+              <Button type="submit">Create</Button>
+              <Button onClick={handleClose} color="error">
+                Close
+              </Button>
+            </DialogActions>
+          </Box>
+        </Dialog>
       </Container>
     </Page>
   );

@@ -16,20 +16,25 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
-  FormControlLabel
+  FormControlLabel,
+  Button
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import course from '../../../_mocks_/course';
 import yearOfStudy from '../../../_mocks_/yearOfStudy';
 import UserContext from '../../../context/user/userContext';
+import AlertContext from '../../../context/alert/alertContext';
+import AlertBar from '../../AlertBar';
 
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const userContext = useContext(UserContext);
-  const { error, createUser } = userContext;
+  const { error, createUser, isAuthenticated, clearErrors } = userContext;
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
@@ -49,14 +54,28 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: (value) => {
       createUser(value);
-      navigate('/dashboard/app', { replace: true });
     }
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard/app', { replace: true });
+    }
+
+    if (error) {
+      setAlert(error, 'error');
+      clearErrors();
+    }
+
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   return (
     <FormikProvider value={formik}>
+      <AlertBar />
+      <br />
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
@@ -122,15 +141,9 @@ export default function RegisterForm() {
             </RadioGroup>
           </FormControl>
 
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
+          <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
             Register
-          </LoadingButton>
+          </Button>
         </Stack>
       </Form>
     </FormikProvider>

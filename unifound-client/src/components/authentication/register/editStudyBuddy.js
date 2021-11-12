@@ -51,6 +51,7 @@ export default function EditStudyBuddy({ handleClose, listing }) {
       location: listing.location,
       groupsize: listing.groupsize,
       id: listing.id,
+      studyListingOwner: listing.studyListingOwner,
       users: listing.users
     },
     validationSchema: RegisterSchema,
