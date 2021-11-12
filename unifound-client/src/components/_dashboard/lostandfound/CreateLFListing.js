@@ -13,6 +13,7 @@ import {
     Autocomplete,
     Button
 } from '@mui/material';
+import * as Yup from 'yup';
 import nuslocation from '../../../_mocks_/nuslocation';
 import categories from '../../../_mocks_/categories';
 import UserContext from '../../../context/user/userContext';
@@ -26,6 +27,11 @@ export default function CreateLostFoundForm({ handleClose }) {
 
   const { createLostFoundListing } = lostAndFoundContext;
 
+  const createLFSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    description: Yup.string().required('Description is required')
+  });
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -35,7 +41,7 @@ export default function CreateLostFoundForm({ handleClose }) {
       type: '',
       category: ''
     },
-    // validationSchema: RegisterSchema,
+    validationSchema: createLFSchema,
     onSubmit: (value) => {
       // if (!listingId) {
       createLostFoundListing(value, user);
