@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect, useContext } from 'react';
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
@@ -92,11 +93,11 @@ export default function MyLostFoundListings() {
   const lostAndFoundContext = useContext(LostAndFoundContext);
   const { lostFoundListings, getLostFoundListingOfUser } = lostAndFoundContext;
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+  // const handleRequestSort = (event, property) => {
+  //   const isAsc = orderBy === property && order === 'asc';
+  //   setOrder(isAsc ? 'desc' : 'asc');
+  //   setOrderBy(property);
+  // };
 
   useEffect(() => {
     getLostFoundListingOfUser(user.id);
@@ -158,16 +159,16 @@ export default function MyLostFoundListings() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - lostFoundListings.length) : 0;
 
-  const filteredUsers = applySortFilter(
-    lostFoundListings,
-    getComparator(order, orderBy),
-    filterName
-  );
+  // const filteredUsers = applySortFilter(
+  //   lostFoundListings,
+  //   getComparator(order, orderBy),
+  //   filterName
+  // );
 
-  const isUserNotFound = filteredUsers.length === 0;
+  // const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="Unifound: User">
       <Container sx={{ display: 'flex', flexDirection: 'row' }}>
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -202,11 +203,11 @@ export default function MyLostFoundListings() {
           </Stack>
 
           <Card>
-            <UserListToolbar
+            {/* <UserListToolbar
               numSelected={selected.length}
               filterName={filterName}
               onFilterName={handleFilterByName}
-            />
+            /> */}
 
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
@@ -217,7 +218,7 @@ export default function MyLostFoundListings() {
                     headLabel={TABLE_HEAD}
                     rowCount={lostFoundListings.length}
                     numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
+                    // onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
@@ -260,15 +261,17 @@ export default function MyLostFoundListings() {
                       </TableRow>
                     )}
                   </TableBody>
-                  {isUserNotFound && (
+                  {
+                  // isUserNotFound &&  (
                     <TableBody>
                       <TableRow>
                         <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={filterName} />
+                          {/* <SearchNotFound searchQuery={filterName} /> */}
                         </TableCell>
                       </TableRow>
                     </TableBody>
-                  )}
+                  // )
+                  }
                 </Table>
               </TableContainer>
             </Scrollbar>

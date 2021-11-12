@@ -23,11 +23,11 @@ import Page from '../components/Page';
 import { StudyBuddySort, StudyBuddySearch, StudyBuddyCard } from '../components/_dashboard/studybuddy';
 import { StudyBuddyForm } from '../components/authentication/register';
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' }
-];
+// const SORT_OPTIONS = [
+//   { value: 'latest', label: 'Latest' },
+//   { value: 'popular', label: 'Popular' },
+//   { value: 'oldest', label: 'Oldest' }
+// ];
 
 export default function StudyBuddy(props) {
   const [open, setOpen] = React.useState(false);
@@ -83,7 +83,7 @@ export default function StudyBuddy(props) {
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <StudyBuddySearch listing={studyBuddyListings} />
-          <StudyBuddySort options={SORT_OPTIONS} />
+          {/* <StudyBuddySort options={SORT_OPTIONS} /> */}
         </Stack>
 
         <Grid container spacing={3}>
