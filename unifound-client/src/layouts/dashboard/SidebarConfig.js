@@ -16,11 +16,6 @@ const sidebarConfig = [
     icon: getIcon(squareOutline)
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
-  },
-  {
     title: 'lost and found',
     path: '/dashboard/lostfound',
     icon: getIcon(shoppingBagFill)

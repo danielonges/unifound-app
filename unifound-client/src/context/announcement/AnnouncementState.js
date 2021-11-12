@@ -7,7 +7,10 @@ import announcementReducer from './announcementReducer';
 import {
   GET_ALL_ANNOUNCEMENTS,
   CREATE_ANNOUNCEMENT,
-  DELETE_ANNOUNCEMENT
+  DELETE_ANNOUNCEMENT,
+  LIKE_ANNOUNCEMENT,
+  GET_ANNOUNCEMENT,
+  LISTING_ERROR
 } from '../types';
 
 const AnnouncementState = (props) => {
@@ -26,7 +29,7 @@ const AnnouncementState = (props) => {
     });
   };
 
-  const createAnnouncement = async (value, user) => {
+  const createAnnouncement = async (value) => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -42,11 +45,46 @@ const AnnouncementState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: CREATE_ANNOUNCEMENT,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
   };
+
+  const getAnnouncement = async (announcementId) => {
+    try {
+      const res = await axios.get(`/announcement/${announcementId}`);
+      dispatch({
+        type: GET_ANNOUNCEMENT,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        payload: err.response.error
+      })
+    }
+  }
+
+  const likeAnnouncement = async (postId, user) => {
+    const config = {
+      headers: {
+        'Context-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.post(`/announcement/like/${postId}/${user.id}`, config);
+      dispatch({
+        type: GET_ALL_ANNOUNCEMENTS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: LISTING_ERROR,
+        // payload: err.response.data.error
+      });
+    }
+  }
 
   const deleteAnnouncement = async (listingId) => {
     try {
@@ -57,7 +95,7 @@ const AnnouncementState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: DELETE_ANNOUNCEMENT,
+        type: LISTING_ERROR,
         payload: err.response.data.error
       });
     }
@@ -70,7 +108,9 @@ const AnnouncementState = (props) => {
         announcements: state.announcements,
         getAllAnnouncements,
         createAnnouncement,
-        deleteAnnouncement
+        deleteAnnouncement,
+        likeAnnouncement,
+        getAnnouncement
       }}
     >
       {props.children}

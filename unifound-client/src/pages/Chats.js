@@ -208,7 +208,7 @@ export default function Chats() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Chats | Minimal-UI">
+    <Page title="Unifound: Chats">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

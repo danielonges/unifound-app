@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   DialogActions,
   DialogTitle,
@@ -58,9 +59,18 @@ export default function LostFoundCard({ lostFoundItem }) {
   const { currentUser } = useContext(userContext);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [createChatOpen, setCreateChatOpen] = useState(false);
   const handleClickOpenEdit = () => setEditOpen(true);
   const handleCloseEdit = () => setEditOpen(false);
   const handleCancel = () => setDeleteOpen(false);
+
+  const handleCreateChatOpen = () => {
+    setCreateChatOpen(true);
+  };
+
+  const handleCreateChatClose = () => {
+    setCreateChatOpen(false);
+  };
 
   const { id, name, description, location, comments, type, user, category } = lostFoundItem;
   return (
@@ -96,45 +106,26 @@ export default function LostFoundCard({ lostFoundItem }) {
           )}
         </CardMediaStyle>
         <CardContent sx={{ color: 'text.primary', fontSize: 12 }}>
-          {name} <br />
+          <Typography variant="subtitle2" noWrap>
+            {name} <br />
+          </Typography>
           {description} <br />
           Location: {location} <br />
           {comments} <br />
           Posted by: {user.name} <br />
           <InfoStyle> {type.toUpperCase()}</InfoStyle>
+          {lostFoundItem.user.id !== JSON.parse(localStorage.getItem('user')).id ? (
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              onClick={handleCreateChatOpen}
+            >
+              Chat Now
+            </Button>
+          ) : ''}
         </CardContent>
       </Card>
-      {/* <Stack spacing={2} sx={{ p: 3 }}>
-        <Typography variant="subtitle2" noWrap>
-          {name}
-        </Typography>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {description}
-          <Typography variant="subtitle1">&nbsp;</Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          Location: {location}
-          <Typography variant="subtitle1">&nbsp;</Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {comments}
-          <Typography variant="subtitle1">&nbsp;</Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          Posted by: {user.name}
-          <Typography variant="subtitle3">&nbsp;</Typography>
-        </Stack>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="subtitle3">
-            {type.toUpperCase()}
-            &nbsp;
-          </Typography>
-        </Stack> */}
 
       {lostFoundItem.user.id === JSON.parse(localStorage.getItem('user')).id ? (
         <Stack>

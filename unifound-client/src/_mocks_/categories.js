@@ -8,7 +8,8 @@ const categories = [
   'Earphones',
   'Bag',
   'Charging Cable',
-  'Spectacles'
+  'Spectacles',
+  'Others'
 ];
 
 export default categories;

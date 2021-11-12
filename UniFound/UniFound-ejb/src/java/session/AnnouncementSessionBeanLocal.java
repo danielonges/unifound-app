@@ -6,6 +6,7 @@
 package session;
 
 import entity.Announcement;
+import entity.UserEntity;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -29,4 +30,8 @@ public interface AnnouncementSessionBeanLocal {
     public List<Announcement> getAnnouncementsOfUser(Long uId);
     
     public void updateAnnouncement(Announcement a) throws NoResultException;
+
+    public List<UserEntity> retrieveUsersWhoLiked(Long aId);
+
+    public int retrieveLikesCount(Long aId);
 }

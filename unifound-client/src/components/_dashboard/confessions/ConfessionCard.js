@@ -2,10 +2,10 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react'
-import { DialogActions, DialogTitle, Card, Link, Typography, Stack, Button, Dialog, DialogContent, DialogContentText } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Card, Typography, Stack, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
-import editFill from '@iconify/icons-eva/edit-fill';
-import trashFill from '@iconify/icons-eva/trash-2-fill';
+import heartFill from '@iconify/icons-eva/heart-fill';
 import { styled } from '@mui/material/styles';
 import AnnouncementContext from '../../../context/announcement/announcementContext';
 import userContext from '../../../context/user/userContext';
@@ -17,14 +17,22 @@ ConfessionCard.propTypes = {
 const RootStyle = styled(Card)(({ theme }) => ({
     boxShadow: 'none',
     textAlign: 'center',
-    padding: theme.spacing(5, 0),
+    padding: theme.spacing(0, 0),
     color: theme.palette.primary.darker,
     backgroundColor: theme.palette.primary.lighter
 }));
 
 export default function ConfessionCard({ post }) {
 
-    const { announcementTitle, announcementBody } = post;
+    // const announcementContext = useContext(AnnouncementContext);
+    // const { likeAnnouncement, getAnnouncement } = announcementContext;
+    const { announcementBody, likesCount } = post;
+
+    // const handleLike = () => {
+    //     likeAnnouncement(announcementContext.announcement.id, localStorage.getItem('user'));
+    //     // getAnnouncement(post.id);
+    // };
+
     return (
         <RootStyle>
             <Stack spacing={2} sx={{ p: 3 }}>
@@ -34,6 +42,18 @@ export default function ConfessionCard({ post }) {
                         &nbsp;
                     </Typography>
                 </Stack>
+                {/* <Stack>
+                    <Button variant="contained"
+                        component={RouterLink}
+                        to="#"
+                        startIcon={<Icon icon={heartFill} />}
+                        onClick={handleLike}>
+                        Like
+                    </Button>
+                </Stack>
+                <Stack>
+                    {likesCount} like(s)
+                </Stack> */}
             </Stack>
         </RootStyle>
     );

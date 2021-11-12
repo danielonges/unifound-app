@@ -6,6 +6,7 @@
 package session;
 
 import entity.Announcement;
+import entity.UserEntity;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -62,7 +63,17 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
     @Override
     public void updateAnnouncement(Announcement a) throws NoResultException {
         Announcement oldA = getAnnouncement(a.getId());
-        
-       em.merge(a);
+        em.merge(a);
+    }
+
+    @Override
+    public int retrieveLikesCount(Long aId) {
+        return retrieveUsersWhoLiked(aId).size();
+    }
+
+    @Override
+    public List<UserEntity> retrieveUsersWhoLiked(Long aId) {
+        Announcement a = getAnnouncement(aId);
+        return a.getUsersLiked();
     }
 }

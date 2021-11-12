@@ -8,6 +8,7 @@ package webservices.restful;
 import entity.Announcement;
 import entity.UserEntity;
 import exception.UserNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -80,6 +81,27 @@ public class AnnouncementResource {
         announcement.setId(announcementId);
         announcementSessionBeanLocal.updateAnnouncement(announcement);
         return Response.status(200).entity(announcement).type(MediaType.APPLICATION_JSON).build();
+    }
+
+    @PUT
+    @Path("/like/{id}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response likePost(@PathParam("id") Long announcementId, @PathParam("userId") Long userId) {
+        try {
+            Announcement a = announcementSessionBeanLocal.getAnnouncement(announcementId);
+            a.setId(announcementId);
+            a.setLikesCount(announcementSessionBeanLocal.retrieveLikesCount(announcementId) + 1);
+            UserEntity u = userSessionLocal.retrieveUserById(userId);
+            for (UserEntity usr : announcementSessionBeanLocal.retrieveUsersWhoLiked(a.getId())) {
+                if (usr.getId().equals(userId)) {
+                    return Response.status(400).entity("{\"errorMessage\":\"You have already liked the post!\"}").build();
+                }
+            }
+            a.getUsersLiked().add(u);
+            return Response.status(200).entity(a).type(MediaType.APPLICATION_JSON).build();
+        } catch (UserNotFoundException ex) {
+            return Response.status(404).entity(ex).build();
+        }
     }
 
     private AnnouncementSessionBeanLocal lookupAnnouncementSessionBeanLocal() {

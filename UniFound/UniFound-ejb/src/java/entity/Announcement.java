@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +36,10 @@ public class Announcement implements Serializable {
     @NotNull
     private String announcementBody;
     
+    private int likesCount;
+    
+    private List<UserEntity> usersLiked;
+    
     /*
     @Enumerated(EnumType.STRING)
     private AnnouncementEnum announcementStatus;
@@ -49,6 +55,8 @@ public class Announcement implements Serializable {
 
     public Announcement(String announcementBody) {
         this.announcementBody = announcementBody;
+        this.likesCount = 0;
+        this.usersLiked = new ArrayList<>();
     }
     /*
     public boolean isAnnouncementPin() {
@@ -109,4 +117,20 @@ public class Announcement implements Serializable {
         this.userEntity = userEntity;
     }
     */
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public List<UserEntity> getUsersLiked() {
+        return usersLiked;
+    }
+
+    public void setUsersLiked(List<UserEntity> usersLiked) {
+        this.usersLiked = usersLiked;
+    }
 }
