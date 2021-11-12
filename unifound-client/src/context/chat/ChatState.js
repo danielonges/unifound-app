@@ -6,7 +6,7 @@ import chatReducer from './chatReducer';
 
 const ChatState = (props) => {
   const initialState = {
-    chats: null,
+    chats: [],
     error: null
   };
 
