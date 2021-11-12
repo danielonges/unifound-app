@@ -23,6 +23,7 @@ import { styled } from '@mui/material/styles';
 import lostAndFoundContext from '../../../context/lostAndFound/lostAndFoundContext';
 import userContext from '../../../context/user/userContext';
 import EditLostFoundForm from './EditLFListing';
+import ChatContext from '../../../context/chat/chatContext';
 
 LostFoundCard.propTypes = {
   lostFoundItem: PropTypes.object
@@ -64,15 +65,17 @@ export default function LostFoundCard({ lostFoundItem }) {
   const handleCloseEdit = () => setEditOpen(false);
   const handleCancel = () => setDeleteOpen(false);
 
-  const handleCreateChatOpen = () => {
-    setCreateChatOpen(true);
-  };
-
-  const handleCreateChatClose = () => {
-    setCreateChatOpen(false);
-  };
+  const chatContext = useContext(ChatContext);
+  const { createChatForLostFound } = chatContext;
 
   const { id, name, description, location, comments, type, user, category } = lostFoundItem;
+  const onCreateChat = () => {
+    const chat = {
+      name: 'item: #' + id + ' ' + name
+    };
+    createChatForLostFound(chat, user.id, JSON.parse(localStorage.getItem('user')).id);
+  };
+
   return (
     <SectionStyle>
       <Card sx={{ position: 'relative' }}>
@@ -115,15 +118,12 @@ export default function LostFoundCard({ lostFoundItem }) {
           Posted by: {user.name} <br />
           <InfoStyle> {type.toUpperCase()}</InfoStyle>
           {lostFoundItem.user.id !== JSON.parse(localStorage.getItem('user')).id ? (
-            <Button
-              variant="contained"
-              component={RouterLink}
-              to="#"
-              onClick={handleCreateChatOpen}
-            >
+            <Button variant="contained" component={RouterLink} to="#" onClick={onCreateChat}>
               Chat Now
             </Button>
-          ) : ''}
+          ) : (
+            ''
+          )}
         </CardContent>
       </Card>
 

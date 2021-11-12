@@ -74,6 +74,25 @@ public class ChatResource {
         }
     }
     
+    @POST
+    @Path("/{ownerId}/create/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createChatForLostFound(@PathParam("userId") Long userId,@PathParam ("ownerId") Long ownerId, Chat chat) {
+        try {
+            UserEntity user = userSessionLocal.getUser(userId);
+            UserEntity owner = userSessionLocal.getUser(ownerId);
+            chatSessionBeanLocal.createChatForLostFound(chat, owner,user);
+            System.out.println(chat.getName());
+            return Response.status(200).entity(chat).type(MediaType.APPLICATION_JSON).build();
+        } catch (UserNotFoundException ex) {
+            JsonObject exception = Json.createObjectBuilder()
+                    .add("error", ex.getMessage())
+                    .build();
+            return Response.status(404).entity(exception).build();
+        }
+    }
+    
     @PUT
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -13,7 +13,8 @@ import {
   Typography,
   OutlinedInput,
   InputAdornment,
-  Button
+  Button,
+  Form
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -49,7 +50,8 @@ export default function ChatReplyBar({ userId, chatId }) {
 
   const [reply, setReply] = useState('');
 
-  const onSendHandler = () => {
+  const onSendHandler = (e) => {
+    e.preventDefault();
     if (reply.length > 0) {
       sendMessage(
         userId,
@@ -67,28 +69,30 @@ export default function ChatReplyBar({ userId, chatId }) {
   };
 
   return (
-    <RootStyle>
-      <ReplyStyle
-        fullWidth
-        placeholder="Reply"
-        onChange={onChange}
-        value={reply}
-        startAdornment={
-          <InputAdornment position="start">
-            <Box component={Icon} icon={messageOutline} sx={{ color: 'text.disabled' }} />
-          </InputAdornment>
-        }
-      />
+    <form onSubmit={onSendHandler}>
+      <RootStyle>
+        <ReplyStyle
+          fullWidth
+          placeholder="Reply"
+          onChange={onChange}
+          value={reply}
+          startAdornment={
+            <InputAdornment position="start">
+              <Box component={Icon} icon={messageOutline} sx={{ color: 'text.disabled' }} />
+            </InputAdornment>
+          }
+        />
 
-      <Button
-        variant="contained"
-        startIcon={<SendIcon />}
-        sx={{ padding: 2 }}
-        disabled={reply.length === 0}
-        onClick={onSendHandler}
-      >
-        Reply
-      </Button>
-    </RootStyle>
+        <Button
+          type="submit"
+          variant="contained"
+          startIcon={<SendIcon />}
+          sx={{ padding: 2 }}
+          disabled={reply.length === 0}
+        >
+          Reply
+        </Button>
+      </RootStyle>{' '}
+    </form>
   );
 }
