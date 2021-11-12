@@ -72,7 +72,7 @@ export default function LostFoundCard({ lostFoundItem }) {
     setCreateChatOpen(false);
   };
 
-  const { id, name, description, location, comments, type, user, category } = lostFoundItem;
+  const { id, name, description, location, comments, type, category } = lostFoundItem;
   return (
     <SectionStyle>
       <Card sx={{ position: 'relative' }}>
@@ -93,7 +93,7 @@ export default function LostFoundCard({ lostFoundItem }) {
             <CoverImgStyle src="https://media.wired.com/photos/607de3f5a4b6a04f9b0280ce/master/w_2024,h_1518,c_limit/Gear-Surface-Laptop-4-angle-SOURCE-Microsoft.jpg" />
           )}
           {category === 'Earphones' && (
-            <CoverImgStyle src="https://m.media-amazon.com/images/I/51Re0QcVSDL._SL1500_.jpg" />
+            <CoverImgStyle src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F60ca4903b52bedfa9ad71929%2FApple-AirPods-Pro%2F960x0.jpg%3Ffit%3Dscale" />
           )}
           {category === 'Bag' && (
             <CoverImgStyle src="https://bellroy-product-images.imgix.net/bellroy_dot_com_gallery_image/SGD/BTBA-LUN-213/0?w=345&h=220&fit=clip&dpr=2&q=37&auto=format" />
@@ -104,6 +104,9 @@ export default function LostFoundCard({ lostFoundItem }) {
           {category === 'Spectacles' && (
             <CoverImgStyle src="https://cf.shopee.sg/file/2dab14a2a09b66bf95d071f7a063aab2" />
           )}
+          {category === 'Others' && (
+            <CoverImgStyle src="https://st.depositphotos.com/1742172/2007/v/950/depositphotos_20078073-stock-illustration-lost-and-found-sticker-luggage.jpg" />
+          )}
         </CardMediaStyle>
         <CardContent sx={{ color: 'text.primary', fontSize: 12 }}>
           <Typography variant="subtitle2" noWrap>
@@ -111,8 +114,9 @@ export default function LostFoundCard({ lostFoundItem }) {
           </Typography>
           {description} <br />
           Location: {location} <br />
+          Category: {category} <br />
           {comments} <br />
-          Posted by: {user.name} <br />
+          Posted by: {lostFoundItem.user.name} <br />
           <InfoStyle> {type.toUpperCase()}</InfoStyle>
           {lostFoundItem.user.id !== JSON.parse(localStorage.getItem('user')).id ? (
             <Button
