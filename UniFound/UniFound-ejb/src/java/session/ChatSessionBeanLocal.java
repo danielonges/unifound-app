@@ -41,5 +41,7 @@ public interface ChatSessionBeanLocal {
     public List<Chat> getUserChats(Long uId) throws UserNotFoundException;
 
     public void deleteChatForAll(Long cId) throws NoResultException, UserNotFoundException;
+
+    public void createChatForLostFound(Chat c, UserEntity owner, UserEntity user) throws UserNotFoundException;
     
 }
