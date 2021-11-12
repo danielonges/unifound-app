@@ -67,6 +67,27 @@ const ChatState = (props) => {
     }
   };
 
+  // you create the chat
+  const createChatForLostFound = async (chat, userId, ownerId) => {
+    const config = {
+      headers: {
+        userId
+      }
+    };
+    try {
+      const res = await axios.post(`/chat/${ownerId}/create/${userId}`, chat, config);
+      dispatch({
+        type: CREATE_CHAT,
+        payload: res.data
+      });
+    } catch (error) {
+      dispatch({
+        type: CHAT_ERROR,
+        payload: error.response.data.error
+      });
+    }
+  };
+
   // add someone to an existing chat
   const addToChat = async (chat, userId) => {
     const config = {
@@ -142,7 +163,8 @@ const ChatState = (props) => {
         createChat,
         addToChat,
         deleteChatForUser,
-        deleteChatForAll
+        deleteChatForAll,
+        createChatForLostFound
       }}
     >
       {props.children}

@@ -41,6 +41,17 @@ public class ChatSessionBean implements ChatSessionBeanLocal {
     }
     
     @Override
+    public void createChatForLostFound(Chat c, UserEntity owner, UserEntity user) throws UserNotFoundException {
+        c.setOwnerId(owner.getId());
+        em.persist(c);
+        em.flush();
+        user.getChats().add(c);
+        owner.getChats().add(c);
+        userSessionLocal.updateUser(user);
+        userSessionLocal.updateUser(owner);
+    }
+    
+    @Override
     public void addToChat(Chat c, UserEntity user) throws UserNotFoundException {
         user.getChats().add(c);
         userSessionLocal.updateUser(user);

@@ -23,10 +23,11 @@ import trashFill from '@iconify/icons-eva/trash-2-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import logoutFill from '@iconify/icons-eva/log-out-fill';
 import edit2Fill from '@iconify/icons-eva/edit-2-fill';
-import { EditStudyBuddy } from '../../authentication/register/editStudyBuddy';
+import { EditStudyBuddy } from '../../authentication/register';
 import UserContext from '../../../context/user/userContext';
 import StudyBuddyContext from '../../../context/studyBuddy/studyBuddyContext';
 import SvgIconStyle from '../../SvgIconStyle';
+import Label from '../../Label';
 
 const CardMediaStyle = styled('div')({
   position: 'relative',
