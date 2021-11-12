@@ -7,6 +7,7 @@ import {
     TextField,
     Button
 } from '@mui/material';
+import * as Yup from 'yup';
 import AnnouncementContext from '../../../context/announcement/announcementContext';
 
 export default function CreateAnnouncementForm({ handleClose }) {
@@ -14,10 +15,15 @@ export default function CreateAnnouncementForm({ handleClose }) {
     const announcementContext = useContext(AnnouncementContext);
     const { createAnnouncement } = announcementContext;
 
+    const createWhisperSchema = Yup.object().shape({
+        announcementBody: Yup.string().required('Text is required')
+    });
+
     const formik = useFormik({
         initialValues: {
             announcementBody: ''
         },
+        validationSchema: createWhisperSchema,
         onSubmit: (value) => {
             createAnnouncement(value);
             handleClose();
@@ -32,6 +38,7 @@ export default function CreateAnnouncementForm({ handleClose }) {
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
+                        required
                         label="Tell us something"
                         {...getFieldProps('announcementBody')}
                         error={Boolean(touched.announcementBody && errors.announcementBody)}
